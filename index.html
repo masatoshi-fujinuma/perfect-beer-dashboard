@@ -139,7 +139,15 @@
   /* Store cards */
   .stores { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 12px; }
   .store { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; display:flex; flex-direction:column; gap:8px; }
-  .store h3 { font-size: 13.5px; font-weight: 700; line-height: 1.35; }
+  .store h3 { font-size: 13.5px; font-weight: 700; line-height: 1.35; display: flex; align-items: center; gap: 8px; }
+  .rank { display: inline-flex; align-items: center; justify-content: center; min-width: 26px; height: 26px; border-radius: 8px; font-weight: 800; font-size: 14px; color: #fff; flex-shrink: 0; }
+  .r-S { background: var(--good); box-shadow: 0 0 0 2px rgba(12,163,12,0.25); }
+  .r-A { background: var(--series-1); }
+  .r-B { background: #1baf7a; }
+  .r-C { background: var(--warning); color: #5b4300; }
+  .r-D { background: var(--critical); }
+  .rankline { font-size: 11.5px; color: var(--text-secondary); }
+  .rankline b { color: var(--text-primary); }
   .store .addr { font-size: 11px; color: var(--text-muted); }
   .kv { display: flex; flex-wrap: wrap; gap: 6px; }
   .kv .chip { font-size: 11px; padding: 3px 8px; border-radius: 999px; background: var(--chip-neutral-bg); color: var(--text-secondary); }
@@ -445,11 +453,13 @@
 
 <!-- ============ STORE CARDS ============ -->
 <section>
-  <h2><span class="n">4</span>店舗別カルテ</h2>
+  <h2><span class="n">4</span>店舗別カルテ(総合ランク付き)</h2>
+  <div class="note">総合ランク = 食べログ(30点) + Google(25点) + SNS発信力(25点) + 掲載カバレッジ・情報鮮度(20点) の100点評価。<b>S</b>≧85 / <b>A</b> 70〜84 / <b>B</b> 55〜69 / <b>C</b> 40〜54 / <b>D</b> 40未満。判定内訳: S×1(LABO) / A×2(総本店・GARDEN) / B×1(STAND門仲) / C×7 / D×1(横浜BQ)。</div>
   <div class="stores">
 
     <div class="store">
-      <h3>PERFECT BEER GARDEN 門前仲町</h3>
+      <h3><span class="rank r-A">A</span>PERFECT BEER GARDEN 門前仲町</h3>
+      <div class="rankline"><b>78点</b> — 食べログ×LINE1.6万人×Google340件の三本柱が強い。ぐるなびの鮮度だけが減点</div>
       <div class="addr">江東区門前仲町2-10-1 赤札堂3F(季節営業ビアガーデン)</div>
       <div class="kv">
         <span class="chip c-good">食べログ <b>3.29</b> / 74件</span>
@@ -469,7 +479,8 @@
     </div>
 
     <div class="store">
-      <h3>PERFECT BEER KITCHEN 総本店</h3>
+      <h3><span class="rank r-A">A</span>PERFECT BEER KITCHEN 総本店</h3>
+      <div class="rankline"><b>79点</b> — Google 4.8×564件はグループ最強。ホットペッパー停滞の解消でS圏</div>
       <div class="addr">江東区冬木14-2</div>
       <div class="kv">
         <span class="chip c-good">食べログ <b>3.39</b> / 94件</span>
@@ -488,7 +499,8 @@
     </div>
 
     <div class="store">
-      <h3>PERFECT BEER STAND 門前仲町</h3>
+      <h3><span class="rank r-B">B</span>PERFECT BEER STAND 門前仲町</h3>
+      <div class="rankline"><b>62点</b> — 食べログ・Googleは堅調。SNSがIG単独で発信力に伸びしろ</div>
       <div class="addr">江東区富岡1-24-6 2F</div>
       <div class="kv">
         <span class="chip">食べログ <b>3.23</b> / 30件</span>
@@ -507,7 +519,8 @@
     </div>
 
     <div class="store">
-      <h3>PERFECT BEER LABO TOKYO ⭐</h3>
+      <h3><span class="rank r-S">S</span>PERFECT BEER LABO TOKYO</h3>
+      <div class="rankline"><b>86点</b> — 全チャネル高水準のグループ標準モデル。運用ノウハウの横展開元</div>
       <div class="addr">江東区富岡2-10-1 梶本ビル1F(2024/12開店)</div>
       <div class="kv">
         <span class="chip c-good">食べログ <b>3.39</b> / 137件</span>
@@ -526,7 +539,8 @@
     </div>
 
     <div class="store">
-      <h3>PERFECT BEER KITCHEN 富山</h3>
+      <h3><span class="rank r-C">C</span>PERFECT BEER KITCHEN 富山</h3>
+      <div class="rankline"><b>53点</b> — Google 4.8は好調。口コミ量とSNS発信を積めばB圏</div>
       <div class="addr">富山市牛島町9-5 Dタワー富山1F(2025/11開店)</div>
       <div class="kv">
         <span class="chip">食べログ <b>3.08</b> / 9件</span>
@@ -545,7 +559,8 @@
     </div>
 
     <div class="store">
-      <h3>PERFECT BEER STAND 福岡</h3>
+      <h3><span class="rank r-C">C</span>PERFECT BEER STAND 福岡</h3>
+      <div class="rankline"><b>52点</b> — Google 4.9は全店トップ評価。露出量がまだ少なく伸びしろ大</div>
       <div class="addr">福岡市中央区大名1-3-5 Ark Cube 103(2025/12開店)</div>
       <div class="kv">
         <span class="chip">食べログ <b>3.09</b> / 14件</span>
@@ -563,7 +578,8 @@
     </div>
 
     <div class="store">
-      <h3>完璧麦酒飯店 門前仲町 ⚠️</h3>
+      <h3><span class="rank r-C">C</span>完璧麦酒飯店 門前仲町 ⚠️</h3>
+      <div class="rankline"><b>42点</b> — Google満点5.0が光るが食べログ未掲載が重い減点。登録すれば即B圏</div>
       <div class="addr">江東区門前仲町1-17-1(2026/5/12開店・中華×クラフトビール)</div>
       <div class="kv">
         <span class="chip c-warn">食べログ未掲載</span>
@@ -580,7 +596,8 @@
     </div>
 
     <div class="store">
-      <h3>PERFECT BEER STAND 池袋</h3>
+      <h3><span class="rank r-C">C</span>PERFECT BEER STAND 池袋</h3>
+      <div class="rankline"><b>49点</b> — 基盤(食べログ公式・Google 4.8・個別IG)は整備済み。口コミ量産期</div>
       <div class="addr">豊島区西池袋3-28-13 IT tower TOKYO 1F(2026/4/27開店)</div>
       <div class="kv">
         <span class="chip">食べログ <b>3.09</b> / 18件</span>
@@ -598,7 +615,8 @@
     </div>
 
     <div class="store">
-      <h3>PERFECT BEER STAND 亀戸</h3>
+      <h3><span class="rank r-C">C</span>PERFECT BEER STAND 亀戸</h3>
+      <div class="rankline"><b>44点</b> — 開店直後で数値はこれから。ビアクマのキャラ資産が差別化要素</div>
       <div class="addr">江東区亀戸6-31-6(2026/5/26開店)</div>
       <div class="kv">
         <span class="chip">食べログ <b>3.04</b> / 5件</span>
@@ -617,7 +635,8 @@
     </div>
 
     <div class="store">
-      <h3>PERFECT BEER SHOP 横浜ベイクォーター</h3>
+      <h3><span class="rank r-D">D</span>PERFECT BEER SHOP 横浜ベイクォーター</h3>
+      <div class="rankline"><b>39点</b> — 個別SNSなし・口コミ最少級で発信力が最弱。テコ入れ最優先店舗</div>
       <div class="addr">横浜市神奈川区金港町1-10 ベイクォーター3F(2026/6/4開店)</div>
       <div class="kv">
         <span class="chip">食べログ 新店 / 8件</span>
@@ -635,7 +654,8 @@
     </div>
 
     <div class="store">
-      <h3>株式会社マーボードウフ渋谷</h3>
+      <h3><span class="rank r-C">C</span>株式会社マーボードウフ渋谷</h3>
+      <div class="rankline"><b>52点</b> — SNS発信力(X・話題性)は強いが、口コミへの転換が未達</div>
       <div class="addr">渋谷区円山町4-6 QLINK渋谷神泉(2026/6/10開店)</div>
       <div class="kv">
         <span class="chip">食べログ 新店 / 2件</span>
@@ -654,7 +674,8 @@
     </div>
 
     <div class="store">
-      <h3>PERFECT BEER SHOP 明治神宮野球場</h3>
+      <h3><span class="rank r-C">C</span>PERFECT BEER SHOP 明治神宮野球場<span class="rankline">(参考)</span></h3>
+      <div class="rankline"><b>参考評価</b> — 期間限定売店のため最小構成は妥当。Google営業時間の設定と試合日SNS連動のみ対応を</div>
       <div class="addr">明治神宮球場 外野15GATE(POP UP・2026/6/19〜シーズン終了)</div>
       <div class="kv">
         <span class="chip">球場グルメ公式サイト掲載</span>
