@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PERFECT BEER チャネル状況ダッシュボード</title>
+<style>
+  .viz-root, :root {
+    color-scheme: light;
+    --surface-1: #fcfcfb;
+    --page: #f9f9f7;
+    --text-primary: #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted: #898781;
+    --grid: #e1e0d9;
+    --baseline: #c3c2b7;
+    --border: rgba(11,11,11,0.10);
+    --series-1: #2a78d6;
+    --series-2: #008300;
+    --seq-250: #86b6ef;
+    --seq-450: #2a78d6;
+    --good: #0ca30c;
+    --good-text: #006300;
+    --warning: #fab219;
+    --serious: #ec835a;
+    --critical: #d03b3b;
+    --chip-good-bg: rgba(12,163,12,0.10);
+    --chip-warn-bg: rgba(250,178,25,0.14);
+    --chip-serious-bg: rgba(236,131,90,0.14);
+    --chip-crit-bg: rgba(208,59,59,0.10);
+    --chip-neutral-bg: rgba(11,11,11,0.05);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: dark;
+      --surface-1: #1a1a19;
+      --page: #0d0d0d;
+      --text-primary: #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted: #898781;
+      --grid: #2c2c2a;
+      --baseline: #383835;
+      --border: rgba(255,255,255,0.10);
+      --series-1: #3987e5;
+      --seq-250: #86b6ef;
+      --seq-450: #3987e5;
+      --good-text: #0ca30c;
+      --chip-good-bg: rgba(12,163,12,0.16);
+      --chip-warn-bg: rgba(250,178,25,0.16);
+      --chip-serious-bg: rgba(236,131,90,0.16);
+      --chip-crit-bg: rgba(208,59,59,0.18);
+      --chip-neutral-bg: rgba(255,255,255,0.06);
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", "Hiragino Sans", "Noto Sans JP", sans-serif;
+    background: var(--page);
+    color: var(--text-primary);
+    line-height: 1.55;
+    padding: 24px 16px 48px;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; }
+  header.top { margin-bottom: 20px; }
+  header.top h1 { font-size: 22px; font-weight: 700; letter-spacing: 0.01em; }
+  header.top .sub { color: var(--text-secondary); font-size: 13px; margin-top: 4px; }
+  header.top .sub b { color: var(--text-primary); font-weight: 600; }
+
+  section { margin-top: 28px; }
+  h2 { font-size: 15px; font-weight: 700; margin-bottom: 10px; display:flex; align-items:center; gap:8px; }
+  h2 .n { display:inline-flex; align-items:center; justify-content:center; width:20px; height:20px; border-radius:6px; background: var(--series-1); color:#fff; font-size:12px; }
+  .note { color: var(--text-muted); font-size: 12px; margin-bottom: 10px; }
+
+  /* KPI tiles */
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; }
+  .tile { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+  .tile .label { font-size: 12px; color: var(--text-secondary); }
+  .tile .value { font-size: 28px; font-weight: 700; margin-top: 2px; }
+  .tile .value small { font-size: 14px; font-weight: 500; color: var(--text-secondary); }
+  .tile .hint { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .tile.alert .value { color: var(--critical); }
+  .tile.goodv .value { color: var(--good-text); }
+
+  /* Matrix */
+  .matrix-scroller { overflow-x: auto; background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; }
+  table.matrix { border-collapse: collapse; width: 100%; min-width: 900px; font-size: 12.5px; }
+  table.matrix th, table.matrix td { padding: 8px 8px; text-align: center; border-bottom: 1px solid var(--grid); white-space: nowrap; }
+  table.matrix thead th { font-size: 11.5px; color: var(--text-secondary); font-weight: 600; border-bottom: 1px solid var(--baseline); background: var(--surface-1); }
+  table.matrix th.rowh, table.matrix td.rowh { text-align: left; position: sticky; left: 0; background: var(--surface-1); font-weight: 600; max-width: 230px; white-space: normal; z-index: 1; }
+  table.matrix td.rowh .area { display:block; font-size: 10.5px; color: var(--text-muted); font-weight: 400; }
+  table.matrix tbody tr:hover td { background: rgba(42,120,214,0.05); }
+  table.matrix tbody tr:last-child td { border-bottom: none; }
+  .th-group { border-bottom: 1px solid var(--baseline); color: var(--text-muted) !important; font-weight: 600; font-size: 10.5px !important; letter-spacing: 0.06em; }
+  .cell { display: inline-flex; align-items: center; justify-content: center; min-width: 26px; height: 22px; border-radius: 6px; font-weight: 700; font-size: 12px; padding: 0 5px; cursor: default; }
+  .s-official { background: var(--chip-good-bg); color: var(--good-text); }
+  .s-listed   { background: rgba(42,120,214,0.10); color: var(--series-1); }
+  .s-brand    { background: var(--chip-warn-bg); color: #8a6100; }
+  @media (prefers-color-scheme: dark) { .s-brand { color: var(--warning); } }
+  .s-none     { background: var(--chip-neutral-bg); color: var(--text-muted); font-weight: 500; }
+  .s-unknown  { background: var(--chip-serious-bg); color: var(--serious); }
+  .s-stale    { background: var(--chip-crit-bg); color: var(--critical); }
+  .legend { display: flex; flex-wrap: wrap; gap: 12px; margin: 10px 2px 0; font-size: 11.5px; color: var(--text-secondary); }
+  .legend .cell { transform: scale(0.92); }
+
+  /* Bar charts */
+  .charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 12px; }
+  .chart-card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .chart-card h3 { font-size: 13px; font-weight: 700; }
+  .chart-card .csub { font-size: 11px; color: var(--text-muted); margin-bottom: 12px; }
+  .bars { display: grid; gap: 7px; }
+  .bar-row { display: grid; grid-template-columns: 128px 1fr; align-items: center; gap: 8px; font-size: 11.5px; }
+  .bar-row .bl { color: var(--text-secondary); text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bar-track { position: relative; height: 18px; }
+  .bar-fill { position: absolute; left:0; top:2px; height: 14px; background: var(--series-1); border-radius: 0 4px 4px 0; min-width: 2px; transition: opacity .12s; }
+  .bar-row:hover .bar-fill { opacity: 0.8; }
+  .bar-val { position: absolute; top: 0; font-size: 11px; color: var(--text-secondary); padding-left: 6px; line-height: 18px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .bar-fill.dim { background: var(--seq-250); }
+
+  /* Proposal cards */
+  .props { display: grid; gap: 10px; }
+  .prop { background: var(--surface-1); border: 1px solid var(--border); border-left: 4px solid var(--series-1); border-radius: 10px; padding: 14px 16px; }
+  .prop.p-crit { border-left-color: var(--critical); }
+  .prop.p-warn { border-left-color: var(--warning); }
+  .prop.p-good { border-left-color: var(--good); }
+  .prop h3 { font-size: 14px; font-weight: 700; display:flex; gap:8px; align-items:baseline; flex-wrap:wrap; }
+  .prop .tag { font-size: 10.5px; font-weight: 700; padding: 2px 8px; border-radius: 999px; letter-spacing: 0.04em; }
+  .tag.t-crit { background: var(--chip-crit-bg); color: var(--critical); }
+  .tag.t-warn { background: var(--chip-warn-bg); color: #8a6100; }
+  @media (prefers-color-scheme: dark) { .tag.t-warn { color: var(--warning); } }
+  .tag.t-good { background: var(--chip-good-bg); color: var(--good-text); }
+  .tag.t-info { background: rgba(42,120,214,0.10); color: var(--series-1); }
+  .prop p { font-size: 12.5px; color: var(--text-secondary); margin-top: 5px; }
+  .prop p b { color: var(--text-primary); font-weight: 600; }
+
+  /* Store cards */
+  .stores { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 12px; }
+  .store { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; display:flex; flex-direction:column; gap:8px; }
+  .store h3 { font-size: 13.5px; font-weight: 700; line-height: 1.35; }
+  .store .addr { font-size: 11px; color: var(--text-muted); }
+  .kv { display: flex; flex-wrap: wrap; gap: 6px; }
+  .kv .chip { font-size: 11px; padding: 3px 8px; border-radius: 999px; background: var(--chip-neutral-bg); color: var(--text-secondary); }
+  .kv .chip b { color: var(--text-primary); font-weight: 600; font-variant-numeric: tabular-nums; }
+  .kv .chip.c-good { background: var(--chip-good-bg); color: var(--good-text); }
+  .kv .chip.c-warn { background: var(--chip-warn-bg); color: #8a6100; }
+  @media (prefers-color-scheme: dark) { .kv .chip.c-warn { color: var(--warning); } }
+  .store .todo { border-top: 1px dashed var(--grid); padding-top: 8px; font-size: 12px; color: var(--text-secondary); }
+  .store .todo b { color: var(--text-primary); font-weight: 600; font-size: 11.5px; }
+  .store .todo ul { margin: 4px 0 0 16px; }
+  .store .todo li { margin-top: 2px; }
+  .store a { color: var(--series-1); text-decoration: none; }
+  .store a:hover { text-decoration: underline; }
+  .links { font-size: 11px; display:flex; flex-wrap:wrap; gap:8px; }
+
+  footer { margin-top: 32px; font-size: 11px; color: var(--text-muted); border-top: 1px solid var(--grid); padding-top: 12px; }
+  footer p { margin-top: 4px; }
+</style>
+</head>
+<body>
+<div class="wrap viz-root">
+
+<header class="top">
+  <h1>🍺 PERFECT BEER グループ — グルメサイト × SNS チャネル状況ダッシュボード</h1>
+  <div class="sub">調査日: <b>2026年7月17日</b> ｜ 対象: <b>12店舗</b>(直営・関連含む) ｜ 対象チャネル: 食べログ / Googleマップ / ぐるなび / ホットペッパー / Retty / Instagram / X / LINE / TikTok / Facebook</div>
+</header>
+
+<!-- ============ KPI ============ -->
+<section>
+  <div class="tiles">
+    <div class="tile goodv">
+      <div class="label">食べログ 掲載・公式管理</div>
+      <div class="value">10<small> / 12店</small></div>
+      <div class="hint">掲載10店すべて店舗会員登録済み(強み)</div>
+    </div>
+    <div class="tile alert">
+      <div class="label">食べログ 未掲載</div>
+      <div class="value">2<small> 店</small></div>
+      <div class="hint">完璧麦酒飯店・神宮球場SHOP</div>
+    </div>
+    <div class="tile alert">
+      <div class="label">Googleマップ 数値未把握</div>
+      <div class="value">12<small> / 12店</small></div>
+      <div class="hint">評価・口コミ数を定点計測できていない</div>
+    </div>
+    <div class="tile">
+      <div class="label">店舗別 Instagram</div>
+      <div class="value">10<small> / 12店</small></div>
+      <div class="hint">フォロワー数は全店未計測</div>
+    </div>
+    <div class="tile goodv">
+      <div class="label">LINE公式 友だち(GARDEN)</div>
+      <div class="value">16,133<small> 人</small></div>
+      <div class="hint">グループ唯一のLINE資産・活用余地大</div>
+    </div>
+    <div class="tile">
+      <div class="label">ぐるなび / HP / Retty 掲載</div>
+      <div class="value">2 / 1 / 5<small> 店</small></div>
+      <div class="hint">予約サイト系はほぼ食べログ一本足</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MATRIX ============ -->
+<section>
+  <h2><span class="n">1</span>店舗 × チャネル マトリクス</h2>
+  <div class="matrix-scroller">
+  <table class="matrix">
+    <thead>
+      <tr>
+        <th class="rowh" rowspan="2">店舗</th>
+        <th colspan="5" class="th-group">グルメサイト</th>
+        <th colspan="5" class="th-group">SNS</th>
+      </tr>
+      <tr>
+        <th>食べログ</th><th>Google</th><th>ぐるなび</th><th>ホットペッパー</th><th>Retty</th>
+        <th>Instagram</th><th>X</th><th>LINE</th><th>TikTok</th><th>Facebook</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="rowh">PERFECT BEER GARDEN 門前仲町<span class="area">門前仲町・赤札堂3F(季節営業)</span></td>
+        <td><span class="cell s-official" title="3.29 / 口コミ74件 / 保存6,295 / 公式管理・予約可">◎ 3.29</span></td>
+        <td><span class="cell s-unknown" title="掲載はほぼ確実だが評価・口コミ数を未計測">？</span></td>
+        <td><span class="cell s-stale" title="掲載あり・予約可だが情報更新が2022年で停止">○ 停滞</span></td>
+        <td><span class="cell s-none">×</span></td>
+        <td><span class="cell s-listed" title="口コミ4件">○ 4件</span></td>
+        <td><span class="cell s-official" title="@perfect_beer_garden_tokyo 運用中(フォロワー未計測)">◎</span></td>
+        <td><span class="cell s-brand" title="ブランド共通 @PERFECTBEER0802 のみ">共通</span></td>
+        <td><span class="cell s-official" title="@573gsaff 友だち16,133人">◎ 1.6万</span></td>
+        <td><span class="cell s-brand" title="創業者アカウント @numa1018 で言及のみ">共通</span></td>
+        <td><span class="cell s-listed" title="店舗ページあり(更新状況未確認)">○</span></td>
+      </tr>
+      <tr>
+        <td class="rowh">PERFECT BEER KITCHEN 総本店<span class="area">門前仲町・冬木</span></td>
+        <td><span class="cell s-official" title="3.39 / 口コミ94件 / 保存6,866 / 公式管理・予約可">◎ 3.39</span></td>
+        <td><span class="cell s-unknown">？</span></td>
+        <td><span class="cell s-none" title="r.gnaviページなし(Gorp公式ページのみ)">×</span></td>
+        <td><span class="cell s-stale" title="掲載あるが口コミ0・ネット予約停止・最終更新2023/2">○ 停滞</span></td>
+        <td><span class="cell s-listed" title="口コミ1件">○ 1件</span></td>
+        <td><span class="cell s-official" title="@perfect_beer_kitchen_tokyo(フォロワー未計測)">◎</span></td>
+        <td><span class="cell s-brand">共通</span></td>
+        <td><span class="cell s-none" title="個別なし(会員施策は自社アプリ)">×</span></td>
+        <td><span class="cell s-listed" title="@perfect.beer.kitc0 を検索で確認">○</span></td>
+        <td><span class="cell s-listed" title="パーフェクトビアキッチン東京 ページあり">○</span></td>
+      </tr>
+      <tr>
+        <td class="rowh">PERFECT BEER STAND 門前仲町<span class="area">門前仲町・富岡</span></td>
+        <td><span class="cell s-official" title="3.23 / 口コミ30件 / 保存1,832 / 公式管理・予約可">◎ 3.23</span></td>
+        <td><span class="cell s-unknown">？</span></td>
+        <td><span class="cell s-none">×</span></td>
+        <td><span class="cell s-none">×</span></td>
+        <td><span class="cell s-listed" title="口コミ1件・写真0枚・ほぼ放置状態">○ 1件</span></td>
+        <td><span class="cell s-official" title="@perfect_beer_stand_monnaka(フォロワー未計測)">◎</span></td>
+        <td><span class="cell s-brand">共通</span></td>
+        <td><span class="cell s-none">×</span></td>
+        <td><span class="cell s-brand">共通</span></td>
+        <td><span class="cell s-brand" title="ブランド共通ページのみ">共通</span></td>
+      </tr>
+      <tr>
+        <td class="rowh">PERFECT BEER LABO TOKYO<span class="area">門前仲町・富岡(2024/12開店)</span></td>
+        <td><span class="cell s-official" title="3.39 / 口コミ137件 / 保存10,425 / 写真729 / 公式管理・予約可 — グループ最強ページ">◎ 3.39</span></td>
+        <td><span class="cell s-unknown">？</span></td>
+        <td><span class="cell s-official" title="正式ページあり・24時間ネット予約対応">◎</span></td>
+        <td><span class="cell s-none">×</span></td>
+        <td><span class="cell s-listed" title="口コミ9件・写真96枚">○ 9件</span></td>
+        <td><span class="cell s-official" title="@perfect_beer_labo — コラボ投稿など活発">◎</span></td>
+        <td><span class="cell s-brand">共通</span></td>
+        <td><span class="cell s-none">×</span></td>
+        <td><span class="cell s-official" title="@perfect_beer_labo — 抹茶ビール等ショート動画">◎</span></td>
+        <td><span class="cell s-brand">共通</span></td>
+      </tr>
+      <tr>
+        <td class="rowh">PERFECT BEER KITCHEN 富山<span class="area">富山駅前・Dタワー(2025/11開店)</span></td>
+        <td><span class="cell s-official" title="3.08 / 口コミ9件 / 保存106 / 公式管理・予約可">◎ 3.08</span></td>
+        <td><span class="cell s-unknown">？</span></td>
+        <td><span class="cell s-none">×</span></td>
+        <td><span class="cell s-none">×</span></td>
+        <td><span class="cell s-none">×</span></td>
+        <td><span class="cell s-listed" title="@perfect_beer_kitchen_toyama(フォロワー未計測)">○</span></td>
+        <td><span class="cell s-brand">共通</span></td>
+        <td><span class="cell s-unknown" title="確認できず">？</span></td>
+        <td><span class="cell s-brand">共通</span></td>
+        <td><span class="cell s-none">×</span></td>
+      </tr>
+      <tr>
+        <td class="rowh">PERFECT BEER STAND 福岡<span class="area">大名(2025/12開店)</span></td>
+        <td><span class="cell s-official" title="3.09 / 口コミ14件 / 保存439 / 公式管理・予約可">◎ 3.09</span></td>
+        <td><span class="cell s-unknown">？</span></td>
+        <td><span class="cell s-none">×</span></td>
+        <td><span class="cell s-none">×</span></td>
+        <td><span class="cell s-none">×</span></td>
+        <td><span class="cell s-listed" title="@perfect_beer_stand_fukuoka(フォロワー未計測)">○</span></td>
+        <td><span class="cell s-brand">共通</span></td>
+        <td><span class="cell s-unknown">？</span></td>
+        <td><span class="cell s-brand">共通</span></td>
+        <td><span class="cell s-none">×</span></td>
+      </tr>
+      <tr>
+        <td class="rowh">完璧麦酒飯店 門前仲町<span class="area">門前仲町(2026/5/12開店)</span></td>
+        <td><span class="cell s-stale" title="食べログ未掲載 — 最優先対応">× 未掲載</span></td>
+        <td><span class="cell s-unknown">？</span></td>
+        <td><span class="cell s-none">×</span></td>
+        <td><span class="cell s-none">×</span></td>
+        <td><span class="cell s-none">×</span></td>
+        <td><span class="cell s-listed" title="@hanten_monnaka(開店告知記事で確認)">○</span></td>
+        <td><span class="cell s-brand">共通</span></td>
+        <td><span class="cell s-unknown">？</span></td>
+        <td><span class="cell s-none">×</span></td>
+        <td><span class="cell s-none">×</span></td>
+      </tr>
+      <tr>
+        <td class="rowh">PERFECT BEER STAND 池袋<span class="area">IT tower TOKYO(2026/4/27開店)</span></td>
+        <td><span class="cell s-official" title="3.09 / 口コミ18件 / 保存406 / 公式管理・予約可">◎ 3.09</span></td>
+        <td><span class="cell s-unknown">？</span></td>
+        <td><span class="cell s-none">×</span></td>
+        <td><span class="cell s-none">×</span></td>
+        <td><span class="cell s-none">×</span></td>
+        <td><span class="cell s-listed" title="@perfectbeer_stand_ikebukuro(フォロワー未計測)">○</span></td>
+        <td><span class="cell s-brand">共通</span></td>
+        <td><span class="cell s-unknown">？</span></td>
+        <td><span class="cell s-none">×</span></td>
+        <td><span class="cell s-none">×</span></td>
+      </tr>
+      <tr>
+        <td class="rowh">PERFECT BEER STAND 亀戸<span class="area">カメイドクロック横(2026/5/26開店)</span></td>
+        <td><span class="cell s-official" title="3.04 / 口コミ5件 / 保存89 / 公式管理・予約可">◎ 3.04</span></td>
+        <td><span class="cell s-unknown">？</span></td>
+        <td><span class="cell s-none">×</span></td>
+        <td><span class="cell s-none">×</span></td>
+        <td><span class="cell s-none">×</span></td>
+        <td><span class="cell s-listed" title="@perfectbeer_stand_kameido + キャラ @beer_kuma_">○</span></td>
+        <td><span class="cell s-brand">共通</span></td>
+        <td><span class="cell s-brand" title="ブランド共通LINE(page.line.me/069heuju)への導線のみ">共通</span></td>
+        <td><span class="cell s-none">×</span></td>
+        <td><span class="cell s-brand">共通</span></td>
+      </tr>
+      <tr>
+        <td class="rowh">PERFECT BEER SHOP 横浜ベイクォーター<span class="area">横浜駅きた東口(2026/6/4開店)</span></td>
+        <td><span class="cell s-official" title="点数未算出(新店) / 口コミ8件 / 保存166 / 公式管理">◎ 新店</span></td>
+        <td><span class="cell s-unknown">？</span></td>
+        <td><span class="cell s-none">×</span></td>
+        <td><span class="cell s-none">×</span></td>
+        <td><span class="cell s-none">×</span></td>
+        <td><span class="cell s-brand" title="店舗個別なし — 施設サイトはブランド共通@perfectbeer_infoを掲載">共通</span></td>
+        <td><span class="cell s-brand">共通</span></td>
+        <td><span class="cell s-brand" title="ブランド共通LINEへの導線のみ">共通</span></td>
+        <td><span class="cell s-none">×</span></td>
+        <td><span class="cell s-brand">共通</span></td>
+      </tr>
+      <tr>
+        <td class="rowh">株式会社マーボードウフ渋谷<span class="area">円山町・神泉(2026/6/10開店・別会社)</span></td>
+        <td><span class="cell s-official" title="点数未算出(新店) / 口コミ2件 / 保存367 / 公式管理・予約可">◎ 新店</span></td>
+        <td><span class="cell s-unknown" title="Yahoo!マップ掲載は確認。Googleは数値未計測">？</span></td>
+        <td><span class="cell s-none">×</span></td>
+        <td><span class="cell s-none">×</span></td>
+        <td><span class="cell s-listed" title="口コミ1件・非公式(店舗会員化の形跡なし)">○ 1件</span></td>
+        <td><span class="cell s-listed" title="会社公式 @gosai531(PR記事では総フォロワー10万超えの記載)">○</span></td>
+        <td><span class="cell s-official" title="@mabodofucompany + 代表 @meer_kato が発信の主軸">◎</span></td>
+        <td><span class="cell s-unknown">？</span></td>
+        <td><span class="cell s-unknown">？</span></td>
+        <td><span class="cell s-none">×</span></td>
+      </tr>
+      <tr>
+        <td class="rowh">PERFECT BEER SHOP 明治神宮野球場<span class="area">外野15GATE(POP UP・2026/6/19〜)</span></td>
+        <td><span class="cell s-none" title="球場内売店のため未掲載(神宮球場グルメ公式サイトには掲載あり)">×</span></td>
+        <td><span class="cell s-unknown">？</span></td>
+        <td><span class="cell s-none">×</span></td>
+        <td><span class="cell s-none">×</span></td>
+        <td><span class="cell s-none">×</span></td>
+        <td><span class="cell s-brand" title="ブランド共通 + 球場公式 @jingu_stadiumpr が発信">共通</span></td>
+        <td><span class="cell s-brand">共通</span></td>
+        <td><span class="cell s-unknown">？</span></td>
+        <td><span class="cell s-none">×</span></td>
+        <td><span class="cell s-none">×</span></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="legend">
+    <span><span class="cell s-official">◎</span> 掲載あり・店舗側が公式管理/運用中</span>
+    <span><span class="cell s-listed">○</span> 掲載/アカウントあり(運用は要強化)</span>
+    <span><span class="cell s-brand">共通</span> ブランド共通アカウントのみ</span>
+    <span><span class="cell s-stale">停滞</span> 情報が古い/未掲載(要対応)</span>
+    <span><span class="cell s-none">×</span> なし</span>
+    <span><span class="cell s-unknown">？</span> 未確認(計測体制の構築が必要)</span>
+  </div>
+  <div class="note">※ セルにマウスを乗せると詳細(数値・アカウント名・出典メモ)が表示されます。</div>
+</section>
+
+<!-- ============ CHARTS ============ -->
+<section>
+  <h2><span class="n">2</span>食べログ パフォーマンス比較</h2>
+  <div class="charts">
+    <div class="chart-card">
+      <h3>口コミ件数(件)</h3>
+      <div class="csub">件数が多いほど点数が安定し検索露出も向上(2026/7/17時点)</div>
+      <div class="bars" id="chart-reviews"></div>
+    </div>
+    <div class="chart-card">
+      <h3>保存(ブックマーク)数(人)</h3>
+      <div class="csub">「行きたい」意向の先行指標 — LABOが圧倒的</div>
+      <div class="bars" id="chart-saves"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROPOSALS ============ -->
+<section>
+  <h2><span class="n">3</span>優先改善提案(インパクト順)</h2>
+  <div class="props">
+    <div class="prop p-crit">
+      <h3><span class="tag t-crit">最優先</span>① Googleビジネスプロフィールの本部一括管理体制をつくる</h3>
+      <p>全12店舗で<b>Googleマップの評価・口コミ数が外部から定点把握できていない</b>状態です。来店直前の検索で最も見られるのはGoogleマップであり、ここが「見えていない」ことが現状最大のリスクです。<b>全店のオーナー確認 → 本部アカウントへの管理権限集約 → 口コミ返信ルール(48時間以内)と週次の数値記録</b>をまず整備することを提案します。無料で始められ、効果が最も大きい施策です。</p>
+    </div>
+    <div class="prop p-crit">
+      <h3><span class="tag t-crit">最優先</span>② 完璧麦酒飯店を食べログに掲載・公式化する</h3>
+      <p>2026年5月開店の新業態が<b>食べログ未掲載</b>のままです。「門前仲町 中華」「門前仲町 立ち飲み」の検索流入を丸ごと逃しています。無料の店舗会員登録で掲載・公式化し、既存店で実績のある運用(写真整備・営業情報更新)を横展開してください。神宮球場SHOPは球場公式サイト掲載があるため対応不要です。</p>
+    </div>
+    <div class="prop p-warn">
+      <h3><span class="tag t-warn">要対応</span>③ 古い掲載情報を更新する(ブランド毀損の芽を摘む)</h3>
+      <p><b>KITCHEN総本店のホットペッパーは2023年2月から更新停止・ネット予約停止</b>、<b>GARDENのぐるなびは2022年の情報が残存</b>しています。放置された古いページは「営業してる?」という不安を生みます。更新して活用するか、集客に使わないなら掲載整理を。あわせて公式サイトの短縮URLがGARDEN→STANDへ誤リダイレクトしている点、公式サイトのFacebookリンクが個人プロフィールに向いている点も修正推奨です。</p>
+    </div>
+    <div class="prop p-warn">
+      <h3><span class="tag t-warn">要対応</span>④ 新店4店(池袋・亀戸・横浜・渋谷)の口コミ初速をつくる</h3>
+      <p>2026年開店の4店は食べログ口コミが2〜18件で<b>点数が付かない/低く出やすい時期</b>です。会計時の一声・卓上POP・アプリ会員へのお願いで、まず<b>各店30件</b>を目標に。横浜ベイクォーターは商業施設内で個別Instagramもないため、店舗アカウント開設または共通アカウントでの定期露出枠の設定を提案します。</p>
+    </div>
+    <div class="prop p-good">
+      <h3><span class="tag t-good">資産活用</span>⑤ GARDENのLINE友だち1.6万人をグループ全体の資産にする</h3>
+      <p>LINE友だち<b>16,133人</b>はグループ最大級のダイレクト送客チャネルですが、GARDEN(季節営業)単店に紐づいています。オフシーズンも<b>系列店クーポン・新店告知・神宮球場出店の試合日配信</b>に使えばそのまま送客装置になります。自社アプリとの役割分担(アプリ=会員特典/LINE=告知・呼び戻し)の設計もあわせて。</p>
+    </div>
+    <div class="prop">
+      <h3><span class="tag t-info">仕組み化</span>⑥ 月次モニタリングの定例化(このダッシュボードの定期更新)</h3>
+      <p>食べログ点数・口コミ数・保存数、Google評価、Instagramフォロワー数を<b>月1回同じフォーマットで記録</b>すれば、施策の効果が数字で見えます。この調査・ダッシュボード生成は定期実行(スケジュールタスク)として自動化できます — ご希望あればセットアップします。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STORE CARDS ============ -->
+<section>
+  <h2><span class="n">4</span>店舗別カルテ</h2>
+  <div class="stores">
+
+    <div class="store">
+      <h3>PERFECT BEER GARDEN 門前仲町</h3>
+      <div class="addr">江東区門前仲町2-10-1 赤札堂3F(季節営業ビアガーデン)</div>
+      <div class="kv">
+        <span class="chip c-good">食べログ <b>3.29</b> / 74件</span>
+        <span class="chip">保存 <b>6,295</b></span>
+        <span class="chip c-good">LINE <b>16,133</b>人</span>
+        <span class="chip">IG @perfect_beer_garden_tokyo</span>
+      </div>
+      <div class="todo"><b>提案</b>
+        <ul>
+          <li>ぐるなびの2022年情報を更新(または掲載整理)</li>
+          <li>LINE1.6万人へのオフシーズン配信設計(系列店送客)</li>
+          <li>Google口コミ返信体制の整備</li>
+        </ul>
+      </div>
+      <div class="links"><a href="https://tabelog.com/tokyo/A1313/A131303/13261512/">食べログ</a><a href="https://r.gnavi.co.jp/b96g6sx30000/">ぐるなび</a><a href="https://page.line.me/573gsaff">LINE</a></div>
+    </div>
+
+    <div class="store">
+      <h3>PERFECT BEER KITCHEN 総本店</h3>
+      <div class="addr">江東区冬木14-2</div>
+      <div class="kv">
+        <span class="chip c-good">食べログ <b>3.39</b> / 94件</span>
+        <span class="chip">保存 <b>6,866</b></span>
+        <span class="chip c-warn">HP更新停止(2023/2〜)</span>
+        <span class="chip">IG @perfect_beer_kitchen_tokyo</span>
+      </div>
+      <div class="todo"><b>提案</b>
+        <ul>
+          <li>ホットペッパーの更新再開 or 掲載整理(予約停止中・口コミ0)</li>
+          <li>口コミ100件到達キャンペーンで3.4超えを狙う</li>
+        </ul>
+      </div>
+      <div class="links"><a href="https://tabelog.com/tokyo/A1313/A131303/13278318/">食べログ</a><a href="https://www.hotpepper.jp/strJ003474054/">ホットペッパー</a></div>
+    </div>
+
+    <div class="store">
+      <h3>PERFECT BEER STAND 門前仲町</h3>
+      <div class="addr">江東区富岡1-24-6 2F</div>
+      <div class="kv">
+        <span class="chip">食べログ <b>3.23</b> / 30件</span>
+        <span class="chip">保存 <b>1,832</b></span>
+        <span class="chip c-warn">Retty放置(写真0枚)</span>
+        <span class="chip">IG @perfect_beer_stand_monnaka</span>
+      </div>
+      <div class="todo"><b>提案</b>
+        <ul>
+          <li>Rettyの基本情報・写真を最低限整備(現状写真0枚)</li>
+          <li>食べログ50件を目標に口コミ促進</li>
+        </ul>
+      </div>
+      <div class="links"><a href="https://tabelog.com/tokyo/A1313/A131303/13287172/">食べログ</a><a href="https://retty.me/area/PRE13/ARE10/SUB1003/100001709792/">Retty</a></div>
+    </div>
+
+    <div class="store">
+      <h3>PERFECT BEER LABO TOKYO ⭐</h3>
+      <div class="addr">江東区富岡2-10-1 梶本ビル1F(2024/12開店)</div>
+      <div class="kv">
+        <span class="chip c-good">食べログ <b>3.39</b> / 137件</span>
+        <span class="chip c-good">保存 <b>10,425</b></span>
+        <span class="chip c-good">TikTok運用中</span>
+        <span class="chip">IG @perfect_beer_labo(活発)</span>
+      </div>
+      <div class="todo"><b>提案</b>
+        <ul>
+          <li>グループの成功モデル — 運用ノウハウ(コラボ投稿・ショート動画)を他店に横展開</li>
+          <li>保存1万超×口コミ137件 → 3.5到達が現実的な次目標</li>
+        </ul>
+      </div>
+      <div class="links"><a href="https://tabelog.com/tokyo/A1313/A131303/13304280/">食べログ</a><a href="https://r.gnavi.co.jp/cc5g609j0000/">ぐるなび</a><a href="https://www.tiktok.com/@perfect_beer_labo">TikTok</a></div>
+    </div>
+
+    <div class="store">
+      <h3>PERFECT BEER KITCHEN 富山</h3>
+      <div class="addr">富山市牛島町9-5 Dタワー富山1F(2025/11開店)</div>
+      <div class="kv">
+        <span class="chip">食べログ <b>3.08</b> / 9件</span>
+        <span class="chip">保存 <b>106</b></span>
+        <span class="chip">favy公式ページあり</span>
+        <span class="chip">IG @perfect_beer_kitchen_toyama</span>
+      </div>
+      <div class="todo"><b>提案</b>
+        <ul>
+          <li>口コミ数がまだ少ない — 地元メディア・富山ウォッチ等の露出を口コミに転換</li>
+          <li>駅前立地なのでGoogleマップ最適化(MEO)の効果が特に大きい</li>
+        </ul>
+      </div>
+      <div class="links"><a href="https://tabelog.com/toyama/A1601/A160101/16011641/">食べログ</a><a href="https://perfectbeer-toyama.favy.jp/">favy</a></div>
+    </div>
+
+    <div class="store">
+      <h3>PERFECT BEER STAND 福岡</h3>
+      <div class="addr">福岡市中央区大名1-3-5 Ark Cube 103(2025/12開店)</div>
+      <div class="kv">
+        <span class="chip">食べログ <b>3.09</b> / 14件</span>
+        <span class="chip">保存 <b>439</b></span>
+        <span class="chip">IG @perfect_beer_stand_fukuoka</span>
+      </div>
+      <div class="todo"><b>提案</b>
+        <ul>
+          <li>大名は競合密集エリア — 口コミ30件到達を最優先に</li>
+          <li>福岡グルメ系インフルエンサーとのコラボ(LABO方式の横展開)</li>
+        </ul>
+      </div>
+      <div class="links"><a href="https://tabelog.com/fukuoka/A4001/A400104/40072568/">食べログ</a></div>
+    </div>
+
+    <div class="store">
+      <h3>完璧麦酒飯店 門前仲町 ⚠️</h3>
+      <div class="addr">江東区門前仲町1-17-1(2026/5/12開店・中華×クラフトビール)</div>
+      <div class="kv">
+        <span class="chip c-warn">食べログ未掲載</span>
+        <span class="chip c-warn">グルメサイト全て未掲載</span>
+        <span class="chip">IG @hanten_monnaka</span>
+      </div>
+      <div class="todo"><b>提案</b>
+        <ul>
+          <li><b>食べログの店舗会員登録(無料)を今週中に</b> — 検索流入をまるごと逃している状態</li>
+          <li>Googleビジネスプロフィールのオーナー確認も同時に</li>
+        </ul>
+      </div>
+      <div class="links"><a href="https://www.instagram.com/hanten_monnaka/">Instagram</a></div>
+    </div>
+
+    <div class="store">
+      <h3>PERFECT BEER STAND 池袋</h3>
+      <div class="addr">豊島区西池袋3-28-13 IT tower TOKYO 1F(2026/4/27開店)</div>
+      <div class="kv">
+        <span class="chip">食べログ <b>3.09</b> / 18件</span>
+        <span class="chip">保存 <b>406</b></span>
+        <span class="chip">IG @perfectbeer_stand_ikebukuro</span>
+      </div>
+      <div class="todo"><b>提案</b>
+        <ul>
+          <li>池袋西口の飲み需要は大きい — 口コミ30件到達で点数安定を</li>
+          <li>IT tower入居企業向けの平日ハッピーアワー訴求をSNSで</li>
+        </ul>
+      </div>
+      <div class="links"><a href="https://tabelog.com/tokyo/A1305/A130501/13319528/">食べログ</a></div>
+    </div>
+
+    <div class="store">
+      <h3>PERFECT BEER STAND 亀戸</h3>
+      <div class="addr">江東区亀戸6-31-6(2026/5/26開店)</div>
+      <div class="kv">
+        <span class="chip">食べログ <b>3.04</b> / 5件</span>
+        <span class="chip">保存 <b>89</b></span>
+        <span class="chip">IG @perfectbeer_stand_kameido</span>
+        <span class="chip">キャラ @beer_kuma_</span>
+      </div>
+      <div class="todo"><b>提案</b>
+        <ul>
+          <li>口コミ5件は最少 — 開店直後の今こそ来店客への口コミ依頼を仕組み化</li>
+          <li>ビアクマキャラ活用はユニーク — ショート動画化してTikTok展開も</li>
+        </ul>
+      </div>
+      <div class="links"><a href="https://tabelog.com/tokyo/A1312/A131202/13322588/">食べログ</a></div>
+    </div>
+
+    <div class="store">
+      <h3>PERFECT BEER SHOP 横浜ベイクォーター</h3>
+      <div class="addr">横浜市神奈川区金港町1-10 ベイクォーター3F(2026/6/4開店)</div>
+      <div class="kv">
+        <span class="chip">食べログ 新店 / 8件</span>
+        <span class="chip">保存 <b>166</b></span>
+        <span class="chip c-warn">個別Instagramなし</span>
+      </div>
+      <div class="todo"><b>提案</b>
+        <ul>
+          <li>個別Instagramの開設(施設内店舗は施設公式との相互タグ付けが効く)</li>
+          <li>ベイクォーター館内イベントとの連動投稿枠を確保</li>
+        </ul>
+      </div>
+      <div class="links"><a href="https://tabelog.com/kanagawa/A1401/A140101/14102995/">食べログ</a></div>
+    </div>
+
+    <div class="store">
+      <h3>株式会社マーボードウフ渋谷</h3>
+      <div class="addr">渋谷区円山町4-6 QLINK渋谷神泉(2026/6/10開店)</div>
+      <div class="kv">
+        <span class="chip">食べログ 新店 / 2件</span>
+        <span class="chip">保存 <b>367</b></span>
+        <span class="chip c-good">X @mabodofucompany</span>
+        <span class="chip">IG @gosai531(SNS総フォロワー10万超の記載あり)</span>
+      </div>
+      <div class="todo"><b>提案</b>
+        <ul>
+          <li>SNSの熱量を口コミに転換 — 保存367に対し口コミ2件のギャップが大きい</li>
+          <li>Rettyが非公式のまま — 店舗会員化して情報を統一</li>
+        </ul>
+      </div>
+      <div class="links"><a href="https://tabelog.com/tokyo/A1303/A130301/13322597/">食べログ</a><a href="https://retty.me/area/PRE13/ARE8/SUB806/100001834875/">Retty</a><a href="https://x.com/mabodofucompany">X</a></div>
+    </div>
+
+    <div class="store">
+      <h3>PERFECT BEER SHOP 明治神宮野球場</h3>
+      <div class="addr">明治神宮球場 外野15GATE(POP UP・2026/6/19〜シーズン終了)</div>
+      <div class="kv">
+        <span class="chip">球場グルメ公式サイト掲載</span>
+        <span class="chip">期間限定売店</span>
+      </div>
+      <div class="todo"><b>提案</b>
+        <ul>
+          <li>グルメサイト対応は不要 — ブランドIG/Xでの試合日連動投稿が主戦場</li>
+          <li>球場公式 @jingu_stadiumpr のリポスト獲得と、GARDENのLINE配信での告知連動</li>
+        </ul>
+      </div>
+      <div class="links"><a href="https://jingu-stadium-gourmet.com/shop/outfield/perfect-beer/">神宮球場グルメ</a></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ BRAND ============ -->
+<section>
+  <h2><span class="n">5</span>ブランド共通チャネル</h2>
+  <div class="tiles">
+    <div class="tile">
+      <div class="label">X(旧Twitter)</div>
+      <div class="value" style="font-size:16px">@PERFECTBEER0802</div>
+      <div class="hint">来店客への返信・新店告知など活発に運用中(2026年も稼働確認)</div>
+    </div>
+    <div class="tile">
+      <div class="label">Instagram</div>
+      <div class="value" style="font-size:16px">@perfectbeer_info</div>
+      <div class="hint">ブランド公式。フォロワー数の定点計測を推奨</div>
+    </div>
+    <div class="tile">
+      <div class="label">自社アプリ</div>
+      <div class="value" style="font-size:16px">PERFECT BEER</div>
+      <div class="hint">App Store / Google Play — 会員施策の中核</div>
+    </div>
+    <div class="tile">
+      <div class="label">公式サイト</div>
+      <div class="value" style="font-size:16px">perfectbeer.info</div>
+      <div class="hint">直営+FC 31店超を掲載。⚠️ FBリンクが個人プロフィール向き/短縮URLの誤リダイレクトあり — 要修正</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p><b>データについて:</b> 2026年7月17日にWeb公開情報から取得。食べログ・Retty・ぐるなび・ホットペッパー・LINEの数値は各ページの実取得値。Googleマップの評価・口コミ数、およびInstagram/X/Facebookのフォロワー数はログイン制限等により未取得(「?」表示)— 提案①⑥の計測体制構築で解消できます。マーボードウフ渋谷は別法人(株式会社マーボードウフ)による運営で、PERFECT BEERとの資本関係は公開情報では未確認です。</p>
+</footer>
+
+</div>
+
+<script>
+(function() {
+  var reviews = [
+    ["LABO TOKYO", 137],
+    ["KITCHEN 総本店", 94],
+    ["GARDEN 門仲", 74],
+    ["STAND 門仲", 30],
+    ["STAND 池袋", 18],
+    ["STAND 福岡", 14],
+    ["KITCHEN 富山", 9],
+    ["SHOP 横浜BQ", 8],
+    ["STAND 亀戸", 5],
+    ["マーボードウフ渋谷", 2]
+  ];
+  var saves = [
+    ["LABO TOKYO", 10425],
+    ["KITCHEN 総本店", 6866],
+    ["GARDEN 門仲", 6295],
+    ["STAND 門仲", 1832],
+    ["STAND 福岡", 439],
+    ["STAND 池袋", 406],
+    ["マーボードウフ渋谷", 367],
+    ["SHOP 横浜BQ", 166],
+    ["KITCHEN 富山", 106],
+    ["STAND 亀戸", 89]
+  ];
+  function render(id, data, unit) {
+    var max = Math.max.apply(null, data.map(function(d){ return d[1]; }));
+    var el = document.getElementById(id);
+    data.forEach(function(d) {
+      var pct = Math.max(1.5, d[1] / max * 78);
+      var row = document.createElement("div");
+      row.className = "bar-row";
+      row.title = d[0] + ": " + d[1].toLocaleString() + unit + "(食べログ・2026/7/17時点)";
+      row.innerHTML =
+        '<div class="bl">' + d[0] + '</div>' +
+        '<div class="bar-track">' +
+          '<div class="bar-fill" style="width:' + pct + '%"></div>' +
+          '<div class="bar-val" style="left:' + pct + '%">' + d[1].toLocaleString() + '</div>' +
+        '</div>';
+      el.appendChild(row);
+    });
+  }
+  render("chart-reviews", reviews, "件");
+  render("chart-saves", saves, "人");
+})();
+</script>
+</body>
+</html>
