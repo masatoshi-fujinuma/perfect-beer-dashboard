@@ -425,13 +425,53 @@
   </div>
 </section>
 
+<!-- ============ SNS ACTIVITY ============ -->
+<section>
+  <h2><span class="n">3</span>SNS運用アクティビティ(Instagram 投稿頻度)</h2>
+  <div class="note">2026年7月17日にInstagram APIで実測。<b>直近投稿</b>=最終投稿からの経過日数、<b>直近30日</b>=過去30日の投稿数、<b>月間ペース</b>=最新12投稿の平均月間本数。緑=活発 / 黄=標準 / 赤=停滞ぎみ。</div>
+  <div class="matrix-scroller">
+  <table class="matrix">
+    <thead>
+      <tr>
+        <th class="rowh">アカウント(店舗)</th>
+        <th>フォロワー</th><th>累計投稿</th><th>直近投稿</th><th>直近30日</th><th>月間ペース</th><th>運用評価</th>
+      </tr>
+    </thead>
+    <tbody id="sns-activity"></tbody>
+  </table>
+  </div>
+  <div class="note">※ 「月間ペース」は直近12投稿の間隔から算出。バースト投稿(短期集中)の店は30日実数と乖離することがあります。TikTok/Xはbot制限で自動計測不可のため本表はIG中心です。</div>
+</section>
+
+<!-- ============ REPLY RATE ============ -->
+<section>
+  <h2><span class="n">4</span>Google口コミ 返信率</h2>
+  <div class="note">各店のGoogleマップで最新に表示される口コミ(1店あたり最大9件の共通サンプル)に対し、<b>オーナー返信が付いている割合</b>を実測(2026/7/17)。口コミ返信はMEO(地図検索順位)と来店客の信頼に直結する重要指標です。</div>
+  <div class="charts">
+    <div class="chart-card">
+      <h3>返信率(直近口コミサンプル)</h3>
+      <div class="csub">🟢90%↑=優秀 / 🟡50-89% / 🔴50%未満 — 门前仲町の主力店はほぼ全返信</div>
+      <div class="bars" id="chart-reply"></div>
+    </div>
+    <div class="chart-card">
+      <h3>ひとことメモ</h3>
+      <div class="csub" style="margin-bottom:8px">返信運用の傾向</div>
+      <div style="font-size:12.5px; color:var(--text-secondary); line-height:1.7">
+        <p style="margin-bottom:8px"><b style="color:var(--good-text)">◎ ほぼ全返信(9店)</b>: 総本店・福岡・麦酒飯店・池袋・亀戸・富山が返信率100%。GARDEN・STAND門仲・LABOも9割前後で、<b>直営店の返信文化は非常に強い</b>です。</p>
+        <p style="margin-bottom:8px"><b style="color:var(--warning)">△ 要改善: 横浜ベイクォーター(25%)</b> — 開店直後で返信が追いついていません。今のうちに返信習慣をつければMEOで先行できます。</p>
+        <p><b style="color:var(--critical)">✕ 未対応: マーボードウフ渋谷(0%)</b> — 別会社運営で返信ゼロ。口コミ51件と多いだけに機会損失が大きい状態です。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ PROPOSALS ============ -->
 <section>
-  <h2><span class="n">3</span>優先改善提案(インパクト順)</h2>
+  <h2><span class="n">5</span>優先改善提案(インパクト順)</h2>
   <div class="props">
     <div class="prop p-good">
       <h3><span class="tag t-good">強み発見</span>① Google評価は平均4.7と圧倒的 — このギャップを集客に使う</h3>
-      <p>全12店舗のGoogleマップ掲載を実確認したところ、<b>評価は4.3〜5.0(平均4.7)・口コミ計2,078件</b>と非常に強いことが判明しました。一方food系サイトの食べログは3.0台前半。つまり<b>実際の顧客満足はGoogleの数字が証明している</b>状態です。提案: (1)店頭・SNS・予約導線に「Google口コミ4.8★」を明記して社会的証明に使う (2)口コミ返信ルール(48時間以内)を全店で統一 (3)神宮球場SHOPは営業時間が未設定なので試合日に合わせて登録 (4)月次で数値を記録し推移を追う。</p>
+      <p>全12店舗のGoogleマップ掲載を実確認したところ、<b>評価は4.3〜5.0(平均4.7)・口コミ計2,078件</b>と非常に強いことが判明しました。一方food系サイトの食べログは3.0台前半。つまり<b>実際の顧客満足はGoogleの数字が証明している</b>状態です。提案: (1)店頭・SNS・予約導線に「Google口コミ4.8★」を明記して社会的証明に使う (2)口コミ返信は直営店では既に9割前後と優秀(セクション4参照) — この文化を横浜(25%)と別会社のマーボー渋谷(0%)にも広げる (3)神宮球場SHOPは営業時間が未設定なので試合日に合わせて登録 (4)月次で数値を記録し推移を追う。</p>
     </div>
     <div class="prop p-warn">
       <h3><span class="tag t-warn">要対応</span>② 完璧麦酒飯店: Google満点5.0の熱を食べログへ波及させる</h3>
@@ -458,7 +498,7 @@
 
 <!-- ============ STORE CARDS ============ -->
 <section>
-  <h2><span class="n">4</span>店舗別カルテ(総合ランク付き)</h2>
+  <h2><span class="n">6</span>店舗別カルテ(総合ランク付き)</h2>
   <div class="note">総合ランク = 食べログ(30点) + Google(25点) + SNS発信力(25点) + 掲載カバレッジ・情報鮮度(20点) の100点評価。<b>S</b>≧85 / <b>A</b> 70〜84 / <b>B</b> 55〜69 / <b>C</b> 40〜54 / <b>D</b> 40未満。判定内訳: S×1(LABO) / A×2(総本店・GARDEN) / B×2(STAND門仲・富山) / C×6 / D×0 — 7/17の総点検でD評価はゼロに。</div>
   <div class="stores">
 
@@ -708,7 +748,7 @@
 
 <!-- ============ BRAND ============ -->
 <section>
-  <h2><span class="n">5</span>ブランド共通チャネル</h2>
+  <h2><span class="n">7</span>ブランド共通チャネル</h2>
   <div class="tiles">
     <div class="tile">
       <div class="label">X(旧Twitter)</div>
@@ -818,6 +858,72 @@
   ];
   render("chart-ig", ig, "人");
   render("chart-google", google, "件");
+
+  // SNS activity table (Instagram, 2026/7/17 実測)
+  var snsAct = [
+    {n:"@perfect_beer_labo (LABO)", fol:"2.3万", posts:187, last:4, d30:11, pace:"高", rank:"◎ 活発", cls:"s-official"},
+    {n:"@..._kitchen_tokyo (総本店)", fol:"4,047", posts:324, last:9, d30:5, pace:"中", rank:"○ 標準", cls:"s-listed"},
+    {n:"@..._garden_tokyo (GARDEN)", fol:"2,467", posts:271, last:8, d30:8, pace:"中", rank:"○ 標準", cls:"s-listed"},
+    {n:"@..._stand_fukuoka (福岡)", fol:"1,669", posts:97, last:5, d30:4, pace:"中", rank:"○ 標準", cls:"s-listed"},
+    {n:"@perfectbeer_stand_ikebukuro (池袋)", fol:"1,487", posts:27, last:4, d30:7, pace:"高", rank:"◎ 活発", cls:"s-official"},
+    {n:"@beer_kuma_ (ビアっくま公式)", fol:"1,153", posts:89, last:0, d30:9, pace:"高", rank:"◎ 活発", cls:"s-official"},
+    {n:"@..._kitchen_toyama (富山)", fol:"753", posts:57, last:17, d30:1, pace:"低", rank:"△ 停滞ぎみ", cls:"s-stale"},
+    {n:"@..._stand_monnaka2 (STAND門仲)", fol:"541", posts:115, last:5, d30:8, pace:"高", rank:"◎ 活発", cls:"s-official"},
+    {n:"@hanten_monnaka (麦酒飯店)", fol:"376", posts:26, last:8, d30:8, pace:"高", rank:"◎ 活発", cls:"s-official"},
+    {n:"@perfect_beer_shop_yokohama (横浜)", fol:"221", posts:20, last:4, d30:2, pace:"低", rank:"○ 標準", cls:"s-listed"},
+    {n:"@perfectbeer_stand_kameido (亀戸)", fol:"178", posts:19, last:7, d30:4, pace:"中", rank:"○ 標準", cls:"s-listed"},
+    {n:"@perfectbeer_info (ブランド公式)", fol:"7,797", posts:314, last:8, d30:4, pace:"中", rank:"○ 標準", cls:"s-listed"},
+    {n:"@gosai531 (マーボー渋谷/別会社)", fol:"7,712", posts:23, last:28, d30:1, pace:"低", rank:"△ 停滞ぎみ", cls:"s-stale"}
+  ];
+  var tb = document.getElementById("sns-activity");
+  if (tb) snsAct.forEach(function(s){
+    var d30cls = s.d30>=6 ? "s-official" : (s.d30>=3 ? "s-listed" : "s-stale");
+    var lastcls = s.last<=10 ? "s-official" : (s.last<=20 ? "s-listed" : "s-stale");
+    var tr = document.createElement("tr");
+    tr.innerHTML =
+      '<td class="rowh" style="font-weight:600;font-size:11.5px">'+s.n+'</td>'+
+      '<td style="font-variant-numeric:tabular-nums">'+s.fol+'</td>'+
+      '<td style="font-variant-numeric:tabular-nums">'+s.posts+'</td>'+
+      '<td><span class="cell '+lastcls+'">'+s.last+'日前</span></td>'+
+      '<td><span class="cell '+d30cls+'">'+s.d30+'件</span></td>'+
+      '<td>'+s.pace+'</td>'+
+      '<td><span class="cell '+s.cls+'">'+s.rank+'</span></td>';
+    tb.appendChild(tr);
+  });
+
+  // Google reply rate (直近口コミサンプルの返信率, 2026/7/17実測)
+  var reply = [
+    ["総本店", 100],
+    ["福岡", 100],
+    ["麦酒飯店", 100],
+    ["池袋", 100],
+    ["亀戸", 100],
+    ["富山", 100],
+    ["GARDEN 門仲", 89],
+    ["LABO TOKYO", 89],
+    ["STAND 門仲", 78],
+    ["横浜BQ", 25],
+    ["マーボー渋谷", 0]
+  ];
+  (function(){
+    var el = document.getElementById("chart-reply");
+    if(!el) return;
+    reply.forEach(function(d){
+      var pct = Math.max(1.5, d[1]);
+      var color = d[1]>=90 ? "var(--good)" : (d[1]>=50 ? "var(--brand)" : "var(--critical)");
+      var border = d[1]>=50 ? "var(--ink)" : "var(--critical)";
+      var row = document.createElement("div");
+      row.className = "bar-row";
+      row.title = d[0]+": 返信率"+d[1]+"%(2026/7/17・直近口コミサンプル)";
+      row.innerHTML =
+        '<div class="bl">'+d[0]+'</div>'+
+        '<div class="bar-track">'+
+          '<div class="bar-fill" style="width:'+(pct*0.78)+'%;background:'+color+';border-color:'+border+'"></div>'+
+          '<div class="bar-val" style="left:'+(pct*0.78)+'%">'+d[1]+'%</div>'+
+        '</div>';
+      el.appendChild(row);
+    });
+  })();
   render("chart-reviews", reviews, "件");
   render("chart-saves", saves, "人");
 })();
