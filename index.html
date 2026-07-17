@@ -465,9 +465,27 @@
   </div>
 </section>
 
+<!-- ============ MENU PHOTOS ============ -->
+<section>
+  <h2><span class="n">5</span>メニュー写真 評価(掲載量 × クオリティ)</h2>
+  <div class="note">各店のInstagram(店舗が料理写真を実際に載せている主戦場)の直近投稿を目視評価。<b>料理写真比率</b>=フィードに占める料理・ドリンク実写真の割合、<b>クオリティ</b>=明るさ・構図・シズル感・統一感を5段階。<b>スコア</b>=比率50点+クオリティ50点。<b>※重要な発見:</b> 食べログ・ぐるなびの<b>メニュー欄は全店ほぼ写真0%</b>でした — ここに写真を足すと予約サイトでの注文率が上がる伸びしろです。</div>
+  <div class="matrix-scroller">
+  <table class="matrix">
+    <thead>
+      <tr>
+        <th class="rowh">店舗</th>
+        <th>料理写真比率</th><th>クオリティ</th><th>スコア</th><th>ランク</th><th>ひとことメモ</th>
+      </tr>
+    </thead>
+    <tbody id="menu-photo"></tbody>
+  </table>
+  </div>
+  <div class="note">※ 実際の自社アプリ内メニューは外部から閲覧できないため、公開されているInstagramの料理写真で代替評価しています。アプリ内メニューを採点したい場合はスクリーンショットを共有ください。</div>
+</section>
+
 <!-- ============ PROPOSALS ============ -->
 <section>
-  <h2><span class="n">5</span>優先改善提案(インパクト順)</h2>
+  <h2><span class="n">6</span>優先改善提案(インパクト順)</h2>
   <div class="props">
     <div class="prop p-good">
       <h3><span class="tag t-good">強み発見</span>① Google評価は平均4.7と圧倒的 — このギャップを集客に使う</h3>
@@ -489,8 +507,12 @@
       <h3><span class="tag t-good">資産活用</span>⑤ LINE友だち計2.3万人(GARDEN+KITCHEN)をグループ全体の資産にする</h3>
       <p>LINEは<b>GARDEN 16,133人 + KITCHEN 6,633人 = 計22,766人</b>と、グループ最大級のダイレクト送客チャネルであることが判明しました。オフシーズンも<b>系列店クーポン・新店告知・神宮球場出店の試合日配信</b>に使えばそのまま送客装置になります。2アカウントの役割分担と、自社アプリ(会員特典)との棲み分け設計もあわせて。</p>
     </div>
+    <div class="prop p-warn">
+      <h3><span class="tag t-warn">要対応</span>⑥ メニュー写真を予約サイトに載せ、下位3店の料理写真を増やす</h3>
+      <p><b>食べログ・ぐるなびのメニュー欄は全店ほぼ写真0%</b>です(セクション5)。麦酒飯店・LABOのような美味しそうな料理写真を予約サイトのメニューにも登録すれば、比較検討中のユーザーの注文・予約率が上がります。またInstagramの料理写真比率が低い<b>横浜BQ(25%)・門仲STAND(30%)・亀戸(30%)</b>は、告知グラフィックに偏りがちなので、麦酒飯店の「皿料理を統一トーンで撮る」型を横展開しましょう。</p>
+    </div>
     <div class="prop">
-      <h3><span class="tag t-info">仕組み化</span>⑥ 月次モニタリングの定例化(このダッシュボードの定期更新)</h3>
+      <h3><span class="tag t-info">仕組み化</span>⑦ 月次モニタリングの定例化(このダッシュボードの定期更新)</h3>
       <p>食べログ点数・口コミ数・保存数、Google評価、Instagramフォロワー数を<b>月1回同じフォーマットで記録</b>すれば、施策の効果が数字で見えます。この調査・ダッシュボード生成は定期実行(スケジュールタスク)として自動化できます — ご希望あればセットアップします。</p>
     </div>
   </div>
@@ -498,7 +520,7 @@
 
 <!-- ============ STORE CARDS ============ -->
 <section>
-  <h2><span class="n">6</span>店舗別カルテ(総合ランク付き)</h2>
+  <h2><span class="n">7</span>店舗別カルテ(総合ランク付き)</h2>
   <div class="note">総合ランク = 食べログ(30点) + Google(25点) + SNS発信力(25点) + 掲載カバレッジ・情報鮮度(20点) の100点評価。<b>S</b>≧85 / <b>A</b> 70〜84 / <b>B</b> 55〜69 / <b>C</b> 40〜54 / <b>D</b> 40未満。判定内訳: S×1(LABO) / A×2(総本店・GARDEN) / B×2(STAND門仲・富山) / C×6 / D×0 — 7/17の総点検でD評価はゼロに。</div>
   <div class="stores">
 
@@ -748,7 +770,7 @@
 
 <!-- ============ BRAND ============ -->
 <section>
-  <h2><span class="n">7</span>ブランド共通チャネル</h2>
+  <h2><span class="n">8</span>ブランド共通チャネル</h2>
   <div class="tiles">
     <div class="tile">
       <div class="label">X(旧Twitter)</div>
@@ -889,6 +911,35 @@
       '<td>'+s.pace+'</td>'+
       '<td><span class="cell '+s.cls+'">'+s.rank+'</span></td>';
     tb.appendChild(tr);
+  });
+
+  // Menu photo evaluation (Instagram 直近投稿の目視評価, 2026/7/17)
+  var menuPhoto = [
+    {s:"完璧麦酒飯店", ratio:100, q:5.0, sc:96, rk:"S", note:"全投稿が統一感ある皿写真。明るく食欲をそそる中華の見本カタログ", cls:"r-S"},
+    {s:"LABO TOKYO", ratio:78, q:4.5, sc:86, rk:"S", note:"チーズが伸びるバーガー・カラフルドリンクなど撮影クオリティが高い", cls:"r-S"},
+    {s:"KITCHEN 総本店", ratio:67, q:4.0, sc:78, rk:"A", note:"ビールのヒーローショットが強い。枝豆等の寄りも美味しそう", cls:"r-A"},
+    {s:"KITCHEN 富山", ratio:55, q:4.0, sc:72, rk:"A", note:"唐揚げタワー・ビアカレーうどんは秀逸。黄色い文字だけの告知が混在", cls:"r-A"},
+    {s:"マーボードウフ渋谷", ratio:55, q:4.0, sc:70, rk:"A", note:"麻婆豆腐の重厚な料理写真。やや暗めだが専門店らしい迫力", cls:"r-A"},
+    {s:"GARDEN 門仲", ratio:55, q:3.5, sc:68, rk:"B", note:"価格入りメニュー画像が充実。料理写真自体も及第点", cls:"r-B"},
+    {s:"STAND 池袋", ratio:44, q:3.5, sc:66, rk:"B", note:"人物+ドリンク中心で明るい。皿料理の写真を増やす余地", cls:"r-B"},
+    {s:"STAND 福岡", ratio:40, q:3.0, sc:58, rk:"B", note:"ビールタップ・レモンサワー中心。料理の皿写真が少なめ", cls:"r-B"},
+    {s:"STAND 門仲", ratio:30, q:3.0, sc:54, rk:"C", note:"スタッフ写真・告知が多く、料理の実写真が不足", cls:"r-C"},
+    {s:"STAND 亀戸", ratio:30, q:3.0, sc:52, rk:"C", note:"告知グラフィック中心。開店直後で料理写真の蓄積が少ない", cls:"r-C"},
+    {s:"SHOP 横浜BQ", ratio:25, q:2.5, sc:44, rk:"C", note:"ビールの寄りとOPEN告知が中心。料理写真が最も少なく空タイルも", cls:"r-C"}
+  ];
+  var mtb = document.getElementById("menu-photo");
+  if (mtb) menuPhoto.forEach(function(m){
+    var rcls = m.ratio>=70 ? "s-official" : (m.ratio>=45 ? "s-listed" : "s-stale");
+    var stars = "★★★★★".slice(0, Math.round(m.q)) + "☆☆☆☆☆".slice(0, 5-Math.round(m.q));
+    var tr = document.createElement("tr");
+    tr.innerHTML =
+      '<td class="rowh" style="font-weight:700">'+m.s+'</td>'+
+      '<td><span class="cell '+rcls+'">'+m.ratio+'%</span></td>'+
+      '<td style="color:var(--warning);font-size:13px;letter-spacing:-1px">'+stars+' <span style="color:var(--text-secondary);font-size:11px">'+m.q.toFixed(1)+'</span></td>'+
+      '<td style="font-weight:800;font-variant-numeric:tabular-nums">'+m.sc+'</td>'+
+      '<td><span class="rank '+m.cls+'" style="width:24px;height:24px;font-size:12px">'+m.rk+'</span></td>'+
+      '<td class="rowh" style="position:static;text-align:left;font-weight:400;font-size:11.5px;max-width:340px;white-space:normal;color:var(--text-secondary)">'+m.note+'</td>';
+    mtb.appendChild(tr);
   });
 
   // Google reply rate (直近口コミサンプルの返信率, 2026/7/17実測)
