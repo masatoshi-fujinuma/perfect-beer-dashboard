@@ -92,6 +92,10 @@
   table.matrix tbody tr:last-child td { border-bottom: none; }
   .th-group { border-bottom: 1px solid var(--baseline); color: var(--text-muted) !important; font-weight: 600; font-size: 10.5px !important; letter-spacing: 0.06em; }
   .cell { display: inline-flex; align-items: center; justify-content: center; min-width: 26px; height: 22px; border-radius: 6px; font-weight: 700; font-size: 12px; padding: 0 5px; cursor: default; }
+  a.cell { text-decoration: none; cursor: pointer; }
+  a.cell:hover { outline: 2px solid var(--series-1); outline-offset: 1px; }
+  .kv a.chip { text-decoration: none; }
+  .kv a.chip:hover { outline: 1.5px solid var(--series-1); outline-offset: 1px; }
   .s-official { background: var(--chip-good-bg); color: var(--good-text); }
   .s-listed   { background: rgba(42,120,214,0.10); color: var(--series-1); }
   .s-brand    { background: var(--chip-warn-bg); color: #8a6100; }
@@ -176,10 +180,10 @@
       <div class="value">2<small> 店</small></div>
       <div class="hint">完璧麦酒飯店・神宮球場SHOP</div>
     </div>
-    <div class="tile alert">
-      <div class="label">Googleマップ 数値未把握</div>
-      <div class="value">12<small> / 12店</small></div>
-      <div class="hint">評価・口コミ数を定点計測できていない</div>
+    <div class="tile goodv">
+      <div class="label">Google評価 平均(11店)</div>
+      <div class="value">4.7<small> / 2,078件</small></div>
+      <div class="hint">全12店舗の掲載を実確認済み・食べログとのギャップ大</div>
     </div>
     <div class="tile">
       <div class="label">店舗別 Instagram</div>
@@ -218,143 +222,143 @@
     <tbody>
       <tr>
         <td class="rowh">PERFECT BEER GARDEN 門前仲町<span class="area">門前仲町・赤札堂3F(季節営業)</span></td>
-        <td><span class="cell s-official" title="3.29 / 口コミ74件 / 保存6,295 / 公式管理・予約可">◎ 3.29</span></td>
-        <td><span class="cell s-unknown" title="掲載はほぼ確実だが評価・口コミ数を未計測">？</span></td>
-        <td><span class="cell s-stale" title="掲載あり・予約可だが情報更新が2022年で停止">○ 停滞</span></td>
+        <td><a class="cell s-official" href="https://tabelog.com/tokyo/A1313/A131303/13261512/" target="_blank" rel="noopener" title="3.29 / 口コミ74件 / 保存6,295 / 公式管理・予約可">◎ 3.29</a></td>
+        <td><a class="cell s-official" href="https://www.google.com/maps/search/PERFECT+BEER+GARDEN+%E9%96%80%E5%89%8D%E4%BB%B2%E7%94%BA+%E6%B1%9F%E6%9D%B1%E5%8C%BA%E9%96%80%E5%89%8D%E4%BB%B2%E7%94%BA2-10-1" target="_blank" rel="noopener" title="Google評価4.3 / 口コミ340件(2026/7/17実確認)">◎ 4.3</a></td>
+        <td><a class="cell s-stale" href="https://r.gnavi.co.jp/b96g6sx30000/" target="_blank" rel="noopener" title="掲載あり・予約可だが情報更新が2022年で停止">○ 停滞</a></td>
         <td><span class="cell s-none">×</span></td>
-        <td><span class="cell s-listed" title="口コミ4件">○ 4件</span></td>
-        <td><span class="cell s-official" title="@perfect_beer_garden_tokyo 運用中(フォロワー未計測)">◎</span></td>
-        <td><span class="cell s-brand" title="ブランド共通 @PERFECTBEER0802 のみ">共通</span></td>
-        <td><span class="cell s-official" title="@573gsaff 友だち16,133人">◎ 1.6万</span></td>
-        <td><span class="cell s-brand" title="創業者アカウント @numa1018 で言及のみ">共通</span></td>
-        <td><span class="cell s-listed" title="店舗ページあり(更新状況未確認)">○</span></td>
+        <td><a class="cell s-listed" href="https://retty.me/area/PRE13/ARE10/SUB1003/100001631765/" target="_blank" rel="noopener" title="口コミ4件">○ 4件</a></td>
+        <td><a class="cell s-official" href="https://www.instagram.com/perfect_beer_garden_tokyo/" target="_blank" rel="noopener" title="@perfect_beer_garden_tokyo 運用中(フォロワー未計測)">◎</a></td>
+        <td><a class="cell s-brand" href="https://x.com/PERFECTBEER0802" target="_blank" rel="noopener" title="ブランド共通 @PERFECTBEER0802 のみ">共通</a></td>
+        <td><a class="cell s-official" href="https://page.line.me/573gsaff" target="_blank" rel="noopener" title="@573gsaff 友だち16,133人">◎ 1.6万</a></td>
+        <td><a class="cell s-brand" href="https://www.tiktok.com/@numa1018" target="_blank" rel="noopener" title="創業者アカウント @numa1018 で言及のみ">共通</a></td>
+        <td><a class="cell s-listed" href="https://www.facebook.com/PERFECT.BEER.GARDEN.TOKYO/" target="_blank" rel="noopener" title="店舗ページあり(更新状況未確認)">○</a></td>
       </tr>
       <tr>
         <td class="rowh">PERFECT BEER KITCHEN 総本店<span class="area">門前仲町・冬木</span></td>
-        <td><span class="cell s-official" title="3.39 / 口コミ94件 / 保存6,866 / 公式管理・予約可">◎ 3.39</span></td>
-        <td><span class="cell s-unknown">？</span></td>
+        <td><a class="cell s-official" href="https://tabelog.com/tokyo/A1313/A131303/13278318/" target="_blank" rel="noopener" title="3.39 / 口コミ94件 / 保存6,866 / 公式管理・予約可">◎ 3.39</a></td>
+        <td><a class="cell s-official" href="https://www.google.com/maps/search/PERFECT+BEER+KITCHEN+%E7%B7%8F%E6%9C%AC%E5%BA%97+%E6%B1%9F%E6%9D%B1%E5%8C%BA%E5%86%AC%E6%9C%A814-2" target="_blank" rel="noopener" title="Google評価4.8 / 口コミ564件(2026/7/17実確認) — グループ最多">◎ 4.8</a></td>
         <td><span class="cell s-none" title="r.gnaviページなし(Gorp公式ページのみ)">×</span></td>
-        <td><span class="cell s-stale" title="掲載あるが口コミ0・ネット予約停止・最終更新2023/2">○ 停滞</span></td>
-        <td><span class="cell s-listed" title="口コミ1件">○ 1件</span></td>
-        <td><span class="cell s-official" title="@perfect_beer_kitchen_tokyo(フォロワー未計測)">◎</span></td>
-        <td><span class="cell s-brand">共通</span></td>
+        <td><a class="cell s-stale" href="https://www.hotpepper.jp/strJ003474054/" target="_blank" rel="noopener" title="掲載あるが口コミ0・ネット予約停止・最終更新2023/2">○ 停滞</a></td>
+        <td><a class="cell s-listed" href="https://retty.me/area/PRE13/ARE10/SUB1003/100001684877/" target="_blank" rel="noopener" title="口コミ1件">○ 1件</a></td>
+        <td><a class="cell s-official" href="https://www.instagram.com/perfect_beer_kitchen_tokyo/" target="_blank" rel="noopener" title="@perfect_beer_kitchen_tokyo(フォロワー未計測)">◎</a></td>
+        <td><a class="cell s-brand" href="https://x.com/PERFECTBEER0802" target="_blank" rel="noopener">共通</a></td>
         <td><span class="cell s-none" title="個別なし(会員施策は自社アプリ)">×</span></td>
-        <td><span class="cell s-listed" title="@perfect.beer.kitc0 を検索で確認">○</span></td>
-        <td><span class="cell s-listed" title="パーフェクトビアキッチン東京 ページあり">○</span></td>
+        <td><a class="cell s-listed" href="https://www.tiktok.com/@perfect.beer.kitc0" target="_blank" rel="noopener" title="@perfect.beer.kitc0 を検索で確認">○</a></td>
+        <td><a class="cell s-listed" href="https://www.facebook.com/p/%E3%83%91%E3%83%BC%E3%83%95%E3%82%A7%E3%82%AF%E3%83%88%E3%83%93%E3%82%A2%E3%82%AD%E3%83%83%E3%83%81%E3%83%B3%E6%9D%B1%E4%BA%AC-100087458751441/" target="_blank" rel="noopener" title="パーフェクトビアキッチン東京 ページあり">○</a></td>
       </tr>
       <tr>
         <td class="rowh">PERFECT BEER STAND 門前仲町<span class="area">門前仲町・富岡</span></td>
-        <td><span class="cell s-official" title="3.23 / 口コミ30件 / 保存1,832 / 公式管理・予約可">◎ 3.23</span></td>
-        <td><span class="cell s-unknown">？</span></td>
+        <td><a class="cell s-official" href="https://tabelog.com/tokyo/A1313/A131303/13287172/" target="_blank" rel="noopener" title="3.23 / 口コミ30件 / 保存1,832 / 公式管理・予約可">◎ 3.23</a></td>
+        <td><a class="cell s-official" href="https://www.google.com/maps/search/PERFECT+BEER+STAND+%E9%96%80%E5%89%8D%E4%BB%B2%E7%94%BA+%E6%B1%9F%E6%9D%B1%E5%8C%BA%E5%AF%8C%E5%B2%A11-24-6" target="_blank" rel="noopener" title="Google評価4.8 / 口コミ248件(2026/7/17実確認)">◎ 4.8</a></td>
         <td><span class="cell s-none">×</span></td>
         <td><span class="cell s-none">×</span></td>
-        <td><span class="cell s-listed" title="口コミ1件・写真0枚・ほぼ放置状態">○ 1件</span></td>
-        <td><span class="cell s-official" title="@perfect_beer_stand_monnaka(フォロワー未計測)">◎</span></td>
-        <td><span class="cell s-brand">共通</span></td>
+        <td><a class="cell s-listed" href="https://retty.me/area/PRE13/ARE10/SUB1003/100001709792/" target="_blank" rel="noopener" title="口コミ1件・写真0枚・ほぼ放置状態">○ 1件</a></td>
+        <td><a class="cell s-official" href="https://www.instagram.com/perfect_beer_stand_monnaka/" target="_blank" rel="noopener" title="@perfect_beer_stand_monnaka(フォロワー未計測)">◎</a></td>
+        <td><a class="cell s-brand" href="https://x.com/PERFECTBEER0802" target="_blank" rel="noopener">共通</a></td>
         <td><span class="cell s-none">×</span></td>
-        <td><span class="cell s-brand">共通</span></td>
-        <td><span class="cell s-brand" title="ブランド共通ページのみ">共通</span></td>
+        <td><a class="cell s-brand" href="https://www.tiktok.com/@numa1018" target="_blank" rel="noopener">共通</a></td>
+        <td><a class="cell s-brand" href="https://www.facebook.com/PERFECTBEER.INFO/" target="_blank" rel="noopener" title="ブランド共通ページのみ">共通</a></td>
       </tr>
       <tr>
         <td class="rowh">PERFECT BEER LABO TOKYO<span class="area">門前仲町・富岡(2024/12開店)</span></td>
-        <td><span class="cell s-official" title="3.39 / 口コミ137件 / 保存10,425 / 写真729 / 公式管理・予約可 — グループ最強ページ">◎ 3.39</span></td>
-        <td><span class="cell s-unknown">？</span></td>
-        <td><span class="cell s-official" title="正式ページあり・24時間ネット予約対応">◎</span></td>
+        <td><a class="cell s-official" href="https://tabelog.com/tokyo/A1313/A131303/13304280/" target="_blank" rel="noopener" title="3.39 / 口コミ137件 / 保存10,425 / 写真729 / 公式管理・予約可 — グループ最強ページ">◎ 3.39</a></td>
+        <td><a class="cell s-official" href="https://www.google.com/maps/search/PERFECT+BEER+LABO+TOKYO+%E6%B1%9F%E6%9D%B1%E5%8C%BA%E5%AF%8C%E5%B2%A12-10-1" target="_blank" rel="noopener" title="Google評価4.6 / 口コミ363件(2026/7/17実確認)">◎ 4.6</a></td>
+        <td><a class="cell s-official" href="https://r.gnavi.co.jp/cc5g609j0000/" target="_blank" rel="noopener" title="正式ページあり・24時間ネット予約対応">◎</a></td>
         <td><span class="cell s-none">×</span></td>
-        <td><span class="cell s-listed" title="口コミ9件・写真96枚">○ 9件</span></td>
-        <td><span class="cell s-official" title="@perfect_beer_labo — コラボ投稿など活発">◎</span></td>
-        <td><span class="cell s-brand">共通</span></td>
+        <td><a class="cell s-listed" href="https://retty.me/area/PRE13/ARE10/SUB1003/100001770017/" target="_blank" rel="noopener" title="口コミ9件・写真96枚">○ 9件</a></td>
+        <td><a class="cell s-official" href="https://www.instagram.com/perfect_beer_labo/" target="_blank" rel="noopener" title="@perfect_beer_labo — コラボ投稿など活発">◎</a></td>
+        <td><a class="cell s-brand" href="https://x.com/PERFECTBEER0802" target="_blank" rel="noopener">共通</a></td>
         <td><span class="cell s-none">×</span></td>
-        <td><span class="cell s-official" title="@perfect_beer_labo — 抹茶ビール等ショート動画">◎</span></td>
-        <td><span class="cell s-brand">共通</span></td>
+        <td><a class="cell s-official" href="https://www.tiktok.com/@perfect_beer_labo" target="_blank" rel="noopener" title="@perfect_beer_labo — 抹茶ビール等ショート動画">◎</a></td>
+        <td><a class="cell s-brand" href="https://www.facebook.com/PERFECTBEER.INFO/" target="_blank" rel="noopener">共通</a></td>
       </tr>
       <tr>
         <td class="rowh">PERFECT BEER KITCHEN 富山<span class="area">富山駅前・Dタワー(2025/11開店)</span></td>
-        <td><span class="cell s-official" title="3.08 / 口コミ9件 / 保存106 / 公式管理・予約可">◎ 3.08</span></td>
-        <td><span class="cell s-unknown">？</span></td>
+        <td><a class="cell s-official" href="https://tabelog.com/toyama/A1601/A160101/16011641/" target="_blank" rel="noopener" title="3.08 / 口コミ9件 / 保存106 / 公式管理・予約可">◎ 3.08</a></td>
+        <td><a class="cell s-official" href="https://www.google.com/maps/search/PERFECT+BEER+KITCHEN+%E5%AF%8C%E5%B1%B1+%E5%AF%8C%E5%B1%B1%E5%B8%82%E7%89%9B%E5%B3%B6%E7%94%BA9-5" target="_blank" rel="noopener" title="Google評価4.8 / 口コミ156件(2026/7/17実確認)">◎ 4.8</a></td>
         <td><span class="cell s-none">×</span></td>
         <td><span class="cell s-none">×</span></td>
         <td><span class="cell s-none">×</span></td>
-        <td><span class="cell s-listed" title="@perfect_beer_kitchen_toyama(フォロワー未計測)">○</span></td>
-        <td><span class="cell s-brand">共通</span></td>
+        <td><a class="cell s-listed" href="https://www.instagram.com/perfect_beer_kitchen_toyama/" target="_blank" rel="noopener" title="@perfect_beer_kitchen_toyama(フォロワー未計測)">○</a></td>
+        <td><a class="cell s-brand" href="https://x.com/PERFECTBEER0802" target="_blank" rel="noopener">共通</a></td>
         <td><span class="cell s-unknown" title="確認できず">？</span></td>
-        <td><span class="cell s-brand">共通</span></td>
+        <td><a class="cell s-brand" href="https://www.tiktok.com/@numa1018" target="_blank" rel="noopener">共通</a></td>
         <td><span class="cell s-none">×</span></td>
       </tr>
       <tr>
         <td class="rowh">PERFECT BEER STAND 福岡<span class="area">大名(2025/12開店)</span></td>
-        <td><span class="cell s-official" title="3.09 / 口コミ14件 / 保存439 / 公式管理・予約可">◎ 3.09</span></td>
+        <td><a class="cell s-official" href="https://tabelog.com/fukuoka/A4001/A400104/40072568/" target="_blank" rel="noopener" title="3.09 / 口コミ14件 / 保存439 / 公式管理・予約可">◎ 3.09</a></td>
+        <td><a class="cell s-official" href="https://www.google.com/maps/search/PERFECT+BEER+STAND+%E7%A6%8F%E5%B2%A1+%E7%A6%8F%E5%B2%A1%E5%B8%82%E4%B8%AD%E5%A4%AE%E5%8C%BA%E5%A4%A7%E5%90%8D1-3-5" target="_blank" rel="noopener" title="Google評価4.9 / 口コミ145件(2026/7/17実確認) — グループ最高評価">◎ 4.9</a></td>
+        <td><span class="cell s-none">×</span></td>
+        <td><span class="cell s-none">×</span></td>
+        <td><span class="cell s-none">×</span></td>
+        <td><a class="cell s-listed" href="https://www.instagram.com/perfect_beer_stand_fukuoka/" target="_blank" rel="noopener" title="@perfect_beer_stand_fukuoka(フォロワー未計測)">○</a></td>
+        <td><a class="cell s-brand" href="https://x.com/PERFECTBEER0802" target="_blank" rel="noopener">共通</a></td>
         <td><span class="cell s-unknown">？</span></td>
-        <td><span class="cell s-none">×</span></td>
-        <td><span class="cell s-none">×</span></td>
-        <td><span class="cell s-none">×</span></td>
-        <td><span class="cell s-listed" title="@perfect_beer_stand_fukuoka(フォロワー未計測)">○</span></td>
-        <td><span class="cell s-brand">共通</span></td>
-        <td><span class="cell s-unknown">？</span></td>
-        <td><span class="cell s-brand">共通</span></td>
+        <td><a class="cell s-brand" href="https://www.tiktok.com/@numa1018" target="_blank" rel="noopener">共通</a></td>
         <td><span class="cell s-none">×</span></td>
       </tr>
       <tr>
         <td class="rowh">完璧麦酒飯店 門前仲町<span class="area">門前仲町(2026/5/12開店)</span></td>
         <td><span class="cell s-stale" title="食べログ未掲載 — 最優先対応">× 未掲載</span></td>
-        <td><span class="cell s-unknown">？</span></td>
+        <td><a class="cell s-official" href="https://www.google.com/maps/search/%E5%AE%8C%E7%92%A7%E9%BA%A6%E9%85%92%E9%A3%AF%E5%BA%97+%E9%96%80%E5%89%8D%E4%BB%B2%E7%94%BA+%E6%B1%9F%E6%9D%B1%E5%8C%BA%E9%96%80%E5%89%8D%E4%BB%B2%E7%94%BA1-17-1" target="_blank" rel="noopener" title="Google評価5.0 / 口コミ66件(2026/7/17実確認) — 満点!">◎ 5.0</a></td>
         <td><span class="cell s-none">×</span></td>
         <td><span class="cell s-none">×</span></td>
         <td><span class="cell s-none">×</span></td>
-        <td><span class="cell s-listed" title="@hanten_monnaka(開店告知記事で確認)">○</span></td>
-        <td><span class="cell s-brand">共通</span></td>
+        <td><a class="cell s-listed" href="https://www.instagram.com/hanten_monnaka/" target="_blank" rel="noopener" title="@hanten_monnaka(開店告知記事で確認)">○</a></td>
+        <td><a class="cell s-brand" href="https://x.com/PERFECTBEER0802" target="_blank" rel="noopener">共通</a></td>
         <td><span class="cell s-unknown">？</span></td>
         <td><span class="cell s-none">×</span></td>
         <td><span class="cell s-none">×</span></td>
       </tr>
       <tr>
         <td class="rowh">PERFECT BEER STAND 池袋<span class="area">IT tower TOKYO(2026/4/27開店)</span></td>
-        <td><span class="cell s-official" title="3.09 / 口コミ18件 / 保存406 / 公式管理・予約可">◎ 3.09</span></td>
-        <td><span class="cell s-unknown">？</span></td>
+        <td><a class="cell s-official" href="https://tabelog.com/tokyo/A1305/A130501/13319528/" target="_blank" rel="noopener" title="3.09 / 口コミ18件 / 保存406 / 公式管理・予約可">◎ 3.09</a></td>
+        <td><a class="cell s-official" href="https://www.google.com/maps/search/PERFECT+BEER+STAND+%E6%B1%A0%E8%A2%8B+%E8%A5%BF%E6%B1%A0%E8%A2%8B3-28-13" target="_blank" rel="noopener" title="Google評価4.8 / 口コミ79件(2026/7/17実確認)">◎ 4.8</a></td>
         <td><span class="cell s-none">×</span></td>
         <td><span class="cell s-none">×</span></td>
         <td><span class="cell s-none">×</span></td>
-        <td><span class="cell s-listed" title="@perfectbeer_stand_ikebukuro(フォロワー未計測)">○</span></td>
-        <td><span class="cell s-brand">共通</span></td>
+        <td><a class="cell s-listed" href="https://www.instagram.com/perfectbeer_stand_ikebukuro/" target="_blank" rel="noopener" title="@perfectbeer_stand_ikebukuro(フォロワー未計測)">○</a></td>
+        <td><a class="cell s-brand" href="https://x.com/PERFECTBEER0802" target="_blank" rel="noopener">共通</a></td>
         <td><span class="cell s-unknown">？</span></td>
         <td><span class="cell s-none">×</span></td>
         <td><span class="cell s-none">×</span></td>
       </tr>
       <tr>
         <td class="rowh">PERFECT BEER STAND 亀戸<span class="area">カメイドクロック横(2026/5/26開店)</span></td>
-        <td><span class="cell s-official" title="3.04 / 口コミ5件 / 保存89 / 公式管理・予約可">◎ 3.04</span></td>
-        <td><span class="cell s-unknown">？</span></td>
+        <td><a class="cell s-official" href="https://tabelog.com/tokyo/A1312/A131202/13322588/" target="_blank" rel="noopener" title="3.04 / 口コミ5件 / 保存89 / 公式管理・予約可">◎ 3.04</a></td>
+        <td><a class="cell s-official" href="https://www.google.com/maps/search/PERFECT+BEER+STAND+%E4%BA%80%E6%88%B8+%E6%B1%9F%E6%9D%B1%E5%8C%BA%E4%BA%80%E6%88%B86-31-6" target="_blank" rel="noopener" title="Google評価4.6 / 口コミ28件(2026/7/17実確認)">◎ 4.6</a></td>
         <td><span class="cell s-none">×</span></td>
         <td><span class="cell s-none">×</span></td>
         <td><span class="cell s-none">×</span></td>
-        <td><span class="cell s-listed" title="@perfectbeer_stand_kameido + キャラ @beer_kuma_">○</span></td>
-        <td><span class="cell s-brand">共通</span></td>
-        <td><span class="cell s-brand" title="ブランド共通LINE(page.line.me/069heuju)への導線のみ">共通</span></td>
+        <td><a class="cell s-listed" href="https://www.instagram.com/perfectbeer_stand_kameido/" target="_blank" rel="noopener" title="@perfectbeer_stand_kameido + キャラ @beer_kuma_">○</a></td>
+        <td><a class="cell s-brand" href="https://x.com/PERFECTBEER0802" target="_blank" rel="noopener">共通</a></td>
+        <td><a class="cell s-brand" href="https://page.line.me/069heuju" target="_blank" rel="noopener" title="ブランド共通LINE(page.line.me/069heuju)への導線のみ">共通</a></td>
         <td><span class="cell s-none">×</span></td>
-        <td><span class="cell s-brand">共通</span></td>
+        <td><a class="cell s-brand" href="https://www.facebook.com/PERFECTBEER.INFO/" target="_blank" rel="noopener">共通</a></td>
       </tr>
       <tr>
         <td class="rowh">PERFECT BEER SHOP 横浜ベイクォーター<span class="area">横浜駅きた東口(2026/6/4開店)</span></td>
-        <td><span class="cell s-official" title="点数未算出(新店) / 口コミ8件 / 保存166 / 公式管理">◎ 新店</span></td>
-        <td><span class="cell s-unknown">？</span></td>
+        <td><a class="cell s-official" href="https://tabelog.com/kanagawa/A1401/A140101/14102995/" target="_blank" rel="noopener" title="点数未算出(新店) / 口コミ8件 / 保存166 / 公式管理">◎ 新店</a></td>
+        <td><a class="cell s-official" href="https://www.google.com/maps/search/PERFECT+BEER+SHOP+%E6%A8%AA%E6%B5%9C%E3%83%99%E3%82%A4%E3%82%AF%E3%82%A9%E3%83%BC%E3%82%BF%E3%83%BC" target="_blank" rel="noopener" title="Google評価4.6 / 口コミ38件(2026/7/17実確認)">◎ 4.6</a></td>
         <td><span class="cell s-none">×</span></td>
         <td><span class="cell s-none">×</span></td>
         <td><span class="cell s-none">×</span></td>
-        <td><span class="cell s-brand" title="店舗個別なし — 施設サイトはブランド共通@perfectbeer_infoを掲載">共通</span></td>
-        <td><span class="cell s-brand">共通</span></td>
-        <td><span class="cell s-brand" title="ブランド共通LINEへの導線のみ">共通</span></td>
+        <td><a class="cell s-brand" href="https://www.instagram.com/perfectbeer_info/" target="_blank" rel="noopener" title="店舗個別なし — 施設サイトはブランド共通@perfectbeer_infoを掲載">共通</a></td>
+        <td><a class="cell s-brand" href="https://x.com/PERFECTBEER0802" target="_blank" rel="noopener">共通</a></td>
+        <td><a class="cell s-brand" href="https://page.line.me/069heuju" target="_blank" rel="noopener" title="ブランド共通LINEへの導線のみ">共通</a></td>
         <td><span class="cell s-none">×</span></td>
-        <td><span class="cell s-brand">共通</span></td>
+        <td><a class="cell s-brand" href="https://www.facebook.com/PERFECTBEER.INFO/" target="_blank" rel="noopener">共通</a></td>
       </tr>
       <tr>
         <td class="rowh">株式会社マーボードウフ渋谷<span class="area">円山町・神泉(2026/6/10開店・別会社)</span></td>
-        <td><span class="cell s-official" title="点数未算出(新店) / 口コミ2件 / 保存367 / 公式管理・予約可">◎ 新店</span></td>
-        <td><span class="cell s-unknown" title="Yahoo!マップ掲載は確認。Googleは数値未計測">？</span></td>
+        <td><a class="cell s-official" href="https://tabelog.com/tokyo/A1303/A130301/13322597/" target="_blank" rel="noopener" title="点数未算出(新店) / 口コミ2件 / 保存367 / 公式管理・予約可">◎ 新店</a></td>
+        <td><a class="cell s-official" href="https://www.google.com/maps/search/%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BE%E3%83%9E%E3%83%BC%E3%83%9C%E3%83%BC%E3%83%89%E3%82%A6%E3%83%95%E6%B8%8B%E8%B0%B7+%E6%B8%8B%E8%B0%B7%E5%8C%BA%E5%86%86%E5%B1%B1%E7%94%BA4-6" target="_blank" rel="noopener" title="Google評価4.3 / 口コミ51件(2026/7/17実確認)">◎ 4.3</a></td>
         <td><span class="cell s-none">×</span></td>
         <td><span class="cell s-none">×</span></td>
-        <td><span class="cell s-listed" title="口コミ1件・非公式(店舗会員化の形跡なし)">○ 1件</span></td>
-        <td><span class="cell s-listed" title="会社公式 @gosai531(PR記事では総フォロワー10万超えの記載)">○</span></td>
-        <td><span class="cell s-official" title="@mabodofucompany + 代表 @meer_kato が発信の主軸">◎</span></td>
+        <td><a class="cell s-listed" href="https://retty.me/area/PRE13/ARE8/SUB806/100001834875/" target="_blank" rel="noopener" title="口コミ1件・非公式(店舗会員化の形跡なし)">○ 1件</a></td>
+        <td><a class="cell s-listed" href="https://www.instagram.com/gosai531/" target="_blank" rel="noopener" title="会社公式 @gosai531(PR記事では総フォロワー10万超えの記載)">○</a></td>
+        <td><a class="cell s-official" href="https://x.com/mabodofucompany" target="_blank" rel="noopener" title="@mabodofucompany + 代表 @meer_kato が発信の主軸">◎</a></td>
         <td><span class="cell s-unknown">？</span></td>
         <td><span class="cell s-unknown">？</span></td>
         <td><span class="cell s-none">×</span></td>
@@ -362,12 +366,12 @@
       <tr>
         <td class="rowh">PERFECT BEER SHOP 明治神宮野球場<span class="area">外野15GATE(POP UP・2026/6/19〜)</span></td>
         <td><span class="cell s-none" title="球場内売店のため未掲載(神宮球場グルメ公式サイトには掲載あり)">×</span></td>
-        <td><span class="cell s-unknown">？</span></td>
+        <td><a class="cell s-listed" href="https://www.google.com/maps/search/PERFECT+BEER+SHOP+%E6%98%8E%E6%B2%BB%E7%A5%9E%E5%AE%AE%E7%90%83%E5%A0%B4" target="_blank" rel="noopener" title="掲載あり(評価・口コミなし)。営業時間が未設定 — 追加推奨">○ 掲載</a></td>
         <td><span class="cell s-none">×</span></td>
         <td><span class="cell s-none">×</span></td>
         <td><span class="cell s-none">×</span></td>
-        <td><span class="cell s-brand" title="ブランド共通 + 球場公式 @jingu_stadiumpr が発信">共通</span></td>
-        <td><span class="cell s-brand">共通</span></td>
+        <td><a class="cell s-brand" href="https://www.instagram.com/perfectbeer_info/" target="_blank" rel="noopener" title="ブランド共通 + 球場公式 @jingu_stadiumpr が発信">共通</a></td>
+        <td><a class="cell s-brand" href="https://x.com/PERFECTBEER0802" target="_blank" rel="noopener">共通</a></td>
         <td><span class="cell s-unknown">？</span></td>
         <td><span class="cell s-none">×</span></td>
         <td><span class="cell s-none">×</span></td>
@@ -383,20 +387,25 @@
     <span><span class="cell s-none">×</span> なし</span>
     <span><span class="cell s-unknown">？</span> 未確認(計測体制の構築が必要)</span>
   </div>
-  <div class="note">※ セルにマウスを乗せると詳細(数値・アカウント名・出典メモ)が表示されます。</div>
+  <div class="note">※ セルをタップ/クリックすると該当ページ(食べログ・Googleマップ・SNS等)が開きます。マウスを乗せると詳細メモが表示されます。</div>
 </section>
 
 <!-- ============ CHARTS ============ -->
 <section>
-  <h2><span class="n">2</span>食べログ パフォーマンス比較</h2>
+  <h2><span class="n">2</span>食べログ / Google パフォーマンス比較</h2>
   <div class="charts">
     <div class="chart-card">
-      <h3>口コミ件数(件)</h3>
+      <h3>Google口コミ件数(件)と評価</h3>
+      <div class="csub">全店4.3〜5.0の高評価 — グループ最大の資産(2026/7/17実確認)</div>
+      <div class="bars" id="chart-google"></div>
+    </div>
+    <div class="chart-card">
+      <h3>食べログ口コミ件数(件)</h3>
       <div class="csub">件数が多いほど点数が安定し検索露出も向上(2026/7/17時点)</div>
       <div class="bars" id="chart-reviews"></div>
     </div>
     <div class="chart-card">
-      <h3>保存(ブックマーク)数(人)</h3>
+      <h3>食べログ保存(ブックマーク)数(人)</h3>
       <div class="csub">「行きたい」意向の先行指標 — LABOが圧倒的</div>
       <div class="bars" id="chart-saves"></div>
     </div>
@@ -407,9 +416,9 @@
 <section>
   <h2><span class="n">3</span>優先改善提案(インパクト順)</h2>
   <div class="props">
-    <div class="prop p-crit">
-      <h3><span class="tag t-crit">最優先</span>① Googleビジネスプロフィールの本部一括管理体制をつくる</h3>
-      <p>全12店舗で<b>Googleマップの評価・口コミ数が外部から定点把握できていない</b>状態です。来店直前の検索で最も見られるのはGoogleマップであり、ここが「見えていない」ことが現状最大のリスクです。<b>全店のオーナー確認 → 本部アカウントへの管理権限集約 → 口コミ返信ルール(48時間以内)と週次の数値記録</b>をまず整備することを提案します。無料で始められ、効果が最も大きい施策です。</p>
+    <div class="prop p-good">
+      <h3><span class="tag t-good">強み発見</span>① Google評価は平均4.7と圧倒的 — このギャップを集客に使う</h3>
+      <p>全12店舗のGoogleマップ掲載を実確認したところ、<b>評価は4.3〜5.0(平均4.7)・口コミ計2,078件</b>と非常に強いことが判明しました。一方food系サイトの食べログは3.0台前半。つまり<b>実際の顧客満足はGoogleの数字が証明している</b>状態です。提案: (1)店頭・SNS・予約導線に「Google口コミ4.8★」を明記して社会的証明に使う (2)口コミ返信ルール(48時間以内)を全店で統一 (3)神宮球場SHOPは営業時間が未設定なので試合日に合わせて登録 (4)月次で数値を記録し推移を追う。</p>
     </div>
     <div class="prop p-crit">
       <h3><span class="tag t-crit">最優先</span>② 完璧麦酒飯店を食べログに掲載・公式化する</h3>
@@ -444,6 +453,7 @@
       <div class="addr">江東区門前仲町2-10-1 赤札堂3F(季節営業ビアガーデン)</div>
       <div class="kv">
         <span class="chip c-good">食べログ <b>3.29</b> / 74件</span>
+        <a class="chip c-good" href="https://www.google.com/maps/search/PERFECT+BEER+GARDEN+%E9%96%80%E5%89%8D%E4%BB%B2%E7%94%BA+%E6%B1%9F%E6%9D%B1%E5%8C%BA%E9%96%80%E5%89%8D%E4%BB%B2%E7%94%BA2-10-1" target="_blank" rel="noopener">Google <b>4.3</b> / 340件</a>
         <span class="chip">保存 <b>6,295</b></span>
         <span class="chip c-good">LINE <b>16,133</b>人</span>
         <span class="chip">IG @perfect_beer_garden_tokyo</span>
@@ -463,6 +473,7 @@
       <div class="addr">江東区冬木14-2</div>
       <div class="kv">
         <span class="chip c-good">食べログ <b>3.39</b> / 94件</span>
+        <a class="chip c-good" href="https://www.google.com/maps/search/PERFECT+BEER+KITCHEN+%E7%B7%8F%E6%9C%AC%E5%BA%97+%E6%B1%9F%E6%9D%B1%E5%8C%BA%E5%86%AC%E6%9C%A814-2" target="_blank" rel="noopener">Google <b>4.8</b> / 564件</a>
         <span class="chip">保存 <b>6,866</b></span>
         <span class="chip c-warn">HP更新停止(2023/2〜)</span>
         <span class="chip">IG @perfect_beer_kitchen_tokyo</span>
@@ -481,6 +492,7 @@
       <div class="addr">江東区富岡1-24-6 2F</div>
       <div class="kv">
         <span class="chip">食べログ <b>3.23</b> / 30件</span>
+        <a class="chip c-good" href="https://www.google.com/maps/search/PERFECT+BEER+STAND+%E9%96%80%E5%89%8D%E4%BB%B2%E7%94%BA+%E6%B1%9F%E6%9D%B1%E5%8C%BA%E5%AF%8C%E5%B2%A11-24-6" target="_blank" rel="noopener">Google <b>4.8</b> / 248件</a>
         <span class="chip">保存 <b>1,832</b></span>
         <span class="chip c-warn">Retty放置(写真0枚)</span>
         <span class="chip">IG @perfect_beer_stand_monnaka</span>
@@ -499,6 +511,7 @@
       <div class="addr">江東区富岡2-10-1 梶本ビル1F(2024/12開店)</div>
       <div class="kv">
         <span class="chip c-good">食べログ <b>3.39</b> / 137件</span>
+        <a class="chip c-good" href="https://www.google.com/maps/search/PERFECT+BEER+LABO+TOKYO+%E6%B1%9F%E6%9D%B1%E5%8C%BA%E5%AF%8C%E5%B2%A12-10-1" target="_blank" rel="noopener">Google <b>4.6</b> / 363件</a>
         <span class="chip c-good">保存 <b>10,425</b></span>
         <span class="chip c-good">TikTok運用中</span>
         <span class="chip">IG @perfect_beer_labo(活発)</span>
@@ -517,6 +530,7 @@
       <div class="addr">富山市牛島町9-5 Dタワー富山1F(2025/11開店)</div>
       <div class="kv">
         <span class="chip">食べログ <b>3.08</b> / 9件</span>
+        <a class="chip c-good" href="https://www.google.com/maps/search/PERFECT+BEER+KITCHEN+%E5%AF%8C%E5%B1%B1+%E5%AF%8C%E5%B1%B1%E5%B8%82%E7%89%9B%E5%B3%B6%E7%94%BA9-5" target="_blank" rel="noopener">Google <b>4.8</b> / 156件</a>
         <span class="chip">保存 <b>106</b></span>
         <span class="chip">favy公式ページあり</span>
         <span class="chip">IG @perfect_beer_kitchen_toyama</span>
@@ -535,6 +549,7 @@
       <div class="addr">福岡市中央区大名1-3-5 Ark Cube 103(2025/12開店)</div>
       <div class="kv">
         <span class="chip">食べログ <b>3.09</b> / 14件</span>
+        <a class="chip c-good" href="https://www.google.com/maps/search/PERFECT+BEER+STAND+%E7%A6%8F%E5%B2%A1+%E7%A6%8F%E5%B2%A1%E5%B8%82%E4%B8%AD%E5%A4%AE%E5%8C%BA%E5%A4%A7%E5%90%8D1-3-5" target="_blank" rel="noopener">Google <b>4.9</b> / 145件</a>
         <span class="chip">保存 <b>439</b></span>
         <span class="chip">IG @perfect_beer_stand_fukuoka</span>
       </div>
@@ -552,7 +567,7 @@
       <div class="addr">江東区門前仲町1-17-1(2026/5/12開店・中華×クラフトビール)</div>
       <div class="kv">
         <span class="chip c-warn">食べログ未掲載</span>
-        <span class="chip c-warn">グルメサイト全て未掲載</span>
+        <a class="chip c-good" href="https://www.google.com/maps/search/%E5%AE%8C%E7%92%A7%E9%BA%A6%E9%85%92%E9%A3%AF%E5%BA%97+%E9%96%80%E5%89%8D%E4%BB%B2%E7%94%BA+%E6%B1%9F%E6%9D%B1%E5%8C%BA%E9%96%80%E5%89%8D%E4%BB%B2%E7%94%BA1-17-1" target="_blank" rel="noopener">Google <b>5.0</b> / 66件 🏆</a>
         <span class="chip">IG @hanten_monnaka</span>
       </div>
       <div class="todo"><b>提案</b>
@@ -569,6 +584,7 @@
       <div class="addr">豊島区西池袋3-28-13 IT tower TOKYO 1F(2026/4/27開店)</div>
       <div class="kv">
         <span class="chip">食べログ <b>3.09</b> / 18件</span>
+        <a class="chip c-good" href="https://www.google.com/maps/search/PERFECT+BEER+STAND+%E6%B1%A0%E8%A2%8B+%E8%A5%BF%E6%B1%A0%E8%A2%8B3-28-13" target="_blank" rel="noopener">Google <b>4.8</b> / 79件</a>
         <span class="chip">保存 <b>406</b></span>
         <span class="chip">IG @perfectbeer_stand_ikebukuro</span>
       </div>
@@ -586,6 +602,7 @@
       <div class="addr">江東区亀戸6-31-6(2026/5/26開店)</div>
       <div class="kv">
         <span class="chip">食べログ <b>3.04</b> / 5件</span>
+        <a class="chip c-good" href="https://www.google.com/maps/search/PERFECT+BEER+STAND+%E4%BA%80%E6%88%B8+%E6%B1%9F%E6%9D%B1%E5%8C%BA%E4%BA%80%E6%88%B86-31-6" target="_blank" rel="noopener">Google <b>4.6</b> / 28件</a>
         <span class="chip">保存 <b>89</b></span>
         <span class="chip">IG @perfectbeer_stand_kameido</span>
         <span class="chip">キャラ @beer_kuma_</span>
@@ -604,6 +621,7 @@
       <div class="addr">横浜市神奈川区金港町1-10 ベイクォーター3F(2026/6/4開店)</div>
       <div class="kv">
         <span class="chip">食べログ 新店 / 8件</span>
+        <a class="chip c-good" href="https://www.google.com/maps/search/PERFECT+BEER+SHOP+%E6%A8%AA%E6%B5%9C%E3%83%99%E3%82%A4%E3%82%AF%E3%82%A9%E3%83%BC%E3%82%BF%E3%83%BC" target="_blank" rel="noopener">Google <b>4.6</b> / 38件</a>
         <span class="chip">保存 <b>166</b></span>
         <span class="chip c-warn">個別Instagramなし</span>
       </div>
@@ -621,6 +639,7 @@
       <div class="addr">渋谷区円山町4-6 QLINK渋谷神泉(2026/6/10開店)</div>
       <div class="kv">
         <span class="chip">食べログ 新店 / 2件</span>
+        <a class="chip c-good" href="https://www.google.com/maps/search/%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BE%E3%83%9E%E3%83%BC%E3%83%9C%E3%83%BC%E3%83%89%E3%82%A6%E3%83%95%E6%B8%8B%E8%B0%B7+%E6%B8%8B%E8%B0%B7%E5%8C%BA%E5%86%86%E5%B1%B1%E7%94%BA4-6" target="_blank" rel="noopener">Google <b>4.3</b> / 51件</a>
         <span class="chip">保存 <b>367</b></span>
         <span class="chip c-good">X @mabodofucompany</span>
         <span class="chip">IG @gosai531(SNS総フォロワー10万超の記載あり)</span>
@@ -639,6 +658,8 @@
       <div class="addr">明治神宮球場 外野15GATE(POP UP・2026/6/19〜シーズン終了)</div>
       <div class="kv">
         <span class="chip">球場グルメ公式サイト掲載</span>
+        <a class="chip" href="https://www.google.com/maps/search/PERFECT+BEER+SHOP+%E6%98%8E%E6%B2%BB%E7%A5%9E%E5%AE%AE%E7%90%83%E5%A0%B4" target="_blank" rel="noopener">Googleマップ掲載あり</a>
+        <span class="chip c-warn">Google営業時間 未設定</span>
         <span class="chip">期間限定売店</span>
       </div>
       <div class="todo"><b>提案</b>
@@ -681,7 +702,7 @@
 </section>
 
 <footer>
-  <p><b>データについて:</b> 2026年7月17日にWeb公開情報から取得。食べログ・Retty・ぐるなび・ホットペッパー・LINEの数値は各ページの実取得値。Googleマップの評価・口コミ数、およびInstagram/X/Facebookのフォロワー数はログイン制限等により未取得(「?」表示)— 提案①⑥の計測体制構築で解消できます。マーボードウフ渋谷は別法人(株式会社マーボードウフ)による運営で、PERFECT BEERとの資本関係は公開情報では未確認です。</p>
+  <p><b>データについて:</b> 2026年7月17日にWeb公開情報から取得。食べログ・Retty・ぐるなび・ホットペッパー・LINEの数値は各ページの実取得値。Googleマップの評価・口コミ数は同日にGoogleマップ上で全12店舗を実確認済み。Instagram/X/Facebookのフォロワー数はログイン制限により未取得(「?」表示)— 提案⑥の計測体制構築で解消できます。マーボードウフ渋谷は別法人(株式会社マーボードウフ)による運営で、PERFECT BEERとの資本関係は公開情報では未確認です。</p>
 </footer>
 
 </div>
@@ -729,6 +750,20 @@
       el.appendChild(row);
     });
   }
+  var google = [
+    ["総本店 ★4.8", 564],
+    ["LABO ★4.6", 363],
+    ["GARDEN ★4.3", 340],
+    ["STAND門仲 ★4.8", 248],
+    ["富山 ★4.8", 156],
+    ["福岡 ★4.9", 145],
+    ["池袋 ★4.8", 79],
+    ["麦酒飯店 ★5.0", 66],
+    ["マーボー渋谷 ★4.3", 51],
+    ["横浜BQ ★4.6", 38],
+    ["亀戸 ★4.6", 28]
+  ];
+  render("chart-google", google, "件");
   render("chart-reviews", reviews, "件");
   render("chart-saves", saves, "人");
 })();
