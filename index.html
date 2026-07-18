@@ -220,6 +220,8 @@
   <div class="cl-entry">
     <div class="cl-date">2026年7月19日 <span class="new">最新</span></div>
     <ul>
+      <li><b>KPIタイル・食べログ/Google/保存チャートをタブ連動化</b> — 「FC含む全店舗」で40店集計に切替(<span class="cl-up">Google計8,700件・保存計約59,000</span>)</li>
+      <li><b>FC27店の全チャネル(ぐるなび・HP・Retty含む)を反映</b> — ぐるなび20店・HP15店・Retty6店で掲載確認</li>
       <li><b>上部に「直営のみ / FC含む全店舗」切り替えタブを新設</b> — FC27店(計40店)をマトリクスで表示可能に</li>
       <li>FC27店の食べログ・Google・IGを実測。<span class="cl-up">新橋 Google 4.9 / 1,390件</span>・名古屋栄4.8/439件・浅草橋4.9/204件など、FCも高評価</li>
       <li><b>PERFECT BEER KITCHEN 新潟が直営化 → 13店舗目として追加</b>(新潟駅徒歩3分)</li>
@@ -243,38 +245,7 @@
 
 <!-- ============ KPI ============ -->
 <section>
-  <div class="tiles">
-    <div class="tile goodv">
-      <div class="label">食べログ 掲載・公式管理</div>
-      <div class="value">11<small> / 13店</small></div>
-      <div class="hint">掲載は12/13店(未掲載は神宮球場のみ)。新潟店は掲載済みだが店舗会員未登録=公式化が次の一手</div>
-    </div>
-    <div class="tile">
-      <div class="label">食べログ 平均口コミ数</div>
-      <div class="value">36<small> 件/店</small></div>
-      <div class="hint">計430件(12店)。上位3店に集中 — 新店の底上げが課題</div>
-    </div>
-    <div class="tile goodv">
-      <div class="label">Google評価 平均(12店)</div>
-      <div class="value">4.7<small> / 2,267件</small></div>
-      <div class="hint">全13店舗の掲載を実確認済み・食べログとのギャップ大</div>
-    </div>
-    <div class="tile goodv">
-      <div class="label">店舗別 Instagram</div>
-      <div class="value">12<small> / 13店</small></div>
-      <div class="hint">個別フォロワー計4.3万人(LABO2.3万が牽引)</div>
-    </div>
-    <div class="tile goodv">
-      <div class="label">LINE公式 友だち合計</div>
-      <div class="value">22,766<small> 人</small></div>
-      <div class="hint">GARDEN 16,133 + KITCHEN 6,633 の2大資産</div>
-    </div>
-    <div class="tile">
-      <div class="label">ぐるなび / HP / Retty 掲載</div>
-      <div class="value">5 / 2 / 5<small> 店</small></div>
-      <div class="hint">新潟店はホットペッパーもネット予約・クーポン付きで運用中(唯一のアクティブHP)</div>
-    </div>
-  </div>
+  <div class="tiles" id="kpi-tiles"></div>
 </section>
 
 <!-- ============ MATRIX ============ -->
@@ -480,7 +451,7 @@
 
 <!-- ============ CHARTS ============ -->
 <section>
-  <h2><span class="n">2</span>食べログ / Google / Instagram パフォーマンス比較</h2>
+  <h2><span class="n">2</span>食べログ / Google / Instagram パフォーマンス比較<span class="fc-only-note" style="font-size:11px;color:var(--good-text);font-weight:700;margin-left:6px">← 全40店の上位20に切替中</span></h2>
   <div class="charts">
     <div class="chart-card">
       <h3>Google口コミ件数(件)と評価</h3>
@@ -498,8 +469,8 @@
       <div class="bars" id="chart-saves"></div>
     </div>
     <div class="chart-card">
-      <h3>Instagramフォロワー数(人)</h3>
-      <div class="csub">店舗個別アカウント(2026/7/17実測) — LABO 2.3万が突出</div>
+      <h3>Instagramフォロワー数(人)<span style="font-size:10px;color:var(--text-muted);font-weight:600">直営13店</span></h3>
+      <div class="csub">店舗個別アカウント — LABO 2.3万が突出。FCの個別フォロワーはIG制限のため保留</div>
       <div class="bars" id="chart-ig"></div>
     </div>
   </div>
@@ -507,7 +478,7 @@
 
 <!-- ============ SNS ACTIVITY ============ -->
 <section>
-  <h2><span class="n">3</span>SNS運用アクティビティ(Instagram 投稿頻度)</h2>
+  <h2><span class="n">3</span>SNS運用アクティビティ(Instagram 投稿頻度)<span style="font-size:11px;color:var(--text-muted);font-weight:600;margin-left:4px">直営13店</span></h2>
   <div class="note">2026年7月17日にInstagram APIで実測。<b>直近投稿</b>=最終投稿からの経過日数、<b>直近30日</b>=過去30日の投稿数、<b>月間ペース</b>=最新12投稿の平均月間本数。緑=活発 / 黄=標準 / 赤=停滞ぎみ。</div>
   <div class="matrix-scroller">
   <table class="matrix">
@@ -525,7 +496,7 @@
 
 <!-- ============ REPLY RATE ============ -->
 <section>
-  <h2><span class="n">4</span>Google口コミ 返信率</h2>
+  <h2><span class="n">4</span>Google口コミ 返信率<span style="font-size:11px;color:var(--text-muted);font-weight:600;margin-left:4px">直営13店</span></h2>
   <div class="note">各店のGoogleマップで最新に表示される口コミ(1店あたり最大9件の共通サンプル)に対し、<b>オーナー返信が付いている割合</b>を実測(2026/7/17)。口コミ返信はMEO(地図検索順位)と来店客の信頼に直結する重要指標です。</div>
   <div class="charts">
     <div class="chart-card">
@@ -547,7 +518,7 @@
 
 <!-- ============ MENU PHOTOS ============ -->
 <section>
-  <h2><span class="n">5</span>メニュー写真 評価(掲載量 × クオリティ)</h2>
+  <h2><span class="n">5</span>メニュー写真 評価(掲載量 × クオリティ)<span style="font-size:11px;color:var(--text-muted);font-weight:600;margin-left:4px">直営13店</span></h2>
   <div class="note">各店のInstagram(店舗が料理写真を実際に載せている主戦場)の直近投稿を目視評価。<b>料理写真比率</b>=フィードに占める料理・ドリンク実写真の割合、<b>クオリティ</b>=明るさ・構図・シズル感・統一感を5段階。<b>スコア</b>=比率50点+クオリティ50点。<b>※重要な発見:</b> 食べログ・ぐるなびの<b>メニュー欄は全店ほぼ写真0%</b>でした — ここに写真を足すと予約サイトでの注文率が上がる伸びしろです。</div>
   <div class="matrix-scroller">
   <table class="matrix">
@@ -600,7 +571,7 @@
 
 <!-- ============ STORE CARDS ============ -->
 <section>
-  <h2><span class="n">7</span>店舗別カルテ(総合ランク付き)</h2>
+  <h2><span class="n">7</span>店舗別カルテ(総合ランク付き)<span style="font-size:11px;color:var(--text-muted);font-weight:600;margin-left:4px">直営13店</span></h2>
   <div class="note">総合ランク = 食べログ(30点) + Google(25点) + SNS発信力(25点) + 掲載カバレッジ・情報鮮度(20点) の100点評価。<b>S</b>≧85 / <b>A</b> 70〜84 / <b>B</b> 55〜69 / <b>C</b> 40〜54 / <b>D</b> 40未満。判定内訳: S×1(LABO) / A×2(総本店・GARDEN) / B×2(STAND門仲・富山) / C×7 / D×0(全13店) — 新潟店を追加、D評価はゼロを維持。</div>
   <div class="stores">
 
@@ -915,6 +886,78 @@ function setView(v){
   document.body.setAttribute('data-view', v);
   document.getElementById('tab-direct').classList.toggle('active', v==='direct');
   document.getElementById('tab-all').classList.toggle('active', v==='all');
+  renderKPIs(v);
+  renderScaledCharts(v);
+}
+// ---- KPI tiles (直営13 / 全40 で切替) ----
+var KPI = {
+  direct: [
+    {c:'goodv', l:'食べログ 掲載・公式管理', v:'11<small> / 13店</small>', h:'掲載12/13店(未掲載は神宮球場のみ)。新潟店は掲載済みだが店舗会員未登録=公式化が次の一手'},
+    {c:'', l:'食べログ 平均口コミ数', v:'34<small> 件/店</small>', h:'計407件(12店)。上位3店に集中 — 新店の底上げが課題'},
+    {c:'goodv', l:'Google評価 平均(12店)', v:'4.7<small> / 2,267件</small>', h:'全13店舗の掲載を実確認済み・食べログとのギャップ大'},
+    {c:'goodv', l:'店舗別 Instagram', v:'12<small> / 13店</small>', h:'個別フォロワー計4.3万人(LABO2.3万が牽引)'},
+    {c:'goodv', l:'LINE公式 友だち合計', v:'22,766<small> 人</small>', h:'GARDEN 16,133 + KITCHEN 6,633 の2大資産'},
+    {c:'', l:'ぐるなび / HP / Retty 掲載', v:'5 / 2 / 5<small> 店</small>', h:'新潟店はホットペッパーもネット予約・クーポン付きで運用中(唯一のアクティブHP)'}
+  ],
+  all: [
+    {c:'goodv', l:'食べログ 掲載(全40店)', v:'38<small> / 40店</small>', h:'掲載38/40(未掲載は神宮球場・新大久保のみ)。うち店舗会員=公式管理は直営11店'},
+    {c:'', l:'食べログ 平均口コミ数', v:'31<small> 件/店</small>', h:'計1,192件(38店)。新橋111件・四ツ谷66件などFC上位が牽引'},
+    {c:'goodv', l:'Google評価 平均(39店)', v:'4.6<small> / 8,700件</small>', h:'全40店の掲載を実確認。新橋4.9/1,390件が最大・FCも総じて高評価'},
+    {c:'goodv', l:'店舗別 Instagram', v:'39<small> / 40店</small>', h:'ほぼ全店に個別アカウント。フォロワー合計は直営13店で計測(IG制限のためFCは保留)'},
+    {c:'goodv', l:'LINE公式 友だち合計', v:'22,766<small> 人</small>', h:'GARDEN 16,133 + KITCHEN 6,633(直営)。FCはブランド/KITCHEN共通LINEの配信対象'},
+    {c:'', l:'ぐるなび / HP / Retty 掲載', v:'25 / 17 / 11<small> 店</small>', h:'全40店集計。FCは予約サイト掲載が充実(新橋・渋谷など)'}
+  ]
+};
+function renderKPIs(v){
+  var box=document.getElementById('kpi-tiles'); if(!box) return;
+  box.innerHTML='';
+  (KPI[v]||KPI.direct).forEach(function(t){
+    var d=document.createElement('div');
+    d.className='tile'+(t.c?' '+t.c:'');
+    d.innerHTML='<div class="label">'+t.l+'</div><div class="value">'+t.v+'</div><div class="hint">'+t.h+'</div>';
+    box.appendChild(d);
+  });
+}
+// ---- Scaled charts (Google/食べログ口コミ/保存 を 直営13 or 全40上位20 で切替) ----
+var CHART40 = {
+  google: {direct:null, all:[["新橋",1390],["総本店",564],["名古屋栄",439],["川越",395],["LABO TOKYO",363],["GARDEN 門仲",340],["町田",304],["千葉",293],["四ツ谷",279],["渋谷FC",275],["西荻窪",259],["STAND 門仲",248],["中野",228],["西新宿",217],["浅草橋",204],["市川",203],["長野",203],["上板橋",202],["高崎",192],["広島横川",191]]},
+  reviews:{direct:null, all:[["LABO TOKYO",137],["新橋",111],["総本店",94],["GARDEN 門仲",74],["四ツ谷",66],["西荻窪",59],["赤羽BURGER",55],["渋谷FC",52],["名古屋栄",47],["神戸三宮",38],["町田",37],["野毛",37],["千葉",33],["STAND 門仲",30],["中野",27],["市川",26],["蔵前",24],["広島横川",20],["西新宿",19],["池袋",18]]},
+  saves:  {direct:null, all:[["LABO TOKYO",10425],["総本店",6866],["GARDEN 門仲",6295],["新橋",4066],["西荻窪",3231],["名古屋栄",2872],["四ツ谷",2680],["赤羽BURGER",2210],["STAND 門仲",1832],["中野",1781],["神戸三宮",1751],["町田",1360],["渋谷FC",1323],["蔵前",1193],["千葉",1151],["立川",1089],["野毛",1015],["西新宿",830],["市川",751],["高崎",697]]}
+};
+var CHART_SUB = {
+  'chart-google': {direct:'全店4.3〜5.0の高評価 — グループ最大の資産(2026/7/17実確認)', all:'全40店の上位20を表示。新橋1,390件が突出・FCも高評価(2026/7/19実測)'},
+  'chart-reviews':{direct:'件数が多いほど点数が安定し検索露出も向上(2026/7/17時点)', all:'全40店の上位20を表示。LABO・新橋・総本店がトップ3'},
+  'chart-saves':  {direct:'「行きたい」意向の先行指標 — LABOが圧倒的', all:'全40店の上位20を表示。保存合計は約59,000人分'}
+};
+function renderScaledCharts(v){
+  if(!CHART40.google.direct) return; // direct arrays captured after first render
+  var map={ 'chart-google':['google','件'], 'chart-reviews':['reviews','件'], 'chart-saves':['saves','人'] };
+  Object.keys(map).forEach(function(id){
+    var key=map[id][0], unit=map[id][1];
+    var data = v==='all' ? CHART40[key].all : CHART40[key].direct;
+    var el=document.getElementById(id); if(!el) return;
+    el.innerHTML='';
+    renderBar(el, data, unit);
+    var card=el.closest('.chart-card');
+    if(card){ var sub=card.querySelector('.csub'); if(sub && CHART_SUB[id]) sub.textContent = CHART_SUB[id][v]; }
+  });
+}
+// global bar renderer (used by both direct and scaled views)
+function renderBar(el, data, unit){
+  var max = Math.max.apply(null, data.map(function(d){ return d[1]; }));
+  data.forEach(function(d){
+    var pct = Math.max(1.5, d[1] / max * 78);
+    var row = document.createElement("div");
+    row.className = "bar-row";
+    row.title = d[0] + ": " + d[1].toLocaleString() + unit;
+    row.innerHTML =
+      '<div class="bl">' + d[0] + '</div>' +
+      '<div class="bar-track">' +
+        '<div class="bar-fill" style="width:' + pct + '%"></div>' +
+        '<div class="bar-val" style="left:' + pct + '%">' + d[1].toLocaleString() + '</div>' +
+      '</div>';
+    el.appendChild(row);
+  });
 }
 // ---- Render FC store rows into the matrix ----
 (function(){
@@ -1019,21 +1062,8 @@ function setView(v){
     ["STAND 亀戸", 89]
   ];
   function render(id, data, unit) {
-    var max = Math.max.apply(null, data.map(function(d){ return d[1]; }));
     var el = document.getElementById(id);
-    data.forEach(function(d) {
-      var pct = Math.max(1.5, d[1] / max * 78);
-      var row = document.createElement("div");
-      row.className = "bar-row";
-      row.title = d[0] + ": " + d[1].toLocaleString() + unit + "(食べログ・2026/7/17時点)";
-      row.innerHTML =
-        '<div class="bl">' + d[0] + '</div>' +
-        '<div class="bar-track">' +
-          '<div class="bar-fill" style="width:' + pct + '%"></div>' +
-          '<div class="bar-val" style="left:' + pct + '%">' + d[1].toLocaleString() + '</div>' +
-        '</div>';
-      el.appendChild(row);
-    });
+    if(el) renderBar(el, data, unit);
   }
   var google = [
     ["総本店 ★4.8", 564],
@@ -1165,7 +1195,13 @@ function setView(v){
   })();
   render("chart-reviews", reviews, "件");
   render("chart-saves", saves, "人");
+  // capture direct arrays so the view toggle can switch back
+  CHART40.google.direct = google;
+  CHART40.reviews.direct = reviews;
+  CHART40.saves.direct = saves;
 })();
+// initial KPI render (direct)
+renderKPIs('direct');
 </script>
 </body>
 </html>
