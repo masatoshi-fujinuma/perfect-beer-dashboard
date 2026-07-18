@@ -157,6 +157,21 @@
   .store a:hover { text-decoration: underline; }
   .links { font-size: 11px; display: flex; flex-wrap: wrap; gap: 10px; }
 
+  /* Changelog / what's new */
+  .changelog { background: var(--surface-1); border: 2.5px solid var(--ink); border-radius: 16px; padding: 14px 18px; box-shadow: 4px 4px 0 var(--ink); margin-bottom: 24px; }
+  .changelog h2 { font-size: 15px; margin-bottom: 4px; }
+  .changelog .cl-badge { display:inline-flex; align-items:center; gap:6px; background: var(--brand); border:2px solid var(--ink); border-radius:999px; padding:1px 10px; font-size:11px; font-weight:800; }
+  .changelog .cl-updated { font-size: 11px; color: var(--text-muted); margin-bottom: 10px; }
+  .cl-entry { border-left: 4px solid var(--brand); padding: 4px 0 4px 12px; margin-top: 10px; }
+  .cl-entry:first-of-type { border-left-color: var(--good); }
+  .cl-entry .cl-date { font-size: 12px; font-weight: 800; }
+  .cl-entry .cl-date .new { background: var(--good); color:#fff; font-size:9.5px; border-radius:4px; padding:1px 5px; margin-left:6px; vertical-align:middle; }
+  .cl-entry ul { margin: 4px 0 0 16px; }
+  .cl-entry li { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+  .cl-entry li b { color: var(--text-primary); font-weight: 700; }
+  .cl-up { color: var(--good-text); font-weight:800; }
+  .cl-down { color: var(--critical); font-weight:800; }
+
   footer { margin-top: 34px; font-size: 11px; color: var(--text-muted); border-top: 2.5px solid var(--ink); padding-top: 12px; display: flex; gap: 12px; align-items: flex-start; }
   footer .flogo { width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--ink); flex-shrink: 0; }
   footer p { margin-top: 0; }
@@ -174,6 +189,23 @@
     <div class="sub">調査日: <b>2026年7月17日</b> ｜ 対象: <b>12店舗</b>(直営・関連含む) ｜ 食べログ / Googleマップ / ぐるなび / ホットペッパー / Retty / Instagram / X / LINE / TikTok / Facebook</div>
   </div>
 </header>
+
+<!-- ============ CHANGELOG ============ -->
+<div class="changelog" id="changelog">
+  <h2><span class="cl-badge">🆕 新着更新情報</span></h2>
+  <div class="cl-updated">毎日 10:00(日本時間)に自動更新 ｜ 最終更新: <b>2026年7月17日</b></div>
+
+  <div class="cl-entry">
+    <div class="cl-date">2026年7月17日 <span class="new">最新</span></div>
+    <ul>
+      <li><b>メニュー写真評価</b>を新設 — 全11店をInstagramの料理写真で採点(麦酒飯店96点でトップ)</li>
+      <li><b>SNS運用アクティビティ</b>(投稿頻度)と<b>Google口コミ返信率</b>のセクションを追加</li>
+      <li>Instagram/X/LINEのフォロワー数を全店実測 — <span class="cl-up">LINE合計22,766人</span>の資産が判明</li>
+      <li>ぐるなびの掲載見落とし(総本店・富山)を修正、完璧麦酒飯店の食べログ掲載を反映</li>
+      <li>ビアっくまのロゴ・配色でデザインを一新、総合ランク(S〜D)を導入</li>
+    </ul>
+  </div>
+</div>
 
 <!-- ============ KPI ============ -->
 <section>
