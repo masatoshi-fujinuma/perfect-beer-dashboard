@@ -210,7 +210,7 @@
   <button id="tab-direct" class="active" onclick="setView('direct')">🏠 直営のみ <span class="cnt">13店</span></button>
   <button id="tab-all" onclick="setView('all')">🌐 FC含む全店舗 <span class="cnt">40店</span></button>
 </div>
-<div class="fc-only-note note" style="margin:-8px 0 18px">FC(フランチャイズ)27店を表示中。FC店は<b>食べログ・Googleマップ・Instagram</b>を実測(下部の詳細分析セクションは直営13店が対象です)。</div>
+<div class="fc-only-note note" style="margin:-8px 0 18px">FC(フランチャイズ)27店を表示中。食べログ・Google・ぐるなび・ホットペッパー・Rettyを実測、SNSはブランド共通アカウント運用。<b>？</b>=検索で未確認(掲載の可能性あり)。下部の詳細分析セクションは直営13店が対象です。</div>
 
 <!-- ============ CHANGELOG ============ -->
 <div class="changelog" id="changelog">
@@ -918,61 +918,74 @@ function setView(v){
 }
 // ---- Render FC store rows into the matrix ----
 (function(){
-  // [店名, エリア, 食べログ点数, 食べログ口コミ, 食べログpath(空=未掲載), Google点数, Google口コミ, Google検索クエリ]
+  // [店名,エリア,食べ点,食べ口コミ,食べpath,G点,G口コミ,G検索,ぐるなびid(''=×),HP id(str…=○/'?'=未確認/''=×),Retty id(数字=○/'?'=未確認)]
   var fc = [
-    ["PERFECT BEER KITCHEN 新橋","港区新橋","3.42","111","/tokyo/A1301/A130103/13289982/","4.9","1,390","PERFECT BEER KITCHEN 新橋 港区新橋3-3-8"],
-    ["PERFECT BEER KITCHEN 四ツ谷","新宿区四谷","3.12","66","/tokyo/A1309/A130902/13287388/","4.5","279","PERFECT BEER KITCHEN 四ツ谷 新宿区四谷1-8-6"],
-    ["PERFECT BEER KITCHEN 西荻窪","杉並区西荻南","3.09","59","/tokyo/A1319/A131907/13289080/","4.7","259","PERFECT BEER KITCHEN 西荻窪 杉並区西荻南3-8-3"],
-    ["PERFECT BEER KITCHEN 渋谷","渋谷区円山町","3.16","52","/tokyo/A1303/A130301/13316065/","4.9","275","PERFECT BEER KITCHEN 渋谷 渋谷区円山町4-6"],
-    ["PERFECT BEER KITCHEN 千葉","千葉市中央区","3.07","33","/chiba/A1201/A120101/12058943/","4.6","293","PERFECT BEER KITCHEN 千葉 千葉市中央区弁天2-19-20"],
-    ["PERFECT BEER KITCHEN 名古屋栄","名古屋市中区栄","3.08","47","/aichi/A2301/A230103/23088571/","4.8","439","PERFECT BEER KITCHEN 名古屋栄 中区栄4-4-17"],
-    ["PERFECT BEER KITCHEN 町田","町田市原町田","3.08","37","/tokyo/A1327/A132701/13294762/","4.6","304","PERFECT BEER KITCHEN 町田 原町田4-6-3"],
-    ["PERFECT BEER KITCHEN 神戸三宮","神戸市中央区","3.08","38","/hyogo/A2801/A280101/28070239/","4.7","186","PERFECT BEER KITCHEN 神戸三宮 中央区北長狭通2-8-3"],
-    ["PERFECT BEER KITCHEN 中野","中野区中野","3.06","27","/tokyo/A1319/A131902/13296326/","4.6","228","PERFECT BEER KITCHEN 中野 中野5-50-3"],
-    ["PERFECT BEER KITCHEN 川越","川越市東田町","3.04","10","/saitama/A1103/A110303/11062825/","4.8","395","PERFECT BEER KITCHEN 川越 東田町6-8"],
-    ["PERFECT BEER KITCHEN 志木","志木市本町","3.06","15","/saitama/A1103/A110302/11061669/","4.8","176","PERFECT BEER KITCHEN 志木 本町5-24-2"],
-    ["PERFECT BEER KITCHEN 高崎","高崎市旭町","3.05","18","/gunma/A1001/A100102/10024629/","4.5","192","PERFECT BEER KITCHEN 高崎 旭町37-6"],
-    ["PERFECT BEER KITCHEN 蔵前","台東区蔵前","3.07","24","/tokyo/A1311/A131103/13291437/","4.5","188","PERFECT BEER KITCHEN 蔵前 台東区蔵前2-1-32"],
-    ["PERFECT BEER KITCHEN 上板橋","板橋区桜川","3.03","15","/tokyo/A1322/A132203/13303273/","4.7","202","PERFECT BEER KITCHEN 上板橋 板橋区桜川3-21-15"],
-    ["PERFECT BEER KITCHEN 西新宿","新宿区西新宿","3.11","19","/tokyo/A1304/A130401/13298679/","4.6","217","PERFECT BEER KITCHEN 西新宿 西新宿7-15-8"],
-    ["PERFECT BEER KITCHEN 市川","市川市市川南","3.05","26","/chiba/A1202/A120202/12060750/","4.5","203","PERFECT BEER KITCHEN 市川 市川南1-3-2"],
-    ["PERFECT BEER KITCHEN 広島横川","広島市西区横川","3.06","20","/hiroshima/A3401/A340103/34032610/","4.6","191","PERFECT BEER KITCHEN 広島横川 西区横川町3-1-35"],
-    ["PERFECT BEER KITCHEN 立川","立川市錦町","3.03","15","/tokyo/A1329/A132901/13311123/","4.7","111","PERFECT BEER KITCHEN 立川 錦町2-1-35"],
-    ["PERFECT BEER KITCHEN 浅草橋","台東区浅草橋","3.08","12","/tokyo/A1311/A131103/13314343/","4.9","204","PERFECT BEER KITCHEN 浅草橋 台東区浅草橋4-10-8"],
-    ["PERFECT BEER KITCHEN 静岡","静岡市葵区","3.02","11","/shizuoka/A2201/A220101/22041809/","4.6","138","PERFECT BEER KITCHEN 静岡 葵区七間町8-5"],
-    ["PERFECT BEER KITCHEN 仙台","仙台市青葉区","3.05","15","/miyagi/A0401/A040101/4028143/","4.6","110","PERFECT BEER KITCHEN 仙台 青葉区国分町3-9-9"],
-    ["PERFECT BEER KITCHEN 長野","長野市南千歳","3.01","4","/nagano/A2001/A200101/20027820/","4.3","203","PERFECT BEER KITCHEN 長野 南千歳1-19-2"],
-    ["PERFECT BEER KITCHEN 札幌","札幌市中央区","3.08","15","/hokkaido/A0101/A010103/1084891/","4.7","21","PERFECT BEER KITCHEN 札幌 COCONO SUSUKINO"],
-    ["PERFECT BEER KITCHEN 日本橋","中央区日本橋室町","-","4","/tokyo/A1302/A130202/13322473/","4.4","8","PERFECT BEER KITCHEN 日本橋 室町2-2-1"],
-    ["PERFECT BEER STAND 野毛","横浜市中区日ノ出町","3.24","37","/kanagawa/A1401/A140102/14094162/","4.5","156","PERFECT BEER STAND 野毛 横浜市中区日ノ出町1-2"],
-    ["PERFECT BEER STAND 新大久保","新宿区百人町","","","","4.9","12","PERFECT BEER STAND 新大久保 新宿区百人町1-5-4"],
-    ["PERFECT BEER BURGER 赤羽","北区赤羽","3.30","55","/tokyo/A1323/A132305/13315707/","3.8","53","PERFECT BEER BURGER 赤羽 北区赤羽1-1-1"]
+    ["PERFECT BEER KITCHEN 新橋","港区新橋","3.42","111","/tokyo/A1301/A130103/13289982/","4.9","1,390","PERFECT BEER KITCHEN 新橋 港区新橋3-3-8","bv17dzpz0000","strJ003736284","100001718221"],
+    ["PERFECT BEER KITCHEN 四ツ谷","新宿区四谷","3.12","66","/tokyo/A1309/A130902/13287388/","4.5","279","PERFECT BEER KITCHEN 四ツ谷 新宿区四谷1-8-6","a97ppukz0000","strJ003916990","100001730124"],
+    ["PERFECT BEER KITCHEN 西荻窪","杉並区西荻南","3.09","59","/tokyo/A1319/A131907/13289080/","4.7","259","PERFECT BEER KITCHEN 西荻窪 杉並区西荻南3-8-3","cgjfvr380000","strJ004403352","?"],
+    ["PERFECT BEER KITCHEN 渋谷","渋谷区円山町","3.16","52","/tokyo/A1303/A130301/13316065/","4.9","275","PERFECT BEER KITCHEN 渋谷 渋谷区円山町4-6","30trwdht0000","strJ004612166","100001830351"],
+    ["PERFECT BEER KITCHEN 千葉","千葉市中央区","3.07","33","/chiba/A1201/A120101/12058943/","4.6","293","PERFECT BEER KITCHEN 千葉 千葉市中央区弁天2-19-20","584taewu0000","strJ003941697","?"],
+    ["PERFECT BEER KITCHEN 名古屋栄","名古屋市中区栄","3.08","47","/aichi/A2301/A230103/23088571/","4.8","439","PERFECT BEER KITCHEN 名古屋栄 中区栄4-4-17","aeb3sk570000","strJ003828829","?"],
+    ["PERFECT BEER KITCHEN 町田","町田市原町田","3.08","37","/tokyo/A1327/A132701/13294762/","4.6","304","PERFECT BEER KITCHEN 町田 原町田4-6-3","rz1yzbnk0000","strJ003916923","?"],
+    ["PERFECT BEER KITCHEN 神戸三宮","神戸市中央区","3.08","38","/hyogo/A2801/A280101/28070239/","4.7","186","PERFECT BEER KITCHEN 神戸三宮 中央区北長狭通2-8-3","1572nk750000","?","?"],
+    ["PERFECT BEER KITCHEN 中野","中野区中野","3.06","27","/tokyo/A1319/A131902/13296326/","4.6","228","PERFECT BEER KITCHEN 中野 中野5-50-3","cvdjf9f90000","strJ003784952","100001743147"],
+    ["PERFECT BEER KITCHEN 川越","川越市東田町","3.04","10","/saitama/A1103/A110303/11062825/","4.8","395","PERFECT BEER KITCHEN 川越 東田町6-8","168c6t8c0000","strJ003872371","?"],
+    ["PERFECT BEER KITCHEN 志木","志木市本町","3.06","15","/saitama/A1103/A110302/11061669/","4.8","176","PERFECT BEER KITCHEN 志木 本町5-24-2","90p901us0000","?","?"],
+    ["PERFECT BEER KITCHEN 高崎","高崎市旭町","3.05","18","/gunma/A1001/A100102/10024629/","4.5","192","PERFECT BEER KITCHEN 高崎 旭町37-6","pnpg0z990000","?","?"],
+    ["PERFECT BEER KITCHEN 蔵前","台東区蔵前","3.07","24","/tokyo/A1311/A131103/13291437/","4.5","188","PERFECT BEER KITCHEN 蔵前 台東区蔵前2-1-32","nxt096s80000","strJ003693432","?"],
+    ["PERFECT BEER KITCHEN 上板橋","板橋区桜川","3.03","15","/tokyo/A1322/A132203/13303273/","4.7","202","PERFECT BEER KITCHEN 上板橋 板橋区桜川3-21-15","","strJ003894066","?"],
+    ["PERFECT BEER KITCHEN 西新宿","新宿区西新宿","3.11","19","/tokyo/A1304/A130401/13298679/","4.6","217","PERFECT BEER KITCHEN 西新宿 西新宿7-15-8","gwh3nfcd0000","?","?"],
+    ["PERFECT BEER KITCHEN 市川","市川市市川南","3.05","26","/chiba/A1202/A120202/12060750/","4.5","203","PERFECT BEER KITCHEN 市川 市川南1-3-2","18y4jhnj0000","strJ003984311","?"],
+    ["PERFECT BEER KITCHEN 広島横川","広島市西区横川","3.06","20","/hiroshima/A3401/A340103/34032610/","4.6","191","PERFECT BEER KITCHEN 広島横川 西区横川町3-1-35","ktgsepbh0000","?","?"],
+    ["PERFECT BEER KITCHEN 立川","立川市錦町","3.03","15","/tokyo/A1329/A132901/13311123/","4.7","111","PERFECT BEER KITCHEN 立川 錦町2-1-35","88jg06jz0000","strJ004089218","?"],
+    ["PERFECT BEER KITCHEN 浅草橋","台東区浅草橋","3.08","12","/tokyo/A1311/A131103/13314343/","4.9","204","PERFECT BEER KITCHEN 浅草橋 台東区浅草橋4-10-8","h7cnk3z30000","strJ004509079","100001807664"],
+    ["PERFECT BEER KITCHEN 静岡","静岡市葵区","3.02","11","/shizuoka/A2201/A220101/22041809/","4.6","138","PERFECT BEER KITCHEN 静岡 葵区七間町8-5","kgr3u3pu0000","?","?"],
+    ["PERFECT BEER KITCHEN 仙台","仙台市青葉区","3.05","15","/miyagi/A0401/A040101/4028143/","4.6","110","PERFECT BEER KITCHEN 仙台 青葉区国分町3-9-9","63x15prg0000","?","?"],
+    ["PERFECT BEER KITCHEN 長野","長野市南千歳","3.01","4","/nagano/A2001/A200101/20027820/","4.3","203","PERFECT BEER KITCHEN 長野 南千歳1-19-2","","?","?"],
+    ["PERFECT BEER KITCHEN 札幌","札幌市中央区","3.08","15","/hokkaido/A0101/A010103/1084891/","4.7","21","PERFECT BEER KITCHEN 札幌 COCONO SUSUKINO","","?","?"],
+    ["PERFECT BEER KITCHEN 日本橋","中央区日本橋室町","-","4","/tokyo/A1302/A130202/13322473/","4.4","8","PERFECT BEER KITCHEN 日本橋 室町2-2-1","","strJ004633627","?"],
+    ["PERFECT BEER STAND 野毛","横浜市中区日ノ出町","3.24","37","/kanagawa/A1401/A140102/14094162/","4.5","156","PERFECT BEER STAND 野毛 横浜市中区日ノ出町1-2","","?","100001740646"],
+    ["PERFECT BEER STAND 新大久保","新宿区百人町","","","","4.9","12","PERFECT BEER STAND 新大久保 新宿区百人町1-5-4","","?","?"],
+    ["PERFECT BEER BURGER 赤羽","北区赤羽","3.30","55","/tokyo/A1323/A132305/13315707/","3.8","53","PERFECT BEER BURGER 赤羽 北区赤羽1-1-1","","?","?"]
   ];
   var tb = document.getElementById('matrix-body');
   if(!tb) return;
-  // divider row
   var dv = document.createElement('tr');
   dv.className = 'fc-divider';
-  dv.innerHTML = '<td colspan="11">── FC店舗(フランチャイズ)27店 — 食べログ・Google・IGを実測 ──</td>';
+  dv.innerHTML = '<td colspan="11">── FC店舗(フランチャイズ)27店 — 全チャネル実測(SNSはブランド共通) ──</td>';
   tb.appendChild(dv);
+  function siteCell(id, base, label){
+    if(id && id!=='?') return '<a class="cell s-listed" href="'+base+id+'/" target="_blank" rel="noopener" title="'+label+'掲載あり">○</a>';
+    if(id==='?') return '<span class="cell s-unknown" title="'+label+'未確認">？</span>';
+    return '<span class="cell s-none" title="'+label+'なし">×</span>';
+  }
   fc.forEach(function(s){
     var tbCell = s[4]
       ? '<a class="cell s-listed" href="https://tabelog.com'+s[4]+'" target="_blank" rel="noopener" title="食べログ '+s[2]+' / 口コミ'+s[3]+'件">'+(s[2]==='-'?'新店':'○ '+s[2])+'</a>'
       : '<span class="cell s-none" title="食べログ未掲載">×</span>';
     var gCell = '<a class="cell s-official" href="https://www.google.com/maps/search/'+encodeURIComponent(s[7])+'" target="_blank" rel="noopener" title="Google '+s[5]+' / 口コミ'+s[6]+'件(2026/7/19実測)">◎ '+s[5]+'</a>';
-    var na = '<span class="cell s-na" title="FC店は食べログ・Google・IGのみ実測">–</span>';
+    var gnavi = siteCell(s[8], 'https://r.gnavi.co.jp/', 'ぐるなび');
+    var hp = siteCell(s[9], 'https://www.hotpepper.jp/', 'ホットペッパー');
+    var rettyCell = (s[10] && s[10]!=='?') ? '<a class="cell s-listed" href="https://www.google.com/search?q=site:retty.me+'+s[10]+'" target="_blank" rel="noopener" title="Retty掲載あり">○</a>' : (s[10]==='?' ? '<span class="cell s-unknown" title="Retty未確認">？</span>' : '<span class="cell s-none">×</span>');
     var ig = '<span class="cell s-listed" title="店舗個別Instagramあり(命名規則 perfect_beer_kitchen_◯◯)">○</span>';
     var xc = '<span class="cell s-brand" title="ブランド共通 @PERFECTBEER0802">共通</span>';
+    var line = '<span class="cell s-brand" title="ブランド/KITCHEN共通LINEの配信対象">共通</span>';
+    var tiktok = '<span class="cell s-brand" title="ブランド共通(創業者・LABO等)">共通</span>';
+    var fb = '<span class="cell s-none" title="店舗個別Facebookなし">×</span>';
     var tr = document.createElement('tr');
     tr.setAttribute('data-tier','fc');
     tr.innerHTML =
       '<td class="rowh">'+s[0]+'<span class="area">'+s[1]+'</span></td>'+
       '<td>'+tbCell+'</td>'+
       '<td>'+gCell+'</td>'+
-      '<td>'+na+'</td><td>'+na+'</td><td>'+na+'</td>'+
+      '<td>'+gnavi+'</td>'+
+      '<td>'+hp+'</td>'+
+      '<td>'+rettyCell+'</td>'+
       '<td>'+ig+'</td>'+
       '<td>'+xc+'</td>'+
-      '<td>'+na+'</td><td>'+na+'</td><td>'+na+'</td>';
+      '<td>'+line+'</td>'+
+      '<td>'+tiktok+'</td>'+
+      '<td>'+fb+'</td>';
     tb.appendChild(tr);
   });
 })();
