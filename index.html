@@ -157,6 +157,21 @@
   .store a:hover { text-decoration: underline; }
   .links { font-size: 11px; display: flex; flex-wrap: wrap; gap: 10px; }
 
+  /* View toggle tabs */
+  .viewtabs { display: inline-flex; gap: 0; border: 2.5px solid var(--ink); border-radius: 999px; overflow: hidden; box-shadow: 3px 3px 0 var(--ink); margin-bottom: 22px; background: var(--surface-1); }
+  .viewtabs button { border: none; background: transparent; font-family: inherit; font-size: 13px; font-weight: 800; padding: 9px 20px; cursor: pointer; color: var(--text-secondary); display: flex; align-items: center; gap: 6px; }
+  .viewtabs button + button { border-left: 2.5px solid var(--ink); }
+  .viewtabs button.active { background: var(--brand); color: var(--ink); }
+  .viewtabs button .cnt { font-size: 11px; font-weight: 700; opacity: 0.75; }
+  .fc-only-note { display: none; }
+  body[data-view="all"] .fc-only-note { display: block; }
+  tr[data-tier="fc"] { display: none; }
+  body[data-view="all"] tr[data-tier="fc"] { display: table-row; }
+  tr.fc-divider { display: none; }
+  body[data-view="all"] tr.fc-divider { display: table-row; }
+  tr.fc-divider td { background: var(--ink); color: var(--brand); font-weight: 800; font-size: 11.5px; letter-spacing: 0.08em; text-align: left; padding: 6px 12px; position: sticky; left: 0; }
+  .s-na { background: transparent; color: var(--text-muted); font-weight: 500; }
+
   /* Changelog / what's new */
   .changelog { background: var(--surface-1); border: 2.5px solid var(--ink); border-radius: 16px; padding: 14px 18px; box-shadow: 4px 4px 0 var(--ink); margin-bottom: 24px; }
   .changelog h2 { font-size: 15px; margin-bottom: 4px; }
@@ -190,6 +205,13 @@
   </div>
 </header>
 
+<!-- ============ VIEW TABS ============ -->
+<div class="viewtabs" role="tablist">
+  <button id="tab-direct" class="active" onclick="setView('direct')">🏠 直営のみ <span class="cnt">13店</span></button>
+  <button id="tab-all" onclick="setView('all')">🌐 FC含む全店舗 <span class="cnt">40店</span></button>
+</div>
+<div class="fc-only-note note" style="margin:-8px 0 18px">FC(フランチャイズ)27店を表示中。FC店は<b>食べログ・Googleマップ・Instagram</b>を実測(下部の詳細分析セクションは直営13店が対象です)。</div>
+
 <!-- ============ CHANGELOG ============ -->
 <div class="changelog" id="changelog">
   <h2><span class="cl-badge">🆕 新着更新情報</span></h2>
@@ -198,6 +220,8 @@
   <div class="cl-entry">
     <div class="cl-date">2026年7月19日 <span class="new">最新</span></div>
     <ul>
+      <li><b>上部に「直営のみ / FC含む全店舗」切り替えタブを新設</b> — FC27店(計40店)をマトリクスで表示可能に</li>
+      <li>FC27店の食べログ・Google・IGを実測。<span class="cl-up">新橋 Google 4.9 / 1,390件</span>・名古屋栄4.8/439件・浅草橋4.9/204件など、FCも高評価</li>
       <li><b>PERFECT BEER KITCHEN 新潟が直営化 → 13店舗目として追加</b>(新潟駅徒歩3分)</li>
       <li>新潟店の実測値: <span class="cl-up">Google 4.8 / 口コミ189件</span>・食べログ3.03 / 9件・IG 738人</li>
       <li>新潟店は<b>ホットペッパーもネット予約・クーポン付きで運用中</b>(グループ唯一のアクティブHP)</li>
@@ -269,7 +293,7 @@
         <th>Instagram</th><th>X</th><th>LINE</th><th>TikTok</th><th>Facebook</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody id="matrix-body">
       <tr>
         <td class="rowh">PERFECT BEER GARDEN 門前仲町<span class="area">門前仲町・赤札堂3F(季節営業)</span></td>
         <td><a class="cell s-official" href="https://tabelog.com/tokyo/A1313/A131303/13261512/" target="_blank" rel="noopener" title="3.29 / 口コミ74件 / 保存6,295 / 公式管理・予約可">◎ 3.29</a></td>
@@ -449,6 +473,7 @@
     <span><span class="cell s-stale">停滞</span> 情報が古い/未掲載(要対応)</span>
     <span><span class="cell s-none">×</span> なし</span>
     <span><span class="cell s-unknown">？</span> 未確認(計測体制の構築が必要)</span>
+    <span><span class="cell s-na">–</span> FC店は未調査(食べログ・Google・IGのみ実測)</span>
   </div>
   <div class="note">※ セルをタップ/クリックすると該当ページ(食べログ・Googleマップ・SNS等)が開きます。マウスを乗せると詳細メモが表示されます。</div>
 </section>
@@ -885,6 +910,72 @@
 </div>
 
 <script>
+// ---- View toggle (直営 / FC含む) ----
+function setView(v){
+  document.body.setAttribute('data-view', v);
+  document.getElementById('tab-direct').classList.toggle('active', v==='direct');
+  document.getElementById('tab-all').classList.toggle('active', v==='all');
+}
+// ---- Render FC store rows into the matrix ----
+(function(){
+  // [店名, エリア, 食べログ点数, 食べログ口コミ, 食べログpath(空=未掲載), Google点数, Google口コミ, Google検索クエリ]
+  var fc = [
+    ["PERFECT BEER KITCHEN 新橋","港区新橋","3.42","111","/tokyo/A1301/A130103/13289982/","4.9","1,390","PERFECT BEER KITCHEN 新橋 港区新橋3-3-8"],
+    ["PERFECT BEER KITCHEN 四ツ谷","新宿区四谷","3.12","66","/tokyo/A1309/A130902/13287388/","4.5","279","PERFECT BEER KITCHEN 四ツ谷 新宿区四谷1-8-6"],
+    ["PERFECT BEER KITCHEN 西荻窪","杉並区西荻南","3.09","59","/tokyo/A1319/A131907/13289080/","4.7","259","PERFECT BEER KITCHEN 西荻窪 杉並区西荻南3-8-3"],
+    ["PERFECT BEER KITCHEN 渋谷","渋谷区円山町","3.16","52","/tokyo/A1303/A130301/13316065/","4.9","275","PERFECT BEER KITCHEN 渋谷 渋谷区円山町4-6"],
+    ["PERFECT BEER KITCHEN 千葉","千葉市中央区","3.07","33","/chiba/A1201/A120101/12058943/","4.6","293","PERFECT BEER KITCHEN 千葉 千葉市中央区弁天2-19-20"],
+    ["PERFECT BEER KITCHEN 名古屋栄","名古屋市中区栄","3.08","47","/aichi/A2301/A230103/23088571/","4.8","439","PERFECT BEER KITCHEN 名古屋栄 中区栄4-4-17"],
+    ["PERFECT BEER KITCHEN 町田","町田市原町田","3.08","37","/tokyo/A1327/A132701/13294762/","4.6","304","PERFECT BEER KITCHEN 町田 原町田4-6-3"],
+    ["PERFECT BEER KITCHEN 神戸三宮","神戸市中央区","3.08","38","/hyogo/A2801/A280101/28070239/","4.7","186","PERFECT BEER KITCHEN 神戸三宮 中央区北長狭通2-8-3"],
+    ["PERFECT BEER KITCHEN 中野","中野区中野","3.06","27","/tokyo/A1319/A131902/13296326/","4.6","228","PERFECT BEER KITCHEN 中野 中野5-50-3"],
+    ["PERFECT BEER KITCHEN 川越","川越市東田町","3.04","10","/saitama/A1103/A110303/11062825/","4.8","395","PERFECT BEER KITCHEN 川越 東田町6-8"],
+    ["PERFECT BEER KITCHEN 志木","志木市本町","3.06","15","/saitama/A1103/A110302/11061669/","4.8","176","PERFECT BEER KITCHEN 志木 本町5-24-2"],
+    ["PERFECT BEER KITCHEN 高崎","高崎市旭町","3.05","18","/gunma/A1001/A100102/10024629/","4.5","192","PERFECT BEER KITCHEN 高崎 旭町37-6"],
+    ["PERFECT BEER KITCHEN 蔵前","台東区蔵前","3.07","24","/tokyo/A1311/A131103/13291437/","4.5","188","PERFECT BEER KITCHEN 蔵前 台東区蔵前2-1-32"],
+    ["PERFECT BEER KITCHEN 上板橋","板橋区桜川","3.03","15","/tokyo/A1322/A132203/13303273/","4.7","202","PERFECT BEER KITCHEN 上板橋 板橋区桜川3-21-15"],
+    ["PERFECT BEER KITCHEN 西新宿","新宿区西新宿","3.11","19","/tokyo/A1304/A130401/13298679/","4.6","217","PERFECT BEER KITCHEN 西新宿 西新宿7-15-8"],
+    ["PERFECT BEER KITCHEN 市川","市川市市川南","3.05","26","/chiba/A1202/A120202/12060750/","4.5","203","PERFECT BEER KITCHEN 市川 市川南1-3-2"],
+    ["PERFECT BEER KITCHEN 広島横川","広島市西区横川","3.06","20","/hiroshima/A3401/A340103/34032610/","4.6","191","PERFECT BEER KITCHEN 広島横川 西区横川町3-1-35"],
+    ["PERFECT BEER KITCHEN 立川","立川市錦町","3.03","15","/tokyo/A1329/A132901/13311123/","4.7","111","PERFECT BEER KITCHEN 立川 錦町2-1-35"],
+    ["PERFECT BEER KITCHEN 浅草橋","台東区浅草橋","3.08","12","/tokyo/A1311/A131103/13314343/","4.9","204","PERFECT BEER KITCHEN 浅草橋 台東区浅草橋4-10-8"],
+    ["PERFECT BEER KITCHEN 静岡","静岡市葵区","3.02","11","/shizuoka/A2201/A220101/22041809/","4.6","138","PERFECT BEER KITCHEN 静岡 葵区七間町8-5"],
+    ["PERFECT BEER KITCHEN 仙台","仙台市青葉区","3.05","15","/miyagi/A0401/A040101/4028143/","4.6","110","PERFECT BEER KITCHEN 仙台 青葉区国分町3-9-9"],
+    ["PERFECT BEER KITCHEN 長野","長野市南千歳","3.01","4","/nagano/A2001/A200101/20027820/","4.3","203","PERFECT BEER KITCHEN 長野 南千歳1-19-2"],
+    ["PERFECT BEER KITCHEN 札幌","札幌市中央区","3.08","15","/hokkaido/A0101/A010103/1084891/","4.7","21","PERFECT BEER KITCHEN 札幌 COCONO SUSUKINO"],
+    ["PERFECT BEER KITCHEN 日本橋","中央区日本橋室町","-","4","/tokyo/A1302/A130202/13322473/","4.4","8","PERFECT BEER KITCHEN 日本橋 室町2-2-1"],
+    ["PERFECT BEER STAND 野毛","横浜市中区日ノ出町","3.24","37","/kanagawa/A1401/A140102/14094162/","4.5","156","PERFECT BEER STAND 野毛 横浜市中区日ノ出町1-2"],
+    ["PERFECT BEER STAND 新大久保","新宿区百人町","","","","4.9","12","PERFECT BEER STAND 新大久保 新宿区百人町1-5-4"],
+    ["PERFECT BEER BURGER 赤羽","北区赤羽","3.30","55","/tokyo/A1323/A132305/13315707/","3.8","53","PERFECT BEER BURGER 赤羽 北区赤羽1-1-1"]
+  ];
+  var tb = document.getElementById('matrix-body');
+  if(!tb) return;
+  // divider row
+  var dv = document.createElement('tr');
+  dv.className = 'fc-divider';
+  dv.innerHTML = '<td colspan="11">── FC店舗(フランチャイズ)27店 — 食べログ・Google・IGを実測 ──</td>';
+  tb.appendChild(dv);
+  fc.forEach(function(s){
+    var tbCell = s[4]
+      ? '<a class="cell s-listed" href="https://tabelog.com'+s[4]+'" target="_blank" rel="noopener" title="食べログ '+s[2]+' / 口コミ'+s[3]+'件">'+(s[2]==='-'?'新店':'○ '+s[2])+'</a>'
+      : '<span class="cell s-none" title="食べログ未掲載">×</span>';
+    var gCell = '<a class="cell s-official" href="https://www.google.com/maps/search/'+encodeURIComponent(s[7])+'" target="_blank" rel="noopener" title="Google '+s[5]+' / 口コミ'+s[6]+'件(2026/7/19実測)">◎ '+s[5]+'</a>';
+    var na = '<span class="cell s-na" title="FC店は食べログ・Google・IGのみ実測">–</span>';
+    var ig = '<span class="cell s-listed" title="店舗個別Instagramあり(命名規則 perfect_beer_kitchen_◯◯)">○</span>';
+    var xc = '<span class="cell s-brand" title="ブランド共通 @PERFECTBEER0802">共通</span>';
+    var tr = document.createElement('tr');
+    tr.setAttribute('data-tier','fc');
+    tr.innerHTML =
+      '<td class="rowh">'+s[0]+'<span class="area">'+s[1]+'</span></td>'+
+      '<td>'+tbCell+'</td>'+
+      '<td>'+gCell+'</td>'+
+      '<td>'+na+'</td><td>'+na+'</td><td>'+na+'</td>'+
+      '<td>'+ig+'</td>'+
+      '<td>'+xc+'</td>'+
+      '<td>'+na+'</td><td>'+na+'</td><td>'+na+'</td>';
+    tb.appendChild(tr);
+  });
+})();
 (function() {
   var reviews = [
     ["LABO TOKYO", 137],
