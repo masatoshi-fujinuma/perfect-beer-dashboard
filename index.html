@@ -1,0 +1,2206 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PERFECT BEER チャネル状況ダッシュボード</title>
+    <link rel="icon"
+        href="data:image/webp;base64,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">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            color-scheme: light;
+            --brand: #FEF009;
+            --brand-soft: #FFFBD0;
+            --ink: #111111;
+            --paper: #FFFEF4;
+            --surface-1: #ffffff;
+            --text-primary: #111111;
+            --text-secondary: #55534a;
+            --text-muted: #8a887c;
+            --grid: #ecead9;
+            --baseline: #c9c7b8;
+            --border: #111111;
+            --series-1: #2a78d6;
+            --good: #0ca30c;
+            --good-text: #067a06;
+            --warning: #f5a300;
+            --serious: #ec835a;
+            --critical: #e03131;
+            --pink: #f27d80;
+            --chip-good-bg: rgba(12, 163, 12, 0.12);
+            --chip-warn-bg: rgba(245, 163, 0, 0.16);
+            --chip-serious-bg: rgba(236, 131, 90, 0.16);
+            --chip-crit-bg: rgba(224, 49, 49, 0.12);
+            --chip-neutral-bg: rgba(17, 17, 17, 0.06);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "M PLUS Rounded 1c", "Hiragino Maru Gothic ProN", "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif;
+            background: var(--paper);
+            background-image: radial-gradient(rgba(254, 240, 9, 0.35) 1.5px, transparent 1.5px);
+            background-size: 26px 26px;
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 24px 16px 48px;
+        }
+
+        .wrap {
+            max-width: 1180px;
+            margin: 0 auto;
+        }
+
+        header.top {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            background: var(--brand);
+            border: 3px solid var(--ink);
+            border-radius: 22px;
+            padding: 18px 24px;
+            box-shadow: 6px 6px 0 var(--ink);
+            margin-bottom: 26px;
+        }
+
+        header.top .logo {
+            width: 84px;
+            height: 84px;
+            border-radius: 50%;
+            border: 3px solid var(--ink);
+            background: var(--brand);
+            flex-shrink: 0;
+        }
+
+        header.top h1 {
+            font-size: 21px;
+            font-weight: 800;
+            letter-spacing: 0.01em;
+            line-height: 1.35;
+        }
+
+        header.top .sub {
+            color: rgba(17, 17, 17, 0.78);
+            font-size: 12.5px;
+            margin-top: 5px;
+            font-weight: 500;
+        }
+
+        header.top .sub b {
+            color: var(--ink);
+            font-weight: 800;
+        }
+
+        section {
+            margin-top: 30px;
+        }
+
+        h2 {
+            font-size: 16px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        h2 .n {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: var(--brand);
+            border: 2.5px solid var(--ink);
+            color: var(--ink);
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .note {
+            color: var(--text-secondary);
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .note b {
+            font-weight: 800;
+        }
+
+        /* KPI tiles */
+        .tiles {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(172px, 1fr));
+            gap: 12px;
+        }
+
+        .tile {
+            background: var(--surface-1);
+            border: 2.5px solid var(--ink);
+            border-radius: 14px;
+            padding: 14px 16px;
+            box-shadow: 3px 3px 0 var(--ink);
+        }
+
+        .tile .label {
+            font-size: 11.5px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .tile .value {
+            font-size: 27px;
+            font-weight: 800;
+            margin-top: 2px;
+        }
+
+        .tile .value small {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-secondary);
+        }
+
+        .tile .hint {
+            font-size: 10.5px;
+            color: var(--text-muted);
+            margin-top: 3px;
+        }
+
+        .tile.alert .value {
+            color: var(--critical);
+        }
+
+        .tile.goodv .value {
+            color: var(--good-text);
+        }
+
+        .tile.goodv {
+            background: linear-gradient(0deg, var(--brand-soft), var(--surface-1) 70%);
+        }
+
+        /* Matrix */
+        .matrix-scroller {
+            overflow-x: auto;
+            background: var(--surface-1);
+            border: 2.5px solid var(--ink);
+            border-radius: 14px;
+            box-shadow: 4px 4px 0 var(--ink);
+        }
+
+        table.matrix {
+            border-collapse: collapse;
+            width: 100%;
+            min-width: 900px;
+            font-size: 12.5px;
+        }
+
+        table.matrix th,
+        table.matrix td {
+            padding: 8px 8px;
+            text-align: center;
+            border-bottom: 1.5px solid var(--grid);
+            white-space: nowrap;
+        }
+
+        table.matrix thead th {
+            font-size: 11.5px;
+            color: var(--ink);
+            font-weight: 800;
+            border-bottom: 2.5px solid var(--ink);
+            background: var(--brand);
+        }
+
+        table.matrix th.rowh,
+        table.matrix td.rowh {
+            text-align: left;
+            position: sticky;
+            left: 0;
+            background: var(--surface-1);
+            font-weight: 800;
+            max-width: 230px;
+            white-space: normal;
+            z-index: 1;
+        }
+
+        table.matrix thead th.rowh {
+            background: var(--brand);
+        }
+
+        table.matrix td.rowh .area {
+            display: block;
+            font-size: 10.5px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        table.matrix tbody tr:hover td {
+            background: var(--brand-soft);
+        }
+
+        table.matrix tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .th-group {
+            border-bottom: 2.5px solid var(--ink);
+            color: rgba(17, 17, 17, 0.65) !important;
+            font-weight: 800;
+            font-size: 10.5px !important;
+            letter-spacing: 0.08em;
+        }
+
+        .cell {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 26px;
+            height: 23px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 12px;
+            padding: 0 6px;
+            cursor: default;
+        }
+
+        a.cell {
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        a.cell:hover {
+            outline: 2.5px solid var(--ink);
+            outline-offset: 1px;
+        }
+
+        .kv a.chip {
+            text-decoration: none;
+        }
+
+        .kv a.chip:hover {
+            outline: 2px solid var(--ink);
+            outline-offset: 1px;
+        }
+
+        .s-official {
+            background: var(--chip-good-bg);
+            color: var(--good-text);
+        }
+
+        .s-listed {
+            background: rgba(42, 120, 214, 0.12);
+            color: var(--series-1);
+        }
+
+        .s-brand {
+            background: var(--chip-warn-bg);
+            color: #8a5c00;
+        }
+
+        .s-none {
+            background: var(--chip-neutral-bg);
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .s-unknown {
+            background: var(--chip-serious-bg);
+            color: #c05a2e;
+        }
+
+        .s-stale {
+            background: var(--chip-crit-bg);
+            color: var(--critical);
+        }
+
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 12px 2px 0;
+            font-size: 11.5px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .legend .cell {
+            transform: scale(0.92);
+        }
+
+        /* Bar charts — beer style */
+        .charts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 14px;
+        }
+
+        .chart-card {
+            background: var(--surface-1);
+            border: 2.5px solid var(--ink);
+            border-radius: 14px;
+            padding: 16px;
+            box-shadow: 4px 4px 0 var(--ink);
+        }
+
+        .chart-card h3 {
+            font-size: 13.5px;
+            font-weight: 800;
+        }
+
+        .chart-card .csub {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .bars {
+            display: grid;
+            gap: 8px;
+        }
+
+        .bar-row {
+            display: grid;
+            grid-template-columns: 128px 1fr;
+            align-items: center;
+            gap: 8px;
+            font-size: 11.5px;
+        }
+
+        .bar-row .bl {
+            color: var(--text-secondary);
+            text-align: right;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-weight: 700;
+        }
+
+        .bar-track {
+            position: relative;
+            height: 20px;
+        }
+
+        .bar-fill {
+            position: absolute;
+            left: 0;
+            top: 1px;
+            height: 17px;
+            background: var(--brand);
+            border: 2px solid var(--ink);
+            border-radius: 0 6px 6px 0;
+            min-width: 4px;
+            transition: transform .12s;
+        }
+
+        .bar-row:hover .bar-fill {
+            transform: translateY(-1px);
+        }
+
+        .bar-val {
+            position: absolute;
+            top: 0;
+            font-size: 11px;
+            color: var(--text-primary);
+            padding-left: 7px;
+            line-height: 20px;
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+            font-weight: 700;
+        }
+
+        /* Proposal cards */
+        .props {
+            display: grid;
+            gap: 12px;
+        }
+
+        .prop {
+            background: var(--surface-1);
+            border: 2.5px solid var(--ink);
+            border-left-width: 8px;
+            border-radius: 14px;
+            padding: 14px 18px;
+            box-shadow: 4px 4px 0 var(--ink);
+        }
+
+        .prop {
+            border-left-color: var(--series-1);
+        }
+
+        .prop.p-crit {
+            border-left-color: var(--critical);
+        }
+
+        .prop.p-warn {
+            border-left-color: var(--warning);
+        }
+
+        .prop.p-good {
+            border-left-color: var(--good);
+        }
+
+        .prop h3 {
+            font-size: 14px;
+            font-weight: 800;
+            display: flex;
+            gap: 8px;
+            align-items: baseline;
+            flex-wrap: wrap;
+        }
+
+        .prop .tag {
+            font-size: 10.5px;
+            font-weight: 800;
+            padding: 2px 9px;
+            border-radius: 999px;
+            letter-spacing: 0.04em;
+            border: 1.5px solid var(--ink);
+        }
+
+        .tag.t-crit {
+            background: var(--chip-crit-bg);
+            color: var(--critical);
+        }
+
+        .tag.t-warn {
+            background: var(--brand);
+            color: var(--ink);
+        }
+
+        .tag.t-good {
+            background: var(--chip-good-bg);
+            color: var(--good-text);
+        }
+
+        .tag.t-info {
+            background: rgba(42, 120, 214, 0.12);
+            color: var(--series-1);
+        }
+
+        .prop p {
+            font-size: 12.5px;
+            color: var(--text-secondary);
+            margin-top: 6px;
+        }
+
+        .prop p b {
+            color: var(--text-primary);
+            font-weight: 800;
+        }
+
+        /* Store cards */
+        .stores {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+            gap: 14px;
+        }
+
+        .store {
+            background: var(--surface-1);
+            border: 2.5px solid var(--ink);
+            border-radius: 16px;
+            padding: 15px 17px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            box-shadow: 4px 4px 0 var(--ink);
+        }
+
+        .store h3 {
+            font-size: 13.5px;
+            font-weight: 800;
+            line-height: 1.35;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .rank {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 28px;
+            height: 28px;
+            border-radius: 9px;
+            font-weight: 800;
+            font-size: 14px;
+            color: #fff;
+            flex-shrink: 0;
+            border: 2.5px solid var(--ink);
+            box-shadow: 2px 2px 0 var(--ink);
+        }
+
+        .r-S {
+            background: var(--brand);
+            color: var(--ink);
+        }
+
+        .r-A {
+            background: var(--good);
+        }
+
+        .r-B {
+            background: #1baf7a;
+        }
+
+        .r-C {
+            background: var(--warning);
+            color: var(--ink);
+        }
+
+        .r-D {
+            background: var(--critical);
+        }
+
+        .rankline {
+            font-size: 11.5px;
+            color: var(--text-secondary);
+        }
+
+        .rankline b {
+            color: var(--text-primary);
+            font-weight: 800;
+        }
+
+        .store .addr {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .kv {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .kv .chip {
+            font-size: 11px;
+            padding: 3px 9px;
+            border-radius: 999px;
+            background: var(--chip-neutral-bg);
+            color: var(--text-secondary);
+            border: 1.5px solid rgba(17, 17, 17, 0.35);
+            font-weight: 600;
+        }
+
+        .kv .chip b {
+            color: var(--text-primary);
+            font-weight: 800;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .kv .chip.c-good {
+            background: var(--brand-soft);
+            color: var(--ink);
+            border-color: var(--ink);
+        }
+
+        .kv .chip.c-warn {
+            background: var(--chip-warn-bg);
+            color: #8a5c00;
+            border-color: #c98c00;
+        }
+
+        .store .todo {
+            border-top: 2px dashed var(--grid);
+            padding-top: 8px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .store .todo b {
+            color: var(--text-primary);
+            font-weight: 800;
+            font-size: 11.5px;
+        }
+
+        .store .todo ul {
+            margin: 4px 0 0 16px;
+        }
+
+        .store .todo li {
+            margin-top: 2px;
+        }
+
+        .store a {
+            color: #1c5cab;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .store a:hover {
+            text-decoration: underline;
+        }
+
+        .links {
+            font-size: 11px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        /* View toggle tabs */
+        .viewtabs {
+            display: inline-flex;
+            gap: 0;
+            border: 2.5px solid var(--ink);
+            border-radius: 999px;
+            overflow: hidden;
+            box-shadow: 3px 3px 0 var(--ink);
+            margin-bottom: 22px;
+            background: var(--surface-1);
+        }
+
+        .viewtabs button {
+            border: none;
+            background: transparent;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 800;
+            padding: 9px 20px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .viewtabs button+button {
+            border-left: 2.5px solid var(--ink);
+        }
+
+        .viewtabs button.active {
+            background: var(--brand);
+            color: var(--ink);
+        }
+
+        .viewtabs button .cnt {
+            font-size: 11px;
+            font-weight: 700;
+            opacity: 0.75;
+        }
+
+        .fc-only-note {
+            display: none;
+        }
+
+        body[data-view="all"] .fc-only-note {
+            display: block;
+        }
+
+        tr[data-tier="fc"] {
+            display: none;
+        }
+
+        body[data-view="all"] tr[data-tier="fc"] {
+            display: table-row;
+        }
+
+        tr.fc-divider {
+            display: none;
+        }
+
+        body[data-view="all"] tr.fc-divider {
+            display: table-row;
+        }
+
+        tr.fc-divider td {
+            background: var(--ink);
+            color: var(--brand);
+            font-weight: 800;
+            font-size: 11.5px;
+            letter-spacing: 0.08em;
+            text-align: left;
+            padding: 6px 12px;
+            position: sticky;
+            left: 0;
+        }
+
+        .s-na {
+            background: transparent;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* Changelog / what's new */
+        .changelog {
+            background: var(--surface-1);
+            border: 2.5px solid var(--ink);
+            border-radius: 16px;
+            padding: 14px 18px;
+            box-shadow: 4px 4px 0 var(--ink);
+            margin-bottom: 24px;
+        }
+
+        .changelog h2 {
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+
+        .changelog .cl-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--brand);
+            border: 2px solid var(--ink);
+            border-radius: 999px;
+            padding: 1px 10px;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .changelog .cl-updated {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .cl-entry {
+            border-left: 4px solid var(--brand);
+            padding: 4px 0 4px 12px;
+            margin-top: 10px;
+        }
+
+        .cl-entry:first-of-type {
+            border-left-color: var(--good);
+        }
+
+        .cl-entry .cl-date {
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .cl-entry .cl-date .new {
+            background: var(--good);
+            color: #fff;
+            font-size: 9.5px;
+            border-radius: 4px;
+            padding: 1px 5px;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+
+        .cl-entry ul {
+            margin: 4px 0 0 16px;
+        }
+
+        .cl-entry li {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        .cl-entry li b {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .cl-up {
+            color: var(--good-text);
+            font-weight: 800;
+        }
+
+        .cl-down {
+            color: var(--critical);
+            font-weight: 800;
+        }
+
+        footer {
+            margin-top: 34px;
+            font-size: 11px;
+            color: var(--text-muted);
+            border-top: 2.5px solid var(--ink);
+            padding-top: 12px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        footer .flogo {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid var(--ink);
+            flex-shrink: 0;
+        }
+
+        footer p {
+            margin-top: 0;
+        }
+
+        footer b {
+            font-weight: 800;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap viz-root">
+
+        <header class="top">
+            <img class="logo"
+                src="data:image/webp;base64,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"
+                alt="ビアっくま">
+            <div>
+                <h1>PERFECT BEER グループ — チャネル状況ダッシュボード</h1>
+                <div class="sub">調査日: <b>2026年7月17日</b>(新潟店は7/19追加) ｜ 対象: <b>13店舗</b>(直営・関連含む) ｜ 食べログ / Googleマップ / ぐるなび
+                    / ホットペッパー / Retty / Instagram / X / LINE / TikTok / Facebook</div>
+            </div>
+        </header>
+
+        <!-- ============ VIEW TABS ============ -->
+        <div class="viewtabs" role="tablist">
+            <button id="tab-direct" class="active" onclick="setView('direct')">🏠 直営のみ <span
+                    class="cnt">13店</span></button>
+            <button id="tab-all" onclick="setView('all')">🌐 FC含む全店舗 <span class="cnt">40店</span></button>
+        </div>
+        <div class="fc-only-note note" style="margin:-8px 0 18px">
+            FC(フランチャイズ)27店を表示中。食べログ・Google・ぐるなび・ホットペッパー・Rettyを実測、SNSはブランド共通アカウント運用。<b>？</b>=検索で未確認(掲載の可能性あり)。下部の詳細分析セクションは直営13店が対象です。
+        </div>
+
+        <!-- ============ CHANGELOG ============ -->
+        <div class="changelog" id="changelog">
+            <h2><span class="cl-badge">🆕 新着更新情報</span></h2>
+            <div class="cl-updated">毎日 10:00(日本時間)に自動更新 ｜ 最終更新: <b>2026年7月20日</b></div>
+
+            <div class="cl-entry">
+                <div class="cl-date">2026年7月20日 <span class="new">最新</span></div>
+                <ul>
+                    <li><b>返信率・SNS投稿頻度・メニュー写真の3セクションもタブ連動で40店対応に</b></li>
+                    <li>Google返信率をFC27店も全実測 → <span class="cl-up">100%が20店</span>とFCも返信文化が強い。一方<span
+                            class="cl-down">新大久保・赤羽BURGER・高崎(22%)は要改善</span></li>
+                    <li>FC店のIG投稿頻度17店・メニュー写真15店を追加(残りは自動更新で順次)。<span class="cl-down">赤羽BURGERは最終投稿169日前</span>で休止状態</li>
+                </ul>
+            </div>
+
+            <div class="cl-entry">
+                <div class="cl-date">2026年7月19日</div>
+                <ul>
+                    <li><b>KPIタイル・食べログ/Google/保存チャートをタブ連動化</b> — 「FC含む全店舗」で40店集計に切替(<span
+                            class="cl-up">Google計8,700件・保存計約59,000</span>)</li>
+                    <li><b>FC27店の全チャネル(ぐるなび・HP・Retty含む)を反映</b> — ぐるなび20店・HP15店・Retty6店で掲載確認</li>
+                    <li><b>上部に「直営のみ / FC含む全店舗」切り替えタブを新設</b> — FC27店(計40店)をマトリクスで表示可能に</li>
+                    <li>FC27店の食べログ・Google・IGを実測。<span class="cl-up">新橋 Google 4.9 /
+                            1,390件</span>・名古屋栄4.8/439件・浅草橋4.9/204件など、FCも高評価</li>
+                    <li><b>PERFECT BEER KITCHEN 新潟が直営化 → 13店舗目として追加</b>(新潟駅徒歩3分)</li>
+                    <li>新潟店の実測値: <span class="cl-up">Google 4.8 / 口コミ189件</span>・食べログ3.03 / 9件・IG 738人</li>
+                    <li>新潟店は<b>ホットペッパーもネット予約・クーポン付きで運用中</b>(グループ唯一のアクティブHP)</li>
+                    <li>気づき: 新潟店は<b>食べログが未公式化</b>・<b>IG最終投稿35日前</b>で停滞ぎみ — 早期テコ入れ推奨</li>
+                </ul>
+            </div>
+
+            <div class="cl-entry">
+                <div class="cl-date">2026年7月17日</div>
+                <ul>
+                    <li><b>メニュー写真評価</b>を新設 — 全店をInstagramの料理写真で採点(麦酒飯店96点でトップ)</li>
+                    <li><b>SNS運用アクティビティ</b>(投稿頻度)と<b>Google口コミ返信率</b>のセクションを追加</li>
+                    <li>Instagram/X/LINEのフォロワー数を全店実測 — <span class="cl-up">LINE合計22,766人</span>の資産が判明</li>
+                    <li>ぐるなびの掲載見落とし(総本店・富山)を修正、完璧麦酒飯店の食べログ掲載を反映</li>
+                    <li>ビアっくまのロゴ・配色でデザインを一新、総合ランク(S〜D)を導入</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ============ KPI ============ -->
+        <section>
+            <div class="tiles" id="kpi-tiles"></div>
+        </section>
+
+        <!-- ============ MATRIX ============ -->
+        <section>
+            <h2><span class="n">1</span>店舗 × チャネル マトリクス</h2>
+            <div class="matrix-scroller">
+                <table class="matrix">
+                    <thead>
+                        <tr>
+                            <th class="rowh" rowspan="2">店舗</th>
+                            <th colspan="5" class="th-group">グルメサイト</th>
+                            <th colspan="5" class="th-group">SNS</th>
+                        </tr>
+                        <tr>
+                            <th>食べログ</th>
+                            <th>Google</th>
+                            <th>ぐるなび</th>
+                            <th>ホットペッパー</th>
+                            <th>Retty</th>
+                            <th>Instagram</th>
+                            <th>X</th>
+                            <th>LINE</th>
+                            <th>TikTok</th>
+                            <th>Facebook</th>
+                        </tr>
+                    </thead>
+                    <tbody id="matrix-body">
+                        <tr>
+                            <td class="rowh">PERFECT BEER GARDEN 門前仲町<span class="area">門前仲町・赤札堂3F(季節営業)</span></td>
+                            <td><a class="cell s-official" href="https://tabelog.com/tokyo/A1313/A131303/13261512/"
+                                    target="_blank" rel="noopener" title="3.29 / 口コミ74件 / 保存6,295 / 公式管理・予約可">◎ 3.29</a>
+                            </td>
+                            <td><a class="cell s-official"
+                                    href="https://www.google.com/maps/search/PERFECT+BEER+GARDEN+%E9%96%80%E5%89%8D%E4%BB%B2%E7%94%BA+%E6%B1%9F%E6%9D%B1%E5%8C%BA%E9%96%80%E5%89%8D%E4%BB%B2%E7%94%BA2-10-1"
+                                    target="_blank" rel="noopener" title="Google評価4.3 / 口コミ340件(2026/7/17実確認)">◎ 4.3</a>
+                            </td>
+                            <td><a class="cell s-stale" href="https://r.gnavi.co.jp/b96g6sx30000/" target="_blank"
+                                    rel="noopener" title="掲載あり・予約可だが情報更新が2022年で停止">○ 停滞</a></td>
+                            <td><span class="cell s-none">×</span></td>
+                            <td><a class="cell s-listed" href="https://retty.me/area/PRE13/ARE10/SUB1003/100001631765/"
+                                    target="_blank" rel="noopener" title="口コミ4件">○ 4件</a></td>
+                            <td><a class="cell s-official" href="https://www.instagram.com/perfect_beer_garden_tokyo/"
+                                    target="_blank" rel="noopener"
+                                    title="@perfect_beer_garden_tokyo フォロワー2,467人・投稿271件(7/17実測)">◎ 2,467</a></td>
+                            <td><a class="cell s-brand" href="https://x.com/PERFECTBEER0802" target="_blank"
+                                    rel="noopener" title="ブランド共通 @PERFECTBEER0802 のみ">共通</a></td>
+                            <td><a class="cell s-official" href="https://page.line.me/573gsaff" target="_blank"
+                                    rel="noopener" title="@573gsaff 友だち16,133人">◎ 1.6万</a></td>
+                            <td><a class="cell s-brand" href="https://www.tiktok.com/@numa1018" target="_blank"
+                                    rel="noopener" title="創業者アカウント @numa1018 で言及のみ">共通</a></td>
+                            <td><a class="cell s-listed" href="https://www.facebook.com/PERFECT.BEER.GARDEN.TOKYO/"
+                                    target="_blank" rel="noopener" title="店舗ページあり(更新状況未確認)">○</a></td>
+                        </tr>
+                        <tr>
+                            <td class="rowh">PERFECT BEER KITCHEN 総本店<span class="area">門前仲町・冬木</span></td>
+                            <td><a class="cell s-official" href="https://tabelog.com/tokyo/A1313/A131303/13278318/"
+                                    target="_blank" rel="noopener" title="3.39 / 口コミ94件 / 保存6,866 / 公式管理・予約可">◎ 3.39</a>
+                            </td>
+                            <td><a class="cell s-official"
+                                    href="https://www.google.com/maps/search/PERFECT+BEER+KITCHEN+%E7%B7%8F%E6%9C%AC%E5%BA%97+%E6%B1%9F%E6%9D%B1%E5%8C%BA%E5%86%AC%E6%9C%A814-2"
+                                    target="_blank" rel="noopener"
+                                    title="Google評価4.8 / 口コミ564件(2026/7/17実確認) — グループ最多">◎ 4.8</a></td>
+                            <td><a class="cell s-listed" href="https://r.gnavi.co.jp/jmd7pky70000/" target="_blank"
+                                    rel="noopener"
+                                    title="掲載あり(7/17サイト内検索で発見) — ビールと唐揚げの専門店 PERFECT BEER KITCHEN 総本店">○</a></td>
+                            <td><a class="cell s-stale" href="https://www.hotpepper.jp/strJ003474054/" target="_blank"
+                                    rel="noopener" title="掲載あるが口コミ0・ネット予約停止・最終更新2023/2">○ 停滞</a></td>
+                            <td><a class="cell s-listed" href="https://retty.me/area/PRE13/ARE10/SUB1003/100001684877/"
+                                    target="_blank" rel="noopener" title="口コミ1件">○ 1件</a></td>
+                            <td><a class="cell s-official" href="https://www.instagram.com/perfect_beer_kitchen_tokyo/"
+                                    target="_blank" rel="noopener"
+                                    title="@perfect_beer_kitchen_tokyo フォロワー4,047人・投稿324件(7/17実測)">◎ 4,047</a></td>
+                            <td><a class="cell s-brand" href="https://x.com/PERFECTBEER0802" target="_blank"
+                                    rel="noopener">共通</a></td>
+                            <td><a class="cell s-official" href="https://page.line.me/069heuju" target="_blank"
+                                    rel="noopener" title="PERFECT BEER KITCHEN 友だち6,633人(7/17実測)">◎ 6,633</a></td>
+                            <td><a class="cell s-listed" href="https://www.tiktok.com/@perfect.beer.kitc0"
+                                    target="_blank" rel="noopener" title="@perfect.beer.kitc0 を検索で確認">○</a></td>
+                            <td><a class="cell s-listed"
+                                    href="https://www.facebook.com/p/%E3%83%91%E3%83%BC%E3%83%95%E3%82%A7%E3%82%AF%E3%83%88%E3%83%93%E3%82%A2%E3%82%AD%E3%83%83%E3%83%81%E3%83%B3%E6%9D%B1%E4%BA%AC-100087458751441/"
+                                    target="_blank" rel="noopener" title="パーフェクトビアキッチン東京 ページあり">○</a></td>
+                        </tr>
+                        <tr>
+                            <td class="rowh">PERFECT BEER STAND 門前仲町<span class="area">門前仲町・富岡</span></td>
+                            <td><a class="cell s-official" href="https://tabelog.com/tokyo/A1313/A131303/13287172/"
+                                    target="_blank" rel="noopener" title="3.23 / 口コミ30件 / 保存1,832 / 公式管理・予約可">◎ 3.23</a>
+                            </td>
+                            <td><a class="cell s-official"
+                                    href="https://www.google.com/maps/search/PERFECT+BEER+STAND+%E9%96%80%E5%89%8D%E4%BB%B2%E7%94%BA+%E6%B1%9F%E6%9D%B1%E5%8C%BA%E5%AF%8C%E5%B2%A11-24-6"
+                                    target="_blank" rel="noopener" title="Google評価4.8 / 口コミ248件(2026/7/17実確認)">◎ 4.8</a>
+                            </td>
+                            <td><span class="cell s-none">×</span></td>
+                            <td><span class="cell s-none">×</span></td>
+                            <td><a class="cell s-listed" href="https://retty.me/area/PRE13/ARE10/SUB1003/100001709792/"
+                                    target="_blank" rel="noopener" title="口コミ1件・写真0枚・ほぼ放置状態">○ 1件</a></td>
+                            <td><a class="cell s-official" href="https://www.instagram.com/perfect_beer_stand_monnaka2/"
+                                    target="_blank" rel="noopener"
+                                    title="@perfect_beer_stand_monnaka2 フォロワー541人・投稿115件(7/17実測)。旧アカウントは削除済み → 各サイトのリンク更新推奨">◎
+                                    541</a></td>
+                            <td><a class="cell s-brand" href="https://x.com/PERFECTBEER0802" target="_blank"
+                                    rel="noopener">共通</a></td>
+                            <td><span class="cell s-none">×</span></td>
+                            <td><a class="cell s-brand" href="https://www.tiktok.com/@numa1018" target="_blank"
+                                    rel="noopener">共通</a></td>
+                            <td><a class="cell s-brand" href="https://www.facebook.com/PERFECTBEER.INFO/"
+                                    target="_blank" rel="noopener" title="ブランド共通ページのみ">共通</a></td>
+                        </tr>
+                        <tr>
+                            <td class="rowh">PERFECT BEER LABO TOKYO<span class="area">門前仲町・富岡(2024/12開店)</span></td>
+                            <td><a class="cell s-official" href="https://tabelog.com/tokyo/A1313/A131303/13304280/"
+                                    target="_blank" rel="noopener"
+                                    title="3.39 / 口コミ137件 / 保存10,425 / 写真729 / 公式管理・予約可 — グループ最強ページ">◎ 3.39</a></td>
+                            <td><a class="cell s-official"
+                                    href="https://www.google.com/maps/search/PERFECT+BEER+LABO+TOKYO+%E6%B1%9F%E6%9D%B1%E5%8C%BA%E5%AF%8C%E5%B2%A12-10-1"
+                                    target="_blank" rel="noopener" title="Google評価4.6 / 口コミ363件(2026/7/17実確認)">◎ 4.6</a>
+                            </td>
+                            <td><a class="cell s-official" href="https://r.gnavi.co.jp/cc5g609j0000/" target="_blank"
+                                    rel="noopener" title="正式ページあり・24時間ネット予約対応">◎</a></td>
+                            <td><span class="cell s-none">×</span></td>
+                            <td><a class="cell s-listed" href="https://retty.me/area/PRE13/ARE10/SUB1003/100001770017/"
+                                    target="_blank" rel="noopener" title="口コミ9件・写真96枚">○ 9件</a></td>
+                            <td><a class="cell s-official" href="https://www.instagram.com/perfect_beer_labo/"
+                                    target="_blank" rel="noopener"
+                                    title="@perfect_beer_labo フォロワー2.3万人・投稿187件(7/17実測) — グループ最強のSNS資産">◎ 2.3万</a></td>
+                            <td><a class="cell s-brand" href="https://x.com/PERFECTBEER0802" target="_blank"
+                                    rel="noopener">共通</a></td>
+                            <td><span class="cell s-none">×</span></td>
+                            <td><a class="cell s-official" href="https://www.tiktok.com/@perfect_beer_labo"
+                                    target="_blank" rel="noopener" title="@perfect_beer_labo — 抹茶ビール等ショート動画">◎</a></td>
+                            <td><a class="cell s-brand" href="https://www.facebook.com/PERFECTBEER.INFO/"
+                                    target="_blank" rel="noopener">共通</a></td>
+                        </tr>
+                        <tr>
+                            <td class="rowh">PERFECT BEER KITCHEN 富山<span class="area">富山駅前・Dタワー(2025/11開店)</span></td>
+                            <td><a class="cell s-official" href="https://tabelog.com/toyama/A1601/A160101/16011641/"
+                                    target="_blank" rel="noopener" title="3.08 / 口コミ9件 / 保存106 / 公式管理・予約可">◎ 3.08</a>
+                            </td>
+                            <td><a class="cell s-official"
+                                    href="https://www.google.com/maps/search/PERFECT+BEER+KITCHEN+%E5%AF%8C%E5%B1%B1+%E5%AF%8C%E5%B1%B1%E5%B8%82%E7%89%9B%E5%B3%B6%E7%94%BA9-5"
+                                    target="_blank" rel="noopener" title="Google評価4.8 / 口コミ156件(2026/7/17実確認)">◎ 4.8</a>
+                            </td>
+                            <td><a class="cell s-listed" href="https://r.gnavi.co.jp/1jgvr4yd0000/" target="_blank"
+                                    rel="noopener" title="掲載あり(7/17サイト内検索で発見) — 上質な生ビール PERFECT BEER KITCHEN 富山店">○</a>
+                            </td>
+                            <td><span class="cell s-none">×</span></td>
+                            <td><span class="cell s-none">×</span></td>
+                            <td><a class="cell s-listed" href="https://www.instagram.com/perfect_beer_kitchen_toyama/"
+                                    target="_blank" rel="noopener"
+                                    title="@perfect_beer_kitchen_toyama フォロワー753人・投稿57件(7/17実測)">○ 753</a></td>
+                            <td><a class="cell s-brand" href="https://x.com/PERFECTBEER0802" target="_blank"
+                                    rel="noopener">共通</a></td>
+                            <td><span class="cell s-unknown" title="確認できず">？</span></td>
+                            <td><a class="cell s-brand" href="https://www.tiktok.com/@numa1018" target="_blank"
+                                    rel="noopener">共通</a></td>
+                            <td><span class="cell s-none">×</span></td>
+                        </tr>
+                        <tr>
+                            <td class="rowh">PERFECT BEER KITCHEN 新潟<span class="area">新潟駅徒歩3分・2026/7直営化</span></td>
+                            <td><a class="cell s-listed" href="https://tabelog.com/niigata/A1501/A150101/15024605/"
+                                    target="_blank" rel="noopener"
+                                    title="3.03 / 口コミ9件 / 保存148 / 写真114 / 予約可。ただし店舗会員未登録=公式化が必要">○ 3.03</a></td>
+                            <td><a class="cell s-official"
+                                    href="https://www.google.com/maps/search/PERFECT+BEER+KITCHEN+%E6%96%B0%E6%BD%9F+%E6%96%B0%E6%BD%9F%E5%B8%82%E4%B8%AD%E5%A4%AE%E5%8C%BA%E6%9D%B1%E5%A4%A7%E9%80%9A1-6-29"
+                                    target="_blank" rel="noopener" title="Google評価4.8 / 口コミ189件(2026/7/19実確認)">◎ 4.8</a>
+                            </td>
+                            <td><a class="cell s-listed" href="https://r.gnavi.co.jp/sbcnf0040000/" target="_blank"
+                                    rel="noopener" title="ぐるなび掲載あり(ビアホール)">○</a></td>
+                            <td><a class="cell s-official" href="https://www.hotpepper.jp/strJ004025868/"
+                                    target="_blank" rel="noopener"
+                                    title="ホットペッパー掲載・ネット予約可・クーポンあり(7/19確認)。グループで唯一のアクティブなHP運用">◎</a></td>
+                            <td><span class="cell s-none">×</span></td>
+                            <td><a class="cell s-listed" href="https://www.instagram.com/perfect_beer_kitchen_niigata/"
+                                    target="_blank" rel="noopener"
+                                    title="@perfect_beer_kitchen_niigata フォロワー738人・投稿39件(7/19実測)。最終投稿35日前で停滞ぎみ">○
+                                    738</a></td>
+                            <td><a class="cell s-brand" href="https://x.com/PERFECTBEER0802" target="_blank"
+                                    rel="noopener">共通</a></td>
+                            <td><span class="cell s-unknown">？</span></td>
+                            <td><a class="cell s-brand" href="https://www.tiktok.com/@numa1018" target="_blank"
+                                    rel="noopener">共通</a></td>
+                            <td><span class="cell s-none">×</span></td>
+                        </tr>
+                        <tr>
+                            <td class="rowh">PERFECT BEER STAND 福岡<span class="area">大名(2025/12開店)</span></td>
+                            <td><a class="cell s-official" href="https://tabelog.com/fukuoka/A4001/A400104/40072568/"
+                                    target="_blank" rel="noopener" title="3.09 / 口コミ14件 / 保存439 / 公式管理・予約可">◎ 3.09</a>
+                            </td>
+                            <td><a class="cell s-official"
+                                    href="https://www.google.com/maps/search/PERFECT+BEER+STAND+%E7%A6%8F%E5%B2%A1+%E7%A6%8F%E5%B2%A1%E5%B8%82%E4%B8%AD%E5%A4%AE%E5%8C%BA%E5%A4%A7%E5%90%8D1-3-5"
+                                    target="_blank" rel="noopener"
+                                    title="Google評価4.9 / 口コミ145件(2026/7/17実確認) — グループ最高評価">◎ 4.9</a></td>
+                            <td><span class="cell s-none">×</span></td>
+                            <td><span class="cell s-none">×</span></td>
+                            <td><span class="cell s-none">×</span></td>
+                            <td><a class="cell s-listed" href="https://www.instagram.com/perfect_beer_stand_fukuoka/"
+                                    target="_blank" rel="noopener"
+                                    title="@perfect_beer_stand_fukuoka フォロワー1,669人・投稿97件(7/17実測)">○ 1,669</a></td>
+                            <td><a class="cell s-brand" href="https://x.com/PERFECTBEER0802" target="_blank"
+                                    rel="noopener">共通</a></td>
+                            <td><span class="cell s-unknown">？</span></td>
+                            <td><a class="cell s-brand" href="https://www.tiktok.com/@numa1018" target="_blank"
+                                    rel="noopener">共通</a></td>
+                            <td><span class="cell s-none">×</span></td>
+                        </tr>
+                        <tr>
+                            <td class="rowh">完璧麦酒飯店 門前仲町<span class="area">門前仲町(2026/5/12開店)</span></td>
+                            <td><a class="cell s-official" href="https://tabelog.com/tokyo/A1313/A131303/13321591/"
+                                    target="_blank" rel="noopener" title="3.07 / 口コミ7件 / 保存236 / 写真61 / 公式管理・予約可">◎
+                                    3.07</a></td>
+                            <td><a class="cell s-official"
+                                    href="https://www.google.com/maps/search/%E5%AE%8C%E7%92%A7%E9%BA%A6%E9%85%92%E9%A3%AF%E5%BA%97+%E9%96%80%E5%89%8D%E4%BB%B2%E7%94%BA+%E6%B1%9F%E6%9D%B1%E5%8C%BA%E9%96%80%E5%89%8D%E4%BB%B2%E7%94%BA1-17-1"
+                                    target="_blank" rel="noopener" title="Google評価5.0 / 口コミ66件(2026/7/17実確認) — 満点!">◎
+                                    5.0</a></td>
+                            <td><span class="cell s-none">×</span></td>
+                            <td><span class="cell s-none">×</span></td>
+                            <td><span class="cell s-none">×</span></td>
+                            <td><a class="cell s-listed" href="https://www.instagram.com/hanten_monnaka/"
+                                    target="_blank" rel="noopener" title="@hanten_monnaka フォロワー376人・投稿26件(7/17実測)">○
+                                    376</a></td>
+                            <td><a class="cell s-brand" href="https://x.com/PERFECTBEER0802" target="_blank"
+                                    rel="noopener">共通</a></td>
+                            <td><span class="cell s-unknown">？</span></td>
+                            <td><span class="cell s-none">×</span></td>
+                            <td><span class="cell s-none">×</span></td>
+                        </tr>
+                        <tr>
+                            <td class="rowh">PERFECT BEER STAND 池袋<span class="area">IT tower TOKYO(2026/4/27開店)</span>
+                            </td>
+                            <td><a class="cell s-official" href="https://tabelog.com/tokyo/A1305/A130501/13319528/"
+                                    target="_blank" rel="noopener" title="3.09 / 口コミ18件 / 保存406 / 公式管理・予約可">◎ 3.09</a>
+                            </td>
+                            <td><a class="cell s-official"
+                                    href="https://www.google.com/maps/search/PERFECT+BEER+STAND+%E6%B1%A0%E8%A2%8B+%E8%A5%BF%E6%B1%A0%E8%A2%8B3-28-13"
+                                    target="_blank" rel="noopener" title="Google評価4.8 / 口コミ79件(2026/7/17実確認)">◎ 4.8</a>
+                            </td>
+                            <td><span class="cell s-none">×</span></td>
+                            <td><span class="cell s-none">×</span></td>
+                            <td><span class="cell s-none">×</span></td>
+                            <td><a class="cell s-listed" href="https://www.instagram.com/perfectbeer_stand_ikebukuro/"
+                                    target="_blank" rel="noopener"
+                                    title="@perfectbeer_stand_ikebukuro フォロワー1,487人・投稿27件(7/17実測)">○ 1,487</a></td>
+                            <td><a class="cell s-brand" href="https://x.com/PERFECTBEER0802" target="_blank"
+                                    rel="noopener">共通</a></td>
+                            <td><span class="cell s-unknown">？</span></td>
+                            <td><span class="cell s-none">×</span></td>
+                            <td><span class="cell s-none">×</span></td>
+                        </tr>
+                        <tr>
+                            <td class="rowh">PERFECT BEER STAND 亀戸<span class="area">カメイドクロック横(2026/5/26開店)</span></td>
+                            <td><a class="cell s-official" href="https://tabelog.com/tokyo/A1312/A131202/13322588/"
+                                    target="_blank" rel="noopener" title="3.04 / 口コミ5件 / 保存89 / 公式管理・予約可">◎ 3.04</a>
+                            </td>
+                            <td><a class="cell s-official"
+                                    href="https://www.google.com/maps/search/PERFECT+BEER+STAND+%E4%BA%80%E6%88%B8+%E6%B1%9F%E6%9D%B1%E5%8C%BA%E4%BA%80%E6%88%B86-31-6"
+                                    target="_blank" rel="noopener" title="Google評価4.6 / 口コミ28件(2026/7/17実確認)">◎ 4.6</a>
+                            </td>
+                            <td><span class="cell s-none">×</span></td>
+                            <td><span class="cell s-none">×</span></td>
+                            <td><span class="cell s-none">×</span></td>
+                            <td><a class="cell s-listed" href="https://www.instagram.com/perfectbeer_stand_kameido/"
+                                    target="_blank" rel="noopener"
+                                    title="@perfectbeer_stand_kameido フォロワー178人・投稿19件(7/17実測) + キャラ @beer_kuma_ 1,153人">○
+                                    178</a></td>
+                            <td><a class="cell s-brand" href="https://x.com/PERFECTBEER0802" target="_blank"
+                                    rel="noopener">共通</a></td>
+                            <td><a class="cell s-brand" href="https://page.line.me/069heuju" target="_blank"
+                                    rel="noopener" title="KITCHEN共通LINE(友だち6,633人)への導線のみ">共通</a></td>
+                            <td><span class="cell s-none">×</span></td>
+                            <td><a class="cell s-brand" href="https://www.facebook.com/PERFECTBEER.INFO/"
+                                    target="_blank" rel="noopener">共通</a></td>
+                        </tr>
+                        <tr>
+                            <td class="rowh">PERFECT BEER SHOP 横浜ベイクォーター<span class="area">横浜駅きた東口(2026/6/4開店)</span>
+                            </td>
+                            <td><a class="cell s-official" href="https://tabelog.com/kanagawa/A1401/A140101/14102995/"
+                                    target="_blank" rel="noopener" title="点数未算出(新店) / 口コミ8件 / 保存166 / 公式管理">◎ 新店</a>
+                            </td>
+                            <td><a class="cell s-official"
+                                    href="https://www.google.com/maps/search/PERFECT+BEER+SHOP+%E6%A8%AA%E6%B5%9C%E3%83%99%E3%82%A4%E3%82%AF%E3%82%A9%E3%83%BC%E3%82%BF%E3%83%BC"
+                                    target="_blank" rel="noopener" title="Google評価4.6 / 口コミ38件(2026/7/17実確認)">◎ 4.6</a>
+                            </td>
+                            <td><span class="cell s-none">×</span></td>
+                            <td><span class="cell s-none">×</span></td>
+                            <td><span class="cell s-none">×</span></td>
+                            <td><a class="cell s-listed" href="https://www.instagram.com/perfect_beer_shop_yokohama/"
+                                    target="_blank" rel="noopener"
+                                    title="@perfect_beer_shop_yokohama フォロワー221人・投稿20件(7/17実測) — 個別アカウントを発見!">○ 221</a>
+                            </td>
+                            <td><a class="cell s-brand" href="https://x.com/PERFECTBEER0802" target="_blank"
+                                    rel="noopener">共通</a></td>
+                            <td><a class="cell s-brand" href="https://page.line.me/069heuju" target="_blank"
+                                    rel="noopener" title="KITCHEN共通LINE(友だち6,633人)への導線のみ">共通</a></td>
+                            <td><span class="cell s-none">×</span></td>
+                            <td><a class="cell s-brand" href="https://www.facebook.com/PERFECTBEER.INFO/"
+                                    target="_blank" rel="noopener">共通</a></td>
+                        </tr>
+                        <tr>
+                            <td class="rowh">株式会社マーボードウフ渋谷<span class="area">円山町・神泉(2026/6/10開店・別会社)</span></td>
+                            <td><a class="cell s-official" href="https://tabelog.com/tokyo/A1303/A130301/13322597/"
+                                    target="_blank" rel="noopener" title="点数未算出(新店) / 口コミ2件 / 保存367 / 公式管理・予約可">◎ 新店</a>
+                            </td>
+                            <td><a class="cell s-official"
+                                    href="https://www.google.com/maps/search/%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BE%E3%83%9E%E3%83%BC%E3%83%9C%E3%83%BC%E3%83%89%E3%82%A6%E3%83%95%E6%B8%8B%E8%B0%B7+%E6%B8%8B%E8%B0%B7%E5%8C%BA%E5%86%86%E5%B1%B1%E7%94%BA4-6"
+                                    target="_blank" rel="noopener" title="Google評価4.3 / 口コミ51件(2026/7/17実確認)">◎ 4.3</a>
+                            </td>
+                            <td><span class="cell s-none">×</span></td>
+                            <td><span class="cell s-none">×</span></td>
+                            <td><a class="cell s-listed" href="https://retty.me/area/PRE13/ARE8/SUB806/100001834875/"
+                                    target="_blank" rel="noopener" title="口コミ1件・非公式(店舗会員化の形跡なし)">○ 1件</a></td>
+                            <td><a class="cell s-listed" href="https://www.instagram.com/gosai531/" target="_blank"
+                                    rel="noopener" title="会社公式 @gosai531 フォロワー7,712人・投稿23件(7/17実測)">○ 7,712</a></td>
+                            <td><a class="cell s-official" href="https://x.com/mabodofucompany" target="_blank"
+                                    rel="noopener" title="@mabodofucompany フォロワー2,124人(7/17実測) + 代表 @meer_kato が発信の主軸">◎
+                                    2,124</a></td>
+                            <td><span class="cell s-unknown">？</span></td>
+                            <td><span class="cell s-unknown">？</span></td>
+                            <td><span class="cell s-none">×</span></td>
+                        </tr>
+                        <tr>
+                            <td class="rowh">PERFECT BEER SHOP 明治神宮野球場<span class="area">外野15GATE(POP
+                                    UP・2026/6/19〜)</span></td>
+                            <td><span class="cell s-none" title="球場内売店のため未掲載(神宮球場グルメ公式サイトには掲載あり)">×</span></td>
+                            <td><a class="cell s-listed"
+                                    href="https://www.google.com/maps/search/PERFECT+BEER+SHOP+%E6%98%8E%E6%B2%BB%E7%A5%9E%E5%AE%AE%E7%90%83%E5%A0%B4"
+                                    target="_blank" rel="noopener" title="掲載あり(評価・口コミなし)。営業時間が未設定 — 追加推奨">○ 掲載</a></td>
+                            <td><span class="cell s-none">×</span></td>
+                            <td><span class="cell s-none">×</span></td>
+                            <td><span class="cell s-none">×</span></td>
+                            <td><a class="cell s-brand" href="https://www.instagram.com/perfectbeer_info/"
+                                    target="_blank" rel="noopener" title="ブランド共通 + 球場公式 @jingu_stadiumpr が発信">共通</a>
+                            </td>
+                            <td><a class="cell s-brand" href="https://x.com/PERFECTBEER0802" target="_blank"
+                                    rel="noopener">共通</a></td>
+                            <td><span class="cell s-unknown">？</span></td>
+                            <td><span class="cell s-none">×</span></td>
+                            <td><span class="cell s-none">×</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="legend">
+                <span><span class="cell s-official">◎</span> 掲載あり・店舗側が公式管理/運用中</span>
+                <span><span class="cell s-listed">○</span> 掲載/アカウントあり(運用は要強化)</span>
+                <span><span class="cell s-brand">共通</span> ブランド共通アカウントのみ</span>
+                <span><span class="cell s-stale">停滞</span> 情報が古い/未掲載(要対応)</span>
+                <span><span class="cell s-none">×</span> なし</span>
+                <span><span class="cell s-unknown">？</span> 未確認(計測体制の構築が必要)</span>
+                <span><span class="cell s-na">–</span> FC店は未調査(食べログ・Google・IGのみ実測)</span>
+            </div>
+            <div class="note">※ セルをタップ/クリックすると該当ページ(食べログ・Googleマップ・SNS等)が開きます。マウスを乗せると詳細メモが表示されます。</div>
+        </section>
+
+        <!-- ============ CHARTS ============ -->
+        <section>
+            <h2><span class="n">2</span>食べログ / Google / Instagram パフォーマンス比較<span class="fc-only-note"
+                    style="font-size:11px;color:var(--good-text);font-weight:700;margin-left:6px">← 全40店の上位20に切替中</span>
+            </h2>
+            <div class="charts">
+                <div class="chart-card">
+                    <h3>Google口コミ件数(件)と評価</h3>
+                    <div class="csub">全店4.3〜5.0の高評価 — グループ最大の資産(2026/7/17実確認)</div>
+                    <div class="bars" id="chart-google"></div>
+                </div>
+                <div class="chart-card">
+                    <h3>食べログ口コミ件数(件)</h3>
+                    <div class="csub">件数が多いほど点数が安定し検索露出も向上(2026/7/17時点)</div>
+                    <div class="bars" id="chart-reviews"></div>
+                </div>
+                <div class="chart-card">
+                    <h3>食べログ保存(ブックマーク)数(人)</h3>
+                    <div class="csub">「行きたい」意向の先行指標 — LABOが圧倒的</div>
+                    <div class="bars" id="chart-saves"></div>
+                </div>
+                <div class="chart-card">
+                    <h3>Instagramフォロワー数(人)<span
+                            style="font-size:10px;color:var(--text-muted);font-weight:600">直営13店</span></h3>
+                    <div class="csub">店舗個別アカウント — LABO 2.3万が突出。FCの個別フォロワーはIG制限のため保留</div>
+                    <div class="bars" id="chart-ig"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ SNS ACTIVITY ============ -->
+        <section>
+            <h2><span class="n">3</span>SNS運用アクティビティ(Instagram 投稿頻度)<span class="scope-lbl"
+                    style="font-size:11px;color:var(--text-muted);font-weight:600;margin-left:4px">タブ連動(直営+FC17店)</span>
+            </h2>
+            <div class="note">2026年7月17日にInstagram
+                APIで実測。<b>直近投稿</b>=最終投稿からの経過日数、<b>直近30日</b>=過去30日の投稿数、<b>月間ペース</b>=最新12投稿の平均月間本数。緑=活発 / 黄=標準 / 赤=停滞ぎみ。
+            </div>
+            <div class="matrix-scroller">
+                <table class="matrix">
+                    <thead>
+                        <tr>
+                            <th class="rowh">アカウント(店舗)</th>
+                            <th>フォロワー</th>
+                            <th>累計投稿</th>
+                            <th>直近投稿</th>
+                            <th>直近30日</th>
+                            <th>月間ペース</th>
+                            <th>運用評価</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sns-activity"></tbody>
+                </table>
+            </div>
+            <div class="note">※
+                「月間ペース」は直近12投稿の間隔から算出。バースト投稿(短期集中)の店は30日実数と乖離することがあります。TikTok/Xはbot制限で自動計測不可のため本表はIG中心です。</div>
+        </section>
+
+        <!-- ============ REPLY RATE ============ -->
+        <section>
+            <h2><span class="n">4</span>Google口コミ 返信率<span class="scope-lbl"
+                    style="font-size:11px;color:var(--text-muted);font-weight:600;margin-left:4px">全40店(タブ連動)</span>
+            </h2>
+            <div class="note">
+                各店のGoogleマップで最新に表示される口コミ(1店あたり最大9件の共通サンプル)に対し、<b>オーナー返信が付いている割合</b>を実測(直営13店=7/17、FC27店=7/20)。口コミ返信はMEO(地図検索順位)と来店客の信頼に直結する重要指標です。全40店の実測が完了しました。
+            </div>
+            <div class="charts">
+                <div class="chart-card">
+                    <h3>返信率(直近口コミサンプル)</h3>
+                    <div class="csub">🟢90%↑=優秀 / 🟡50-89% / 🔴50%未満 — 门前仲町の主力店はほぼ全返信</div>
+                    <div class="bars" id="chart-reply"></div>
+                </div>
+                <div class="chart-card">
+                    <h3>ひとことメモ</h3>
+                    <div class="csub" style="margin-bottom:8px">返信運用の傾向</div>
+                    <div id="reply-memo" style="font-size:12.5px; color:var(--text-secondary); line-height:1.7">
+                        <p style="margin-bottom:8px"><b style="color:var(--good-text)">◎ ほぼ全返信(9店)</b>:
+                            総本店・福岡・麦酒飯店・池袋・亀戸・富山が返信率100%。GARDEN・STAND門仲・LABOも9割前後で、<b>直営店の返信文化は非常に強い</b>です。</p>
+                        <p style="margin-bottom:8px"><b style="color:var(--warning)">△ 要改善: 横浜ベイクォーター(25%)</b> —
+                            開店直後で返信が追いついていません。今のうちに返信習慣をつければMEOで先行できます。</p>
+                        <p><b style="color:var(--critical)">✕ 未対応: マーボードウフ渋谷(0%)</b> —
+                            別会社運営で返信ゼロ。口コミ51件と多いだけに機会損失が大きい状態です。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ MENU PHOTOS ============ -->
+        <section>
+            <h2><span class="n">5</span>メニュー写真 評価(掲載量 × クオリティ)<span class="scope-lbl"
+                    style="font-size:11px;color:var(--text-muted);font-weight:600;margin-left:4px">タブ連動(直営+FC15店)</span>
+            </h2>
+            <div class="note">
+                各店のInstagram(店舗が料理写真を実際に載せている主戦場)の直近投稿を目視評価。<b>料理写真比率</b>=フィードに占める料理・ドリンク実写真の割合、<b>クオリティ</b>=明るさ・構図・シズル感・統一感を5段階。<b>スコア</b>=比率50点+クオリティ50点。<b>※重要な発見:</b>
+                食べログ・ぐるなびの<b>メニュー欄は全店ほぼ写真0%</b>でした — ここに写真を足すと予約サイトでの注文率が上がる伸びしろです。</div>
+            <div class="matrix-scroller">
+                <table class="matrix">
+                    <thead>
+                        <tr>
+                            <th class="rowh">店舗</th>
+                            <th>料理写真比率</th>
+                            <th>クオリティ</th>
+                            <th>スコア</th>
+                            <th>ランク</th>
+                            <th>ひとことメモ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="menu-photo"></tbody>
+                </table>
+            </div>
+            <div class="note">※
+                実際の自社アプリ内メニューは外部から閲覧できないため、公開されているInstagramの料理写真で代替評価しています。アプリ内メニューを採点したい場合はスクリーンショットを共有ください。</div>
+        </section>
+
+        <!-- ============ PROPOSALS ============ -->
+        <section>
+            <h2><span class="n">6</span>優先改善提案(インパクト順)</h2>
+            <div class="props">
+                <div class="prop p-good">
+                    <h3><span class="tag t-good">強み発見</span>① Google評価は平均4.7と圧倒的 — このギャップを集客に使う</h3>
+                    <p>全13店舗のGoogleマップ掲載を実確認したところ、<b>評価は4.3〜5.0(平均4.7)・口コミ計2,267件</b>と非常に強いことが判明しました。一方food系サイトの食べログは3.0台前半。つまり<b>実際の顧客満足はGoogleの数字が証明している</b>状態です。提案:
+                        (1)店頭・SNS・予約導線に「Google口コミ4.8★」を明記して社会的証明に使う (2)口コミ返信は直営店では既に9割前後と優秀(セクション4参照) —
+                        この文化を横浜(25%)と別会社のマーボー渋谷(0%)にも広げる (3)神宮球場SHOPは営業時間が未設定なので試合日に合わせて登録 (4)月次で数値を記録し推移を追う。</p>
+                </div>
+                <div class="prop p-warn">
+                    <h3><span class="tag t-warn">要対応</span>② 完璧麦酒飯店: Google満点5.0の熱を食べログへ波及させる</h3>
+                    <p>食べログは掲載・公式化済み(<b>3.07 / 口コミ7件 /
+                            保存236人</b>)ですが、<b>Google満点5.0(66件)との温度差</b>が大きい状態です。保存236人=「行きたい」層は既に付いているので、来店客への口コミ依頼を仕組み化して「門前仲町
+                        中華」「門前仲町 立ち飲み」検索での露出を伸ばしましょう。まず口コミ30件が目標です。</p>
+                </div>
+                <div class="prop p-warn">
+                    <h3><span class="tag t-warn">要対応</span>③ 古い掲載情報を更新する(ブランド毀損の芽を摘む)</h3>
+                    <p><b>KITCHEN総本店のホットペッパーは2023年2月から更新停止・ネット予約停止</b>、<b>GARDENのぐるなびは2022年の情報が残存</b>しています。放置された古いページは「営業してる?」という不安を生みます。更新して活用するか、集客に使わないなら掲載整理を。あわせて公式サイトの短縮URLがGARDEN→STANDへ誤リダイレクトしている点、公式サイトのFacebookリンクが個人プロフィールに向いている点も修正推奨です。
+                    </p>
+                </div>
+                <div class="prop p-warn">
+                    <h3><span class="tag t-warn">要対応</span>④ 新店4店(池袋・亀戸・横浜・渋谷)の口コミ初速をつくる</h3>
+                    <p>2026年開店の4店は食べログ口コミが2〜18件で<b>点数が付かない/低く出やすい時期</b>です。会計時の一声・卓上POP・アプリ会員へのお願いで、まず<b>各店30件</b>を目標に。横浜ベイクォーターは個別Instagram(@perfect_beer_shop_yokohama・221人)を発見しましたが、まだ小規模
+                        — 施設公式との相互タグ付けで伸ばしましょう。</p>
+                </div>
+                <div class="prop p-good">
+                    <h3><span class="tag t-good">資産活用</span>⑤ LINE友だち計2.3万人(GARDEN+KITCHEN)をグループ全体の資産にする</h3>
+                    <p>LINEは<b>GARDEN 16,133人 + KITCHEN 6,633人 =
+                            計22,766人</b>と、グループ最大級のダイレクト送客チャネルであることが判明しました。オフシーズンも<b>系列店クーポン・新店告知・神宮球場出店の試合日配信</b>に使えばそのまま送客装置になります。2アカウントの役割分担と、自社アプリ(会員特典)との棲み分け設計もあわせて。
+                    </p>
+                </div>
+                <div class="prop p-warn">
+                    <h3><span class="tag t-warn">要対応</span>⑥ メニュー写真を予約サイトに載せ、下位3店の料理写真を増やす</h3>
+                    <p><b>食べログ・ぐるなびのメニュー欄は全店ほぼ写真0%</b>です(セクション5)。麦酒飯店・LABOのような美味しそうな料理写真を予約サイトのメニューにも登録すれば、比較検討中のユーザーの注文・予約率が上がります。またInstagramの料理写真比率が低い<b>横浜BQ(25%)・門仲STAND(30%)・亀戸(30%)</b>は、告知グラフィックに偏りがちなので、麦酒飯店の「皿料理を統一トーンで撮る」型を横展開しましょう。
+                    </p>
+                </div>
+                <div class="prop">
+                    <h3><span class="tag t-info">仕組み化</span>⑦ 月次モニタリングの定例化(このダッシュボードの定期更新)</h3>
+                    <p>食べログ点数・口コミ数・保存数、Google評価、Instagramフォロワー数を<b>月1回同じフォーマットで記録</b>すれば、施策の効果が数字で見えます。この調査・ダッシュボード生成は定期実行(スケジュールタスク)として自動化できます
+                        — ご希望あればセットアップします。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ STORE CARDS ============ -->
+        <section>
+            <h2><span class="n">7</span>店舗別カルテ(総合ランク付き)<span
+                    style="font-size:11px;color:var(--text-muted);font-weight:600;margin-left:4px">直営13店</span></h2>
+            <div class="note">総合ランク = 食べログ(30点) + Google(25点) + SNS発信力(25点) + 掲載カバレッジ・情報鮮度(20点) の100点評価。<b>S</b>≧85 /
+                <b>A</b> 70〜84 / <b>B</b> 55〜69 / <b>C</b> 40〜54 / <b>D</b> 40未満。判定内訳: S×1(LABO) / A×2(総本店・GARDEN) /
+                B×2(STAND門仲・富山) / C×7 / D×0(全13店) — 新潟店を追加、D評価はゼロを維持。</div>
+            <div class="stores">
+
+                <div class="store">
+                    <h3><span class="rank r-A">A</span>PERFECT BEER GARDEN 門前仲町</h3>
+                    <div class="rankline"><b>78点</b> — 食べログ×LINE1.6万人×Google340件の三本柱が強い。ぐるなびの鮮度だけが減点</div>
+                    <div class="addr">江東区門前仲町2-10-1 赤札堂3F(季節営業ビアガーデン)</div>
+                    <div class="kv">
+                        <span class="chip c-good">食べログ <b>3.29</b> / 74件</span>
+                        <a class="chip" href="https://www.instagram.com/perfect_beer_garden_tokyo/" target="_blank"
+                            rel="noopener">IG <b>2,467</b>人</a>
+                        <a class="chip c-good"
+                            href="https://www.google.com/maps/search/PERFECT+BEER+GARDEN+%E9%96%80%E5%89%8D%E4%BB%B2%E7%94%BA+%E6%B1%9F%E6%9D%B1%E5%8C%BA%E9%96%80%E5%89%8D%E4%BB%B2%E7%94%BA2-10-1"
+                            target="_blank" rel="noopener">Google <b>4.3</b> / 340件</a>
+                        <span class="chip">保存 <b>6,295</b></span>
+                        <span class="chip c-good">LINE <b>16,133</b>人</span>
+                        <span class="chip">IG @perfect_beer_garden_tokyo</span>
+                    </div>
+                    <div class="todo"><b>提案</b>
+                        <ul>
+                            <li>ぐるなびの2022年情報を更新(または掲載整理)</li>
+                            <li>LINE1.6万人へのオフシーズン配信設計(系列店送客)</li>
+                            <li>Google口コミ返信体制の整備</li>
+                        </ul>
+                    </div>
+                    <div class="links"><a href="https://tabelog.com/tokyo/A1313/A131303/13261512/">食べログ</a><a
+                            href="https://r.gnavi.co.jp/b96g6sx30000/">ぐるなび</a><a
+                            href="https://page.line.me/573gsaff">LINE</a></div>
+                </div>
+
+                <div class="store">
+                    <h3><span class="rank r-A">A</span>PERFECT BEER KITCHEN 総本店</h3>
+                    <div class="rankline"><b>82点</b> — Google 4.8×564件に加えLINE 6,633人・ぐるなび掲載も確認。HP停滞解消でS圏</div>
+                    <div class="addr">江東区冬木14-2</div>
+                    <div class="kv">
+                        <span class="chip c-good">食べログ <b>3.39</b> / 94件</span>
+                        <a class="chip c-good"
+                            href="https://www.google.com/maps/search/PERFECT+BEER+KITCHEN+%E7%B7%8F%E6%9C%AC%E5%BA%97+%E6%B1%9F%E6%9D%B1%E5%8C%BA%E5%86%AC%E6%9C%A814-2"
+                            target="_blank" rel="noopener">Google <b>4.8</b> / 564件</a>
+                        <span class="chip">保存 <b>6,866</b></span>
+                        <span class="chip c-warn">HP更新停止(2023/2〜)</span>
+                        <a class="chip" href="https://www.instagram.com/perfect_beer_kitchen_tokyo/" target="_blank"
+                            rel="noopener">IG <b>4,047</b>人</a>
+                        <a class="chip c-good" href="https://page.line.me/069heuju" target="_blank" rel="noopener">LINE
+                            <b>6,633</b>人</a>
+                    </div>
+                    <div class="todo"><b>提案</b>
+                        <ul>
+                            <li>ホットペッパーの更新再開 or 掲載整理(予約停止中・口コミ0)</li>
+                            <li>口コミ100件到達キャンペーンで3.4超えを狙う</li>
+                        </ul>
+                    </div>
+                    <div class="links"><a href="https://tabelog.com/tokyo/A1313/A131303/13278318/">食べログ</a><a
+                            href="https://r.gnavi.co.jp/jmd7pky70000/">ぐるなび</a><a
+                            href="https://www.hotpepper.jp/strJ003474054/">ホットペッパー</a><a
+                            href="https://page.line.me/069heuju">LINE</a></div>
+                </div>
+
+                <div class="store">
+                    <h3><span class="rank r-B">B</span>PERFECT BEER STAND 門前仲町</h3>
+                    <div class="rankline"><b>62点</b> — 食べログ・Googleは堅調。SNSがIG単独で発信力に伸びしろ</div>
+                    <div class="addr">江東区富岡1-24-6 2F</div>
+                    <div class="kv">
+                        <span class="chip">食べログ <b>3.23</b> / 30件</span>
+                        <a class="chip c-good"
+                            href="https://www.google.com/maps/search/PERFECT+BEER+STAND+%E9%96%80%E5%89%8D%E4%BB%B2%E7%94%BA+%E6%B1%9F%E6%9D%B1%E5%8C%BA%E5%AF%8C%E5%B2%A11-24-6"
+                            target="_blank" rel="noopener">Google <b>4.8</b> / 248件</a>
+                        <span class="chip">保存 <b>1,832</b></span>
+                        <span class="chip c-warn">Retty放置(写真0枚)</span>
+                        <a class="chip" href="https://www.instagram.com/perfect_beer_stand_monnaka2/" target="_blank"
+                            rel="noopener">IG <b>541</b>人(新アカ)</a>
+                        <span class="chip c-warn">旧IGアカウント削除済み</span>
+                    </div>
+                    <div class="todo"><b>提案</b>
+                        <ul>
+                            <li>IGが新アカウント(@perfect_beer_stand_monnaka2)に移行済み — 食べログ等の旧リンクを一斉更新</li>
+                            <li>Rettyの基本情報・写真を最低限整備(現状写真0枚)</li>
+                            <li>食べログ50件を目標に口コミ促進</li>
+                        </ul>
+                    </div>
+                    <div class="links"><a href="https://tabelog.com/tokyo/A1313/A131303/13287172/">食べログ</a><a
+                            href="https://retty.me/area/PRE13/ARE10/SUB1003/100001709792/">Retty</a></div>
+                </div>
+
+                <div class="store">
+                    <h3><span class="rank r-S">S</span>PERFECT BEER LABO TOKYO</h3>
+                    <div class="rankline"><b>86点</b> — 全チャネル高水準のグループ標準モデル。運用ノウハウの横展開元</div>
+                    <div class="addr">江東区富岡2-10-1 梶本ビル1F(2024/12開店)</div>
+                    <div class="kv">
+                        <span class="chip c-good">食べログ <b>3.39</b> / 137件</span>
+                        <a class="chip c-good"
+                            href="https://www.google.com/maps/search/PERFECT+BEER+LABO+TOKYO+%E6%B1%9F%E6%9D%B1%E5%8C%BA%E5%AF%8C%E5%B2%A12-10-1"
+                            target="_blank" rel="noopener">Google <b>4.6</b> / 363件</a>
+                        <span class="chip c-good">保存 <b>10,425</b></span>
+                        <span class="chip c-good">TikTok運用中</span>
+                        <a class="chip c-good" href="https://www.instagram.com/perfect_beer_labo/" target="_blank"
+                            rel="noopener">IG <b>2.3万</b>人 🏆</a>
+                    </div>
+                    <div class="todo"><b>提案</b>
+                        <ul>
+                            <li>グループの成功モデル — 運用ノウハウ(コラボ投稿・ショート動画)を他店に横展開</li>
+                            <li>保存1万超×口コミ137件 → 3.5到達が現実的な次目標</li>
+                        </ul>
+                    </div>
+                    <div class="links"><a href="https://tabelog.com/tokyo/A1313/A131303/13304280/">食べログ</a><a
+                            href="https://r.gnavi.co.jp/cc5g609j0000/">ぐるなび</a><a
+                            href="https://www.tiktok.com/@perfect_beer_labo">TikTok</a></div>
+                </div>
+
+                <div class="store">
+                    <h3><span class="rank r-B">B</span>PERFECT BEER KITCHEN 富山</h3>
+                    <div class="rankline"><b>55点</b> — Google 4.8×ぐるなび掲載も確認しB昇格。口コミ量とSNSはこれから</div>
+                    <div class="addr">富山市牛島町9-5 Dタワー富山1F(2025/11開店)</div>
+                    <div class="kv">
+                        <span class="chip">食べログ <b>3.08</b> / 9件</span>
+                        <a class="chip c-good"
+                            href="https://www.google.com/maps/search/PERFECT+BEER+KITCHEN+%E5%AF%8C%E5%B1%B1+%E5%AF%8C%E5%B1%B1%E5%B8%82%E7%89%9B%E5%B3%B6%E7%94%BA9-5"
+                            target="_blank" rel="noopener">Google <b>4.8</b> / 156件</a>
+                        <span class="chip">保存 <b>106</b></span>
+                        <span class="chip">favy公式ページあり</span>
+                        <span class="chip c-good">ぐるなび掲載あり</span>
+                        <a class="chip" href="https://www.instagram.com/perfect_beer_kitchen_toyama/" target="_blank"
+                            rel="noopener">IG <b>753</b>人</a>
+                    </div>
+                    <div class="todo"><b>提案</b>
+                        <ul>
+                            <li>口コミ数がまだ少ない — 地元メディア・富山ウォッチ等の露出を口コミに転換</li>
+                            <li>駅前立地なのでGoogleマップ最適化(MEO)の効果が特に大きい</li>
+                        </ul>
+                    </div>
+                    <div class="links"><a href="https://tabelog.com/toyama/A1601/A160101/16011641/">食べログ</a><a
+                            href="https://r.gnavi.co.jp/1jgvr4yd0000/">ぐるなび</a><a
+                            href="https://perfectbeer-toyama.favy.jp/">favy</a></div>
+                </div>
+
+                <div class="store">
+                    <h3><span class="rank r-C">C</span>PERFECT BEER KITCHEN 新潟 🆕</h3>
+                    <div class="rankline"><b>54点</b> — 2026/7直営化。Google4.8+HP予約運用は好調。食べログ未公式化とIG停滞が課題</div>
+                    <div class="addr">新潟市中央区東大通1-6-29 共同ビル1F(新潟駅徒歩3分)</div>
+                    <div class="kv">
+                        <span class="chip">食べログ <b>3.03</b> / 9件</span>
+                        <a class="chip c-good"
+                            href="https://www.google.com/maps/search/PERFECT+BEER+KITCHEN+%E6%96%B0%E6%BD%9F+%E6%96%B0%E6%BD%9F%E5%B8%82%E4%B8%AD%E5%A4%AE%E5%8C%BA%E6%9D%B1%E5%A4%A7%E9%80%9A1-6-29"
+                            target="_blank" rel="noopener">Google <b>4.8</b> / 189件</a>
+                        <span class="chip c-good">ぐるなび掲載あり</span>
+                        <a class="chip c-good" href="https://www.hotpepper.jp/strJ004025868/" target="_blank"
+                            rel="noopener">HP予約・クーポン運用中</a>
+                        <a class="chip" href="https://www.instagram.com/perfect_beer_kitchen_niigata/" target="_blank"
+                            rel="noopener">IG <b>738</b>人</a>
+                        <span class="chip c-warn">IG最終投稿35日前</span>
+                    </div>
+                    <div class="todo"><b>提案</b>
+                        <ul>
+                            <li>直営化を機に<b>食べログの店舗会員登録(公式化)</b>を — 現在は掲載のみで店舗管理なし</li>
+                            <li>Instagram投稿が35日止まり — 週1でも再開して富山型の料理写真を蓄積</li>
+                            <li>Google 4.8/189件は強み。この評価を店頭・SNSで訴求</li>
+                        </ul>
+                    </div>
+                    <div class="links"><a href="https://tabelog.com/niigata/A1501/A150101/15024605/">食べログ</a><a
+                            href="https://r.gnavi.co.jp/sbcnf0040000/">ぐるなび</a><a
+                            href="https://www.hotpepper.jp/strJ004025868/">ホットペッパー</a><a
+                            href="https://www.instagram.com/perfect_beer_kitchen_niigata/">Instagram</a></div>
+                </div>
+
+                <div class="store">
+                    <h3><span class="rank r-C">C</span>PERFECT BEER STAND 福岡</h3>
+                    <div class="rankline"><b>52点</b> — Google 4.9は全店トップ評価。露出量がまだ少なく伸びしろ大</div>
+                    <div class="addr">福岡市中央区大名1-3-5 Ark Cube 103(2025/12開店)</div>
+                    <div class="kv">
+                        <span class="chip">食べログ <b>3.09</b> / 14件</span>
+                        <a class="chip c-good"
+                            href="https://www.google.com/maps/search/PERFECT+BEER+STAND+%E7%A6%8F%E5%B2%A1+%E7%A6%8F%E5%B2%A1%E5%B8%82%E4%B8%AD%E5%A4%AE%E5%8C%BA%E5%A4%A7%E5%90%8D1-3-5"
+                            target="_blank" rel="noopener">Google <b>4.9</b> / 145件</a>
+                        <span class="chip">保存 <b>439</b></span>
+                        <a class="chip" href="https://www.instagram.com/perfect_beer_stand_fukuoka/" target="_blank"
+                            rel="noopener">IG <b>1,669</b>人</a>
+                    </div>
+                    <div class="todo"><b>提案</b>
+                        <ul>
+                            <li>大名は競合密集エリア — 口コミ30件到達を最優先に</li>
+                            <li>福岡グルメ系インフルエンサーとのコラボ(LABO方式の横展開)</li>
+                        </ul>
+                    </div>
+                    <div class="links"><a href="https://tabelog.com/fukuoka/A4001/A400104/40072568/">食べログ</a></div>
+                </div>
+
+                <div class="store">
+                    <h3><span class="rank r-C">C</span>完璧麦酒飯店 門前仲町</h3>
+                    <div class="rankline"><b>53点</b> — Google満点5.0×食べログ公式化済み。口コミ量産でB圏が見える</div>
+                    <div class="addr">江東区門前仲町1-17-1(2026/5/12開店・中華×クラフトビール)</div>
+                    <div class="kv">
+                        <a class="chip c-good" href="https://tabelog.com/tokyo/A1313/A131303/13321591/" target="_blank"
+                            rel="noopener">食べログ <b>3.07</b> / 7件</a>
+                        <a class="chip c-good"
+                            href="https://www.google.com/maps/search/%E5%AE%8C%E7%92%A7%E9%BA%A6%E9%85%92%E9%A3%AF%E5%BA%97+%E9%96%80%E5%89%8D%E4%BB%B2%E7%94%BA+%E6%B1%9F%E6%9D%B1%E5%8C%BA%E9%96%80%E5%89%8D%E4%BB%B2%E7%94%BA1-17-1"
+                            target="_blank" rel="noopener">Google <b>5.0</b> / 66件 🏆</a>
+                        <span class="chip">保存 <b>236</b></span>
+                        <a class="chip" href="https://www.instagram.com/hanten_monnaka/" target="_blank"
+                            rel="noopener">IG <b>376</b>人</a>
+                    </div>
+                    <div class="todo"><b>提案</b>
+                        <ul>
+                            <li>保存236人に対し口コミ7件 — 来店客への口コミ依頼を仕組み化してまず30件へ</li>
+                            <li>Google満点5.0を店頭POP・SNSで訴求(「Google★5.0の中華」)</li>
+                        </ul>
+                    </div>
+                    <div class="links"><a href="https://tabelog.com/tokyo/A1313/A131303/13321591/">食べログ</a><a
+                            href="https://www.instagram.com/hanten_monnaka/">Instagram</a></div>
+                </div>
+
+                <div class="store">
+                    <h3><span class="rank r-C">C</span>PERFECT BEER STAND 池袋</h3>
+                    <div class="rankline"><b>49点</b> — 基盤(食べログ公式・Google 4.8・個別IG)は整備済み。口コミ量産期</div>
+                    <div class="addr">豊島区西池袋3-28-13 IT tower TOKYO 1F(2026/4/27開店)</div>
+                    <div class="kv">
+                        <span class="chip">食べログ <b>3.09</b> / 18件</span>
+                        <a class="chip c-good"
+                            href="https://www.google.com/maps/search/PERFECT+BEER+STAND+%E6%B1%A0%E8%A2%8B+%E8%A5%BF%E6%B1%A0%E8%A2%8B3-28-13"
+                            target="_blank" rel="noopener">Google <b>4.8</b> / 79件</a>
+                        <span class="chip">保存 <b>406</b></span>
+                        <a class="chip" href="https://www.instagram.com/perfectbeer_stand_ikebukuro/" target="_blank"
+                            rel="noopener">IG <b>1,487</b>人</a>
+                    </div>
+                    <div class="todo"><b>提案</b>
+                        <ul>
+                            <li>池袋西口の飲み需要は大きい — 口コミ30件到達で点数安定を</li>
+                            <li>IT tower入居企業向けの平日ハッピーアワー訴求をSNSで</li>
+                        </ul>
+                    </div>
+                    <div class="links"><a href="https://tabelog.com/tokyo/A1305/A130501/13319528/">食べログ</a></div>
+                </div>
+
+                <div class="store">
+                    <h3><span class="rank r-C">C</span>PERFECT BEER STAND 亀戸</h3>
+                    <div class="rankline"><b>44点</b> — 開店直後で数値はこれから。ビアクマのキャラ資産が差別化要素</div>
+                    <div class="addr">江東区亀戸6-31-6(2026/5/26開店)</div>
+                    <div class="kv">
+                        <span class="chip">食べログ <b>3.04</b> / 5件</span>
+                        <a class="chip c-good"
+                            href="https://www.google.com/maps/search/PERFECT+BEER+STAND+%E4%BA%80%E6%88%B8+%E6%B1%9F%E6%9D%B1%E5%8C%BA%E4%BA%80%E6%88%B86-31-6"
+                            target="_blank" rel="noopener">Google <b>4.6</b> / 28件</a>
+                        <span class="chip">保存 <b>89</b></span>
+                        <a class="chip" href="https://www.instagram.com/perfectbeer_stand_kameido/" target="_blank"
+                            rel="noopener">IG <b>178</b>人</a>
+                        <a class="chip c-good" href="https://www.instagram.com/beer_kuma_/" target="_blank"
+                            rel="noopener">キャラ @beer_kuma_ <b>1,153</b>人</a>
+                    </div>
+                    <div class="todo"><b>提案</b>
+                        <ul>
+                            <li>口コミ5件は最少 — 開店直後の今こそ来店客への口コミ依頼を仕組み化</li>
+                            <li>ビアクマキャラ活用はユニーク — ショート動画化してTikTok展開も</li>
+                        </ul>
+                    </div>
+                    <div class="links"><a href="https://tabelog.com/tokyo/A1312/A131202/13322588/">食べログ</a></div>
+                </div>
+
+                <div class="store">
+                    <h3><span class="rank r-C">C</span>PERFECT BEER SHOP 横浜ベイクォーター</h3>
+                    <div class="rankline"><b>45点</b> — 個別IG(@perfect_beer_shop_yokohama)を発見しC昇格。発信量を積む段階</div>
+                    <div class="addr">横浜市神奈川区金港町1-10 ベイクォーター3F(2026/6/4開店)</div>
+                    <div class="kv">
+                        <span class="chip">食べログ 新店 / 8件</span>
+                        <a class="chip c-good"
+                            href="https://www.google.com/maps/search/PERFECT+BEER+SHOP+%E6%A8%AA%E6%B5%9C%E3%83%99%E3%82%A4%E3%82%AF%E3%82%A9%E3%83%BC%E3%82%BF%E3%83%BC"
+                            target="_blank" rel="noopener">Google <b>4.6</b> / 38件</a>
+                        <span class="chip">保存 <b>166</b></span>
+                        <a class="chip" href="https://www.instagram.com/perfect_beer_shop_yokohama/" target="_blank"
+                            rel="noopener">IG <b>221</b>人</a>
+                    </div>
+                    <div class="todo"><b>提案</b>
+                        <ul>
+                            <li>個別IG(221人)は開設済み — 施設公式との相互タグ付け・館内イベント連動で拡大</li>
+                            <li>食べログ口コミ8件 → まず30件へ(点数算出ライン)</li>
+                        </ul>
+                    </div>
+                    <div class="links"><a href="https://tabelog.com/kanagawa/A1401/A140101/14102995/">食べログ</a></div>
+                </div>
+
+                <div class="store">
+                    <h3><span class="rank r-C">C</span>株式会社マーボードウフ渋谷</h3>
+                    <div class="rankline"><b>52点</b> — SNS発信力(X・話題性)は強いが、口コミへの転換が未達</div>
+                    <div class="addr">渋谷区円山町4-6 QLINK渋谷神泉(2026/6/10開店)</div>
+                    <div class="kv">
+                        <span class="chip">食べログ 新店 / 2件</span>
+                        <a class="chip c-good"
+                            href="https://www.google.com/maps/search/%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BE%E3%83%9E%E3%83%BC%E3%83%9C%E3%83%BC%E3%83%89%E3%82%A6%E3%83%95%E6%B8%8B%E8%B0%B7+%E6%B8%8B%E8%B0%B7%E5%8C%BA%E5%86%86%E5%B1%B1%E7%94%BA4-6"
+                            target="_blank" rel="noopener">Google <b>4.3</b> / 51件</a>
+                        <span class="chip">保存 <b>367</b></span>
+                        <a class="chip c-good" href="https://x.com/mabodofucompany" target="_blank" rel="noopener">X
+                            <b>2,124</b>人</a>
+                        <a class="chip c-good" href="https://www.instagram.com/gosai531/" target="_blank"
+                            rel="noopener">IG <b>7,712</b>人</a>
+                    </div>
+                    <div class="todo"><b>提案</b>
+                        <ul>
+                            <li>SNSの熱量を口コミに転換 — 保存367に対し口コミ2件のギャップが大きい</li>
+                            <li>Rettyが非公式のまま — 店舗会員化して情報を統一</li>
+                        </ul>
+                    </div>
+                    <div class="links"><a href="https://tabelog.com/tokyo/A1303/A130301/13322597/">食べログ</a><a
+                            href="https://retty.me/area/PRE13/ARE8/SUB806/100001834875/">Retty</a><a
+                            href="https://x.com/mabodofucompany">X</a></div>
+                </div>
+
+                <div class="store">
+                    <h3><span class="rank r-C">C</span>PERFECT BEER SHOP 明治神宮野球場<span class="rankline">(参考)</span></h3>
+                    <div class="rankline"><b>参考評価</b> — 期間限定売店のため最小構成は妥当。Google営業時間の設定と試合日SNS連動のみ対応を</div>
+                    <div class="addr">明治神宮球場 外野15GATE(POP UP・2026/6/19〜シーズン終了)</div>
+                    <div class="kv">
+                        <span class="chip">球場グルメ公式サイト掲載</span>
+                        <a class="chip"
+                            href="https://www.google.com/maps/search/PERFECT+BEER+SHOP+%E6%98%8E%E6%B2%BB%E7%A5%9E%E5%AE%AE%E7%90%83%E5%A0%B4"
+                            target="_blank" rel="noopener">Googleマップ掲載あり</a>
+                        <span class="chip c-warn">Google営業時間 未設定</span>
+                        <span class="chip">期間限定売店</span>
+                    </div>
+                    <div class="todo"><b>提案</b>
+                        <ul>
+                            <li>グルメサイト対応は不要 — ブランドIG/Xでの試合日連動投稿が主戦場</li>
+                            <li>球場公式 @jingu_stadiumpr のリポスト獲得と、GARDENのLINE配信での告知連動</li>
+                        </ul>
+                    </div>
+                    <div class="links"><a
+                            href="https://jingu-stadium-gourmet.com/shop/outfield/perfect-beer/">神宮球場グルメ</a></div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ============ BRAND ============ -->
+        <section>
+            <h2><span class="n">8</span>ブランド共通チャネル</h2>
+            <div class="tiles">
+                <div class="tile">
+                    <div class="label">X(旧Twitter)</div>
+                    <div class="value" style="font-size:16px">@PERFECTBEER0802</div>
+                    <div class="hint">フォロワー1,266人(7/17実測)。来店客への返信・新店告知など活発に運用中</div>
+                </div>
+                <div class="tile">
+                    <div class="label">Instagram</div>
+                    <div class="value" style="font-size:16px">@perfectbeer_info</div>
+                    <div class="hint">フォロワー7,797人・投稿314件(7/17実測)。ブランド公式</div>
+                </div>
+                <div class="tile">
+                    <div class="label">キャラクターIG ビアっくま</div>
+                    <div class="value" style="font-size:16px">@beer_kuma_</div>
+                    <div class="hint">フォロワー1,153人・投稿89件(7/17実測)。グッズ・EC展開あり — 拡張余地大</div>
+                </div>
+                <div class="tile">
+                    <div class="label">自社アプリ</div>
+                    <div class="value" style="font-size:16px">PERFECT BEER</div>
+                    <div class="hint">App Store / Google Play — 会員施策の中核</div>
+                </div>
+                <div class="tile">
+                    <div class="label">公式サイト</div>
+                    <div class="value" style="font-size:16px">perfectbeer.info</div>
+                    <div class="hint">直営+FC 31店超を掲載。⚠️ FBリンクが個人プロフィール向き/短縮URLの誤リダイレクトあり — 要修正</div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <img class="flogo"
+                src="data:image/webp;base64,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"
+                alt="ビアっくま">
+            <p><b>データについて:</b>
+                2026年7月17日にWeb公開情報から取得。食べログ・Retty・ぐるなび・ホットペッパー・LINEの数値は各ページの実取得値。Googleマップの評価・口コミ数はGoogleマップ上で全13店舗を実確認済み(新潟店は7/19)。InstagramとXのフォロワー数も各アカウントページで実測済み。ぐるなび・ホットペッパー・Retty・食べログは各サイトのサイト内検索で掲載有無を総点検済み。TikTok・Facebookのフォロワー数と一部のLINEは未計測(「?」表示)。マーボードウフ渋谷は別法人(株式会社マーボードウフ)による運営で、PERFECT
+                BEERとの資本関係は公開情報では未確認です。</p>
+        </footer>
+
+    </div>
+
+    <script>
+        // ---- View toggle (直営 / FC含む) ----
+        function setView(v) {
+            document.body.setAttribute('data-view', v);
+            document.getElementById('tab-direct').classList.toggle('active', v === 'direct');
+            document.getElementById('tab-all').classList.toggle('active', v === 'all');
+            renderKPIs(v);
+            renderScaledCharts(v);
+            renderSNS(v);
+            renderMenu(v);
+        }
+        // ---- SNS activity table (直営 / 全40 切替) ----
+        var SNSACT = { direct: [], fc: [] };
+        function snsEval(last, d30) { if (last > 30 || d30 === 0) return { rank: "△ 停滞ぎみ", cls: "s-stale" }; if (d30 >= 6) return { rank: "◎ 活発", cls: "s-official" }; if (d30 >= 3) return { rank: "○ 標準", cls: "s-listed" }; return { rank: "△ 停滞ぎみ", cls: "s-stale" }; }
+        function renderSNS(v) {
+            var tb = document.getElementById("sns-activity"); if (!tb) return;
+            tb.innerHTML = '';
+            var rows = SNSACT.direct.slice();
+            if (v === 'all') {
+                var dv = { n: '── FC店舗(投稿頻度・2026/7/20実測。フォロワーはIG制限で一部?)──', divider: 1 };
+                rows = rows.concat([dv]).concat(SNSACT.fc);
+            }
+            rows.forEach(function (s) {
+                var tr = document.createElement("tr");
+                if (s.divider) { tr.innerHTML = '<td colspan="7" style="background:var(--ink);color:var(--brand);font-weight:800;font-size:11px;letter-spacing:.06em;text-align:left;padding:6px 12px">' + s.n + '</td>'; tb.appendChild(tr); return; }
+                var ev = s.rank ? { rank: s.rank, cls: s.cls } : snsEval(s.last, s.d30);
+                var d30cls = s.d30 >= 6 ? "s-official" : (s.d30 >= 3 ? "s-listed" : "s-stale");
+                var lastcls = s.last <= 10 ? "s-official" : (s.last <= 20 ? "s-listed" : "s-stale");
+                tr.innerHTML =
+                    '<td class="rowh" style="font-weight:600;font-size:11.5px">' + s.n + '</td>' +
+                    '<td style="font-variant-numeric:tabular-nums">' + s.fol + '</td>' +
+                    '<td style="font-variant-numeric:tabular-nums">' + s.posts + '</td>' +
+                    '<td><span class="cell ' + lastcls + '">' + s.last + '日前</span></td>' +
+                    '<td><span class="cell ' + d30cls + '">' + s.d30 + '件</span></td>' +
+                    '<td>' + (s.pace || '—') + '</td>' +
+                    '<td><span class="cell ' + ev.cls + '">' + ev.rank + '</span></td>';
+                tb.appendChild(tr);
+            });
+        }
+        // ---- Menu photo table (直営 / 全40 切替) ----
+        var MENU = { direct: [], fc: [] };
+        function renderMenu(v) {
+            var mtb = document.getElementById("menu-photo"); if (!mtb) return;
+            mtb.innerHTML = '';
+            var rows = MENU.direct.slice();
+            if (v === 'all') {
+                rows = rows.concat([{ divider: 1, s: '── FC店舗(Instagram料理写真の目視評価・15店。残り12店は次回自動更新で追加)──' }]).concat(MENU.fc);
+            }
+            rows.forEach(function (m) {
+                var tr = document.createElement("tr");
+                if (m.divider) { tr.innerHTML = '<td colspan="6" style="background:var(--ink);color:var(--brand);font-weight:800;font-size:11px;letter-spacing:.06em;text-align:left;padding:6px 12px">' + m.s + '</td>'; mtb.appendChild(tr); return; }
+                var rcls = m.ratio >= 70 ? "s-official" : (m.ratio >= 45 ? "s-listed" : "s-stale");
+                var stars = "★★★★★".slice(0, Math.round(m.q)) + "☆☆☆☆☆".slice(0, 5 - Math.round(m.q));
+                tr.innerHTML =
+                    '<td class="rowh" style="font-weight:700">' + m.s + '</td>' +
+                    '<td><span class="cell ' + rcls + '">' + m.ratio + '%</span></td>' +
+                    '<td style="color:var(--warning);font-size:13px;letter-spacing:-1px">' + stars + ' <span style="color:var(--text-secondary);font-size:11px">' + m.q.toFixed(1) + '</span></td>' +
+                    '<td style="font-weight:800;font-variant-numeric:tabular-nums">' + m.sc + '</td>' +
+                    '<td><span class="rank ' + m.cls + '" style="width:24px;height:24px;font-size:12px">' + m.rk + '</span></td>' +
+                    '<td class="rowh" style="position:static;text-align:left;font-weight:400;font-size:11.5px;max-width:340px;white-space:normal;color:var(--text-secondary)">' + m.note + '</td>';
+                mtb.appendChild(tr);
+            });
+        }
+        // ---- KPI tiles (直営13 / 全40 で切替) ----
+        var KPI = {
+            direct: [
+                { c: 'goodv', l: '食べログ 掲載・公式管理', v: '11<small> / 13店</small>', h: '掲載12/13店(未掲載は神宮球場のみ)。新潟店は掲載済みだが店舗会員未登録=公式化が次の一手' },
+                { c: '', l: '食べログ 平均口コミ数', v: '34<small> 件/店</small>', h: '計407件(12店)。上位3店に集中 — 新店の底上げが課題' },
+                { c: 'goodv', l: 'Google評価 平均(12店)', v: '4.7<small> / 2,267件</small>', h: '全13店舗の掲載を実確認済み・食べログとのギャップ大' },
+                { c: 'goodv', l: '店舗別 Instagram', v: '12<small> / 13店</small>', h: '個別フォロワー計4.3万人(LABO2.3万が牽引)' },
+                { c: 'goodv', l: 'LINE公式 友だち合計', v: '22,766<small> 人</small>', h: 'GARDEN 16,133 + KITCHEN 6,633 の2大資産' },
+                { c: '', l: 'ぐるなび / HP / Retty 掲載', v: '5 / 2 / 5<small> 店</small>', h: '新潟店はホットペッパーもネット予約・クーポン付きで運用中(唯一のアクティブHP)' }
+            ],
+            all: [
+                { c: 'goodv', l: '食べログ 掲載(全40店)', v: '38<small> / 40店</small>', h: '掲載38/40(未掲載は神宮球場・新大久保のみ)。うち店舗会員=公式管理は直営11店' },
+                { c: '', l: '食べログ 平均口コミ数', v: '31<small> 件/店</small>', h: '計1,192件(38店)。新橋111件・四ツ谷66件などFC上位が牽引' },
+                { c: 'goodv', l: 'Google評価 平均(39店)', v: '4.6<small> / 8,700件</small>', h: '全40店の掲載を実確認。新橋4.9/1,390件が最大・FCも総じて高評価' },
+                { c: 'goodv', l: '店舗別 Instagram', v: '39<small> / 40店</small>', h: 'ほぼ全店に個別アカウント。フォロワー合計は直営13店で計測(IG制限のためFCは保留)' },
+                { c: 'goodv', l: 'LINE公式 友だち合計', v: '22,766<small> 人</small>', h: 'GARDEN 16,133 + KITCHEN 6,633(直営)。FCはブランド/KITCHEN共通LINEの配信対象' },
+                { c: '', l: 'ぐるなび / HP / Retty 掲載', v: '25 / 17 / 11<small> 店</small>', h: '全40店集計。FCは予約サイト掲載が充実(新橋・渋谷など)' }
+            ]
+        };
+        function renderKPIs(v) {
+            var box = document.getElementById('kpi-tiles'); if (!box) return;
+            box.innerHTML = '';
+            (KPI[v] || KPI.direct).forEach(function (t) {
+                var d = document.createElement('div');
+                d.className = 'tile' + (t.c ? ' ' + t.c : '');
+                d.innerHTML = '<div class="label">' + t.l + '</div><div class="value">' + t.v + '</div><div class="hint">' + t.h + '</div>';
+                box.appendChild(d);
+            });
+        }
+        // ---- Scaled charts (Google/食べログ口コミ/保存 を 直営13 or 全40上位20 で切替) ----
+        var CHART40 = {
+            google: { direct: null, all: [["新橋", 1390], ["総本店", 564], ["名古屋栄", 439], ["川越", 395], ["LABO TOKYO", 363], ["GARDEN 門仲", 340], ["町田", 304], ["千葉", 293], ["四ツ谷", 279], ["渋谷FC", 275], ["西荻窪", 259], ["STAND 門仲", 248], ["中野", 228], ["西新宿", 217], ["浅草橋", 204], ["市川", 203], ["長野", 203], ["上板橋", 202], ["高崎", 192], ["広島横川", 191]] },
+            reviews: { direct: null, all: [["LABO TOKYO", 137], ["新橋", 111], ["総本店", 94], ["GARDEN 門仲", 74], ["四ツ谷", 66], ["西荻窪", 59], ["赤羽BURGER", 55], ["渋谷FC", 52], ["名古屋栄", 47], ["神戸三宮", 38], ["町田", 37], ["野毛", 37], ["千葉", 33], ["STAND 門仲", 30], ["中野", 27], ["市川", 26], ["蔵前", 24], ["広島横川", 20], ["西新宿", 19], ["池袋", 18]] },
+            saves: { direct: null, all: [["LABO TOKYO", 10425], ["総本店", 6866], ["GARDEN 門仲", 6295], ["新橋", 4066], ["西荻窪", 3231], ["名古屋栄", 2872], ["四ツ谷", 2680], ["赤羽BURGER", 2210], ["STAND 門仲", 1832], ["中野", 1781], ["神戸三宮", 1751], ["町田", 1360], ["渋谷FC", 1323], ["蔵前", 1193], ["千葉", 1151], ["立川", 1089], ["野毛", 1015], ["西新宿", 830], ["市川", 751], ["高崎", 697]] }
+        };
+        var CHART_SUB = {
+            'chart-google': { direct: '全店4.3〜5.0の高評価 — グループ最大の資産(2026/7/17実確認)', all: '全40店の上位20を表示。新橋1,390件が突出・FCも高評価(2026/7/19実測)' },
+            'chart-reviews': { direct: '件数が多いほど点数が安定し検索露出も向上(2026/7/17時点)', all: '全40店の上位20を表示。LABO・新橋・総本店がトップ3' },
+            'chart-saves': { direct: '「行きたい」意向の先行指標 — LABOが圧倒的', all: '全40店の上位20を表示。保存合計は約59,000人分' }
+        };
+        var REPLY = { direct: null, all: null };
+        function renderReply(el, data) {
+            if (!el) return;
+            el.innerHTML = '';
+            data.forEach(function (d) {
+                var pct = Math.max(1.5, d[1]);
+                var color = d[1] >= 90 ? "var(--good)" : (d[1] >= 50 ? "var(--brand)" : "var(--critical)");
+                var border = d[1] >= 50 ? "var(--ink)" : "var(--critical)";
+                var row = document.createElement("div");
+                row.className = "bar-row";
+                row.title = d[0] + ": 返信率" + d[1] + "%(直近口コミサンプル)";
+                row.innerHTML =
+                    '<div class="bl">' + d[0] + '</div>' +
+                    '<div class="bar-track">' +
+                    '<div class="bar-fill" style="width:' + (pct * 0.78) + '%;background:' + color + ';border-color:' + border + '"></div>' +
+                    '<div class="bar-val" style="left:' + (pct * 0.78) + '%">' + d[1] + '%</div>' +
+                    '</div>';
+                el.appendChild(row);
+            });
+        }
+        var REPLY_SUB = {
+            direct: { t: '🟢90%↑=優秀 / 🟡50-89% / 🔴50%未満 — 门前仲町の主力店はほぼ全返信', memo: '<p style="margin-bottom:8px"><b style="color:var(--good-text)">◎ ほぼ全返信(9店)</b>: 総本店・福岡・麦酒飯店・池袋・亀戸・富山が返信率100%。GARDEN・STAND門仲・LABOも9割前後で、<b>直営店の返信文化は非常に強い</b>です。</p><p style="margin-bottom:8px"><b style="color:var(--warning)">△ 要改善: 横浜ベイクォーター(25%)</b> — 開店直後で返信が追いついていません。今のうちに返信習慣をつければMEOで先行できます。</p><p><b style="color:var(--critical)">✕ 未対応: マーボードウフ渋谷(0%)</b> — 別会社運営で返信ゼロ。口コミ51件と多いだけに機会損失が大きい状態です。</p>' },
+            all: { t: '全40店の返信率<100%(要対応)のみ表示・低い順。20店が返信率100%', memo: '<p style="margin-bottom:8px"><b style="color:var(--good-text)">◎ 100%が20店</b>(直営7+FC13): 新橋・千葉・名古屋栄・町田・中野・川越・上板橋・広島横川・立川・浅草橋・静岡・札幌・日本橋など、<b>FC店の返信文化も総じて非常に強い</b>ことが判明しました。</p><p style="margin-bottom:8px"><b style="color:var(--critical)">✕ 未対応(0%): 新大久保FC・赤羽BURGER FC・マーボードウフ渋谷</b> — 返信ゼロの3店。特にFC2店は要指導ポイントです。</p><p><b style="color:var(--warning)">△ 低め: 高崎FC22%・仙台FC44%・市川FC56%</b> — FCでも一部返信が追いついていない店があり、本部から返信ルールの共有余地があります。</p>' }
+        };
+        function renderScaledCharts(v) {
+            if (!CHART40.google.direct) return; // direct arrays captured after first render
+            var map = { 'chart-google': ['google', '件'], 'chart-reviews': ['reviews', '件'], 'chart-saves': ['saves', '人'] };
+            Object.keys(map).forEach(function (id) {
+                var key = map[id][0], unit = map[id][1];
+                var data = v === 'all' ? CHART40[key].all : CHART40[key].direct;
+                var el = document.getElementById(id); if (!el) return;
+                el.innerHTML = '';
+                renderBar(el, data, unit);
+                var card = el.closest('.chart-card');
+                if (card) { var sub = card.querySelector('.csub'); if (sub && CHART_SUB[id]) sub.textContent = CHART_SUB[id][v]; }
+            });
+            // reply-rate chart + its subtitle/memo
+            if (REPLY.direct) {
+                renderReply(document.getElementById('chart-reply'), v === 'all' ? REPLY.all : REPLY.direct);
+                var rc = document.getElementById('chart-reply'); var rcard = rc ? rc.closest('.chart-card') : null;
+                if (rcard) { var rsub = rcard.querySelector('.csub'); if (rsub) rsub.textContent = REPLY_SUB[v].t; }
+                var memo = document.getElementById('reply-memo'); if (memo) memo.innerHTML = REPLY_SUB[v].memo;
+            }
+        }
+        // global bar renderer (used by both direct and scaled views)
+        function renderBar(el, data, unit) {
+            var max = Math.max.apply(null, data.map(function (d) { return d[1]; }));
+            data.forEach(function (d) {
+                var pct = Math.max(1.5, d[1] / max * 78);
+                var row = document.createElement("div");
+                row.className = "bar-row";
+                row.title = d[0] + ": " + d[1].toLocaleString() + unit;
+                row.innerHTML =
+                    '<div class="bl">' + d[0] + '</div>' +
+                    '<div class="bar-track">' +
+                    '<div class="bar-fill" style="width:' + pct + '%"></div>' +
+                    '<div class="bar-val" style="left:' + pct + '%">' + d[1].toLocaleString() + '</div>' +
+                    '</div>';
+                el.appendChild(row);
+            });
+        }
+        // ---- Render FC store rows into the matrix ----
+        (function () {
+            // [店名,エリア,食べ点,食べ口コミ,食べpath,G点,G口コミ,G検索,ぐるなびid(''=×),HP id(str…=○/'?'=未確認/''=×),Retty id(数字=○/'?'=未確認)]
+            var fc = [
+                ["PERFECT BEER KITCHEN 新橋", "港区新橋", "3.42", "111", "/tokyo/A1301/A130103/13289982/", "4.9", "1,390", "PERFECT BEER KITCHEN 新橋 港区新橋3-3-8", "bv17dzpz0000", "strJ003736284", "100001718221"],
+                ["PERFECT BEER KITCHEN 四ツ谷", "新宿区四谷", "3.12", "66", "/tokyo/A1309/A130902/13287388/", "4.5", "279", "PERFECT BEER KITCHEN 四ツ谷 新宿区四谷1-8-6", "a97ppukz0000", "strJ003916990", "100001730124"],
+                ["PERFECT BEER KITCHEN 西荻窪", "杉並区西荻南", "3.09", "59", "/tokyo/A1319/A131907/13289080/", "4.7", "259", "PERFECT BEER KITCHEN 西荻窪 杉並区西荻南3-8-3", "cgjfvr380000", "strJ004403352", "?"],
+                ["PERFECT BEER KITCHEN 渋谷", "渋谷区円山町", "3.16", "52", "/tokyo/A1303/A130301/13316065/", "4.9", "275", "PERFECT BEER KITCHEN 渋谷 渋谷区円山町4-6", "30trwdht0000", "strJ004612166", "100001830351"],
+                ["PERFECT BEER KITCHEN 千葉", "千葉市中央区", "3.07", "33", "/chiba/A1201/A120101/12058943/", "4.6", "293", "PERFECT BEER KITCHEN 千葉 千葉市中央区弁天2-19-20", "584taewu0000", "strJ003941697", "?"],
+                ["PERFECT BEER KITCHEN 名古屋栄", "名古屋市中区栄", "3.08", "47", "/aichi/A2301/A230103/23088571/", "4.8", "439", "PERFECT BEER KITCHEN 名古屋栄 中区栄4-4-17", "aeb3sk570000", "strJ003828829", "?"],
+                ["PERFECT BEER KITCHEN 町田", "町田市原町田", "3.08", "37", "/tokyo/A1327/A132701/13294762/", "4.6", "304", "PERFECT BEER KITCHEN 町田 原町田4-6-3", "rz1yzbnk0000", "strJ003916923", "?"],
+                ["PERFECT BEER KITCHEN 神戸三宮", "神戸市中央区", "3.08", "38", "/hyogo/A2801/A280101/28070239/", "4.7", "186", "PERFECT BEER KITCHEN 神戸三宮 中央区北長狭通2-8-3", "1572nk750000", "?", "?"],
+                ["PERFECT BEER KITCHEN 中野", "中野区中野", "3.06", "27", "/tokyo/A1319/A131902/13296326/", "4.6", "228", "PERFECT BEER KITCHEN 中野 中野5-50-3", "cvdjf9f90000", "strJ003784952", "100001743147"],
+                ["PERFECT BEER KITCHEN 川越", "川越市東田町", "3.04", "10", "/saitama/A1103/A110303/11062825/", "4.8", "395", "PERFECT BEER KITCHEN 川越 東田町6-8", "168c6t8c0000", "strJ003872371", "?"],
+                ["PERFECT BEER KITCHEN 志木", "志木市本町", "3.06", "15", "/saitama/A1103/A110302/11061669/", "4.8", "176", "PERFECT BEER KITCHEN 志木 本町5-24-2", "90p901us0000", "?", "?"],
+                ["PERFECT BEER KITCHEN 高崎", "高崎市旭町", "3.05", "18", "/gunma/A1001/A100102/10024629/", "4.5", "192", "PERFECT BEER KITCHEN 高崎 旭町37-6", "pnpg0z990000", "?", "?"],
+                ["PERFECT BEER KITCHEN 蔵前", "台東区蔵前", "3.07", "24", "/tokyo/A1311/A131103/13291437/", "4.5", "188", "PERFECT BEER KITCHEN 蔵前 台東区蔵前2-1-32", "nxt096s80000", "strJ003693432", "?"],
+                ["PERFECT BEER KITCHEN 上板橋", "板橋区桜川", "3.03", "15", "/tokyo/A1322/A132203/13303273/", "4.7", "202", "PERFECT BEER KITCHEN 上板橋 板橋区桜川3-21-15", "", "strJ003894066", "?"],
+                ["PERFECT BEER KITCHEN 西新宿", "新宿区西新宿", "3.11", "19", "/tokyo/A1304/A130401/13298679/", "4.6", "217", "PERFECT BEER KITCHEN 西新宿 西新宿7-15-8", "gwh3nfcd0000", "?", "?"],
+                ["PERFECT BEER KITCHEN 市川", "市川市市川南", "3.05", "26", "/chiba/A1202/A120202/12060750/", "4.5", "203", "PERFECT BEER KITCHEN 市川 市川南1-3-2", "18y4jhnj0000", "strJ003984311", "?"],
+                ["PERFECT BEER KITCHEN 広島横川", "広島市西区横川", "3.06", "20", "/hiroshima/A3401/A340103/34032610/", "4.6", "191", "PERFECT BEER KITCHEN 広島横川 西区横川町3-1-35", "ktgsepbh0000", "?", "?"],
+                ["PERFECT BEER KITCHEN 立川", "立川市錦町", "3.03", "15", "/tokyo/A1329/A132901/13311123/", "4.7", "111", "PERFECT BEER KITCHEN 立川 錦町2-1-35", "88jg06jz0000", "strJ004089218", "?"],
+                ["PERFECT BEER KITCHEN 浅草橋", "台東区浅草橋", "3.08", "12", "/tokyo/A1311/A131103/13314343/", "4.9", "204", "PERFECT BEER KITCHEN 浅草橋 台東区浅草橋4-10-8", "h7cnk3z30000", "strJ004509079", "100001807664"],
+                ["PERFECT BEER KITCHEN 静岡", "静岡市葵区", "3.02", "11", "/shizuoka/A2201/A220101/22041809/", "4.6", "138", "PERFECT BEER KITCHEN 静岡 葵区七間町8-5", "kgr3u3pu0000", "?", "?"],
+                ["PERFECT BEER KITCHEN 仙台", "仙台市青葉区", "3.05", "15", "/miyagi/A0401/A040101/4028143/", "4.6", "110", "PERFECT BEER KITCHEN 仙台 青葉区国分町3-9-9", "63x15prg0000", "?", "?"],
+                ["PERFECT BEER KITCHEN 長野", "長野市南千歳", "3.01", "4", "/nagano/A2001/A200101/20027820/", "4.3", "203", "PERFECT BEER KITCHEN 長野 南千歳1-19-2", "", "?", "?"],
+                ["PERFECT BEER KITCHEN 札幌", "札幌市中央区", "3.08", "15", "/hokkaido/A0101/A010103/1084891/", "4.7", "21", "PERFECT BEER KITCHEN 札幌 COCONO SUSUKINO", "", "?", "?"],
+                ["PERFECT BEER KITCHEN 日本橋", "中央区日本橋室町", "-", "4", "/tokyo/A1302/A130202/13322473/", "4.4", "8", "PERFECT BEER KITCHEN 日本橋 室町2-2-1", "", "strJ004633627", "?"],
+                ["PERFECT BEER STAND 野毛", "横浜市中区日ノ出町", "3.24", "37", "/kanagawa/A1401/A140102/14094162/", "4.5", "156", "PERFECT BEER STAND 野毛 横浜市中区日ノ出町1-2", "", "?", "100001740646"],
+                ["PERFECT BEER STAND 新大久保", "新宿区百人町", "", "", "", "4.9", "12", "PERFECT BEER STAND 新大久保 新宿区百人町1-5-4", "", "?", "?"],
+                ["PERFECT BEER BURGER 赤羽", "北区赤羽", "3.30", "55", "/tokyo/A1323/A132305/13315707/", "3.8", "53", "PERFECT BEER BURGER 赤羽 北区赤羽1-1-1", "", "?", "?"]
+            ];
+            var tb = document.getElementById('matrix-body');
+            if (!tb) return;
+            var dv = document.createElement('tr');
+            dv.className = 'fc-divider';
+            dv.innerHTML = '<td colspan="11">── FC店舗(フランチャイズ)27店 — 全チャネル実測(SNSはブランド共通) ──</td>';
+            tb.appendChild(dv);
+            function siteCell(id, base, label) {
+                if (id && id !== '?') return '<a class="cell s-listed" href="' + base + id + '/" target="_blank" rel="noopener" title="' + label + '掲載あり">○</a>';
+                if (id === '?') return '<span class="cell s-unknown" title="' + label + '未確認">？</span>';
+                return '<span class="cell s-none" title="' + label + 'なし">×</span>';
+            }
+            fc.forEach(function (s) {
+                var tbCell = s[4]
+                    ? '<a class="cell s-listed" href="https://tabelog.com' + s[4] + '" target="_blank" rel="noopener" title="食べログ ' + s[2] + ' / 口コミ' + s[3] + '件">' + (s[2] === '-' ? '新店' : '○ ' + s[2]) + '</a>'
+                    : '<span class="cell s-none" title="食べログ未掲載">×</span>';
+                var gCell = '<a class="cell s-official" href="https://www.google.com/maps/search/' + encodeURIComponent(s[7]) + '" target="_blank" rel="noopener" title="Google ' + s[5] + ' / 口コミ' + s[6] + '件(2026/7/19実測)">◎ ' + s[5] + '</a>';
+                var gnavi = siteCell(s[8], 'https://r.gnavi.co.jp/', 'ぐるなび');
+                var hp = siteCell(s[9], 'https://www.hotpepper.jp/', 'ホットペッパー');
+                var rettyCell = (s[10] && s[10] !== '?') ? '<a class="cell s-listed" href="https://www.google.com/search?q=site:retty.me+' + s[10] + '" target="_blank" rel="noopener" title="Retty掲載あり">○</a>' : (s[10] === '?' ? '<span class="cell s-unknown" title="Retty未確認">？</span>' : '<span class="cell s-none">×</span>');
+                var ig = '<span class="cell s-listed" title="店舗個別Instagramあり(命名規則 perfect_beer_kitchen_◯◯)">○</span>';
+                var xc = '<span class="cell s-brand" title="ブランド共通 @PERFECTBEER0802">共通</span>';
+                var line = '<span class="cell s-brand" title="ブランド/KITCHEN共通LINEの配信対象">共通</span>';
+                var tiktok = '<span class="cell s-brand" title="ブランド共通(創業者・LABO等)">共通</span>';
+                var fb = '<span class="cell s-none" title="店舗個別Facebookなし">×</span>';
+                var tr = document.createElement('tr');
+                tr.setAttribute('data-tier', 'fc');
+                tr.innerHTML =
+                    '<td class="rowh">' + s[0] + '<span class="area">' + s[1] + '</span></td>' +
+                    '<td>' + tbCell + '</td>' +
+                    '<td>' + gCell + '</td>' +
+                    '<td>' + gnavi + '</td>' +
+                    '<td>' + hp + '</td>' +
+                    '<td>' + rettyCell + '</td>' +
+                    '<td>' + ig + '</td>' +
+                    '<td>' + xc + '</td>' +
+                    '<td>' + line + '</td>' +
+                    '<td>' + tiktok + '</td>' +
+                    '<td>' + fb + '</td>';
+                tb.appendChild(tr);
+            });
+        })();
+        (function () {
+            var reviews = [
+                ["LABO TOKYO", 137],
+                ["KITCHEN 総本店", 94],
+                ["GARDEN 門仲", 74],
+                ["STAND 門仲", 30],
+                ["STAND 池袋", 18],
+                ["STAND 福岡", 14],
+                ["KITCHEN 富山", 9],
+                ["KITCHEN 新潟", 9],
+                ["SHOP 横浜BQ", 8],
+                ["麦酒飯店", 7],
+                ["STAND 亀戸", 5],
+                ["マーボードウフ渋谷", 2]
+            ];
+            var saves = [
+                ["LABO TOKYO", 10425],
+                ["KITCHEN 総本店", 6866],
+                ["GARDEN 門仲", 6295],
+                ["STAND 門仲", 1832],
+                ["STAND 福岡", 439],
+                ["STAND 池袋", 406],
+                ["マーボードウフ渋谷", 367],
+                ["麦酒飯店", 236],
+                ["SHOP 横浜BQ", 166],
+                ["KITCHEN 新潟", 148],
+                ["KITCHEN 富山", 106],
+                ["STAND 亀戸", 89]
+            ];
+            function render(id, data, unit) {
+                var el = document.getElementById(id);
+                if (el) renderBar(el, data, unit);
+            }
+            var google = [
+                ["総本店 ★4.8", 564],
+                ["LABO ★4.6", 363],
+                ["GARDEN ★4.3", 340],
+                ["STAND門仲 ★4.8", 248],
+                ["新潟 ★4.8", 189],
+                ["富山 ★4.8", 156],
+                ["福岡 ★4.9", 145],
+                ["池袋 ★4.8", 79],
+                ["麦酒飯店 ★5.0", 66],
+                ["マーボー渋谷 ★4.3", 51],
+                ["横浜BQ ★4.6", 38],
+                ["亀戸 ★4.6", 28]
+            ];
+            var ig = [
+                ["LABO TOKYO", 23000],
+                ["マーボー渋谷", 7712],
+                ["KITCHEN 総本店", 4047],
+                ["GARDEN 門仲", 2467],
+                ["STAND 福岡", 1669],
+                ["STAND 池袋", 1487],
+                ["KITCHEN 富山", 753],
+                ["KITCHEN 新潟", 738],
+                ["STAND 門仲", 541],
+                ["麦酒飯店", 376],
+                ["SHOP 横浜BQ", 221],
+                ["STAND 亀戸", 178]
+            ];
+            render("chart-ig", ig, "人");
+            render("chart-google", google, "件");
+
+            // SNS activity table (Instagram, 2026/7/17 実測)
+            SNSACT.direct = [
+                { n: "@perfect_beer_labo (LABO)", fol: "2.3万", posts: 187, last: 4, d30: 11, pace: "高", rank: "◎ 活発", cls: "s-official" },
+                { n: "@..._kitchen_tokyo (総本店)", fol: "4,047", posts: 324, last: 9, d30: 5, pace: "中", rank: "○ 標準", cls: "s-listed" },
+                { n: "@..._garden_tokyo (GARDEN)", fol: "2,467", posts: 271, last: 8, d30: 8, pace: "中", rank: "○ 標準", cls: "s-listed" },
+                { n: "@..._stand_fukuoka (福岡)", fol: "1,669", posts: 97, last: 5, d30: 4, pace: "中", rank: "○ 標準", cls: "s-listed" },
+                { n: "@perfectbeer_stand_ikebukuro (池袋)", fol: "1,487", posts: 27, last: 4, d30: 7, pace: "高", rank: "◎ 活発", cls: "s-official" },
+                { n: "@beer_kuma_ (ビアっくま公式)", fol: "1,153", posts: 89, last: 0, d30: 9, pace: "高", rank: "◎ 活発", cls: "s-official" },
+                { n: "@..._kitchen_toyama (富山)", fol: "753", posts: 57, last: 17, d30: 1, pace: "低", rank: "△ 停滞ぎみ", cls: "s-stale" },
+                { n: "@..._kitchen_niigata (新潟)", fol: "738", posts: 39, last: 35, d30: 0, pace: "低", rank: "△ 停滞ぎみ", cls: "s-stale" },
+                { n: "@..._stand_monnaka2 (STAND門仲)", fol: "541", posts: 115, last: 5, d30: 8, pace: "高", rank: "◎ 活発", cls: "s-official" },
+                { n: "@hanten_monnaka (麦酒飯店)", fol: "376", posts: 26, last: 8, d30: 8, pace: "高", rank: "◎ 活発", cls: "s-official" },
+                { n: "@perfect_beer_shop_yokohama (横浜)", fol: "221", posts: 20, last: 4, d30: 2, pace: "低", rank: "○ 標準", cls: "s-listed" },
+                { n: "@perfectbeer_stand_kameido (亀戸)", fol: "178", posts: 19, last: 7, d30: 4, pace: "中", rank: "○ 標準", cls: "s-listed" },
+                { n: "@perfectbeer_info (ブランド公式)", fol: "7,797", posts: 314, last: 8, d30: 4, pace: "中", rank: "○ 標準", cls: "s-listed" },
+                { n: "@gosai531 (マーボー渋谷/別会社)", fol: "7,712", posts: 23, last: 28, d30: 1, pace: "低", rank: "△ 停滞ぎみ", cls: "s-stale" }
+            ];
+            // FC店(投稿頻度 2026/7/20実測。フォロワーはIG制限で一部?)
+            SNSACT.fc = [
+                { n: "@..._nishiogi (西荻窪FC)", fol: "?", posts: "?", last: 2, d30: 6 },
+                { n: "@..._shibuya (渋谷FC)", fol: "1,514", posts: 63, last: 4, d30: 6 },
+                { n: "@..._noge (野毛FC)", fol: "?", posts: "?", last: 1, d30: 9 },
+                { n: "@..._shiki (志木FC)", fol: "?", posts: "?", last: 1, d30: 4 },
+                { n: "@..._sendai (仙台FC)", fol: "?", posts: "?", last: 2, d30: 6 },
+                { n: "@..._ichikawa (市川FC)", fol: "?", posts: "?", last: 15, d30: 5 },
+                { n: "@..._nakano (中野FC)", fol: "?", posts: "?", last: 19, d30: 4 },
+                { n: "@..._tachikawa (立川FC)", fol: "?", posts: "?", last: 5, d30: 4 },
+                { n: "@..._sapporo (札幌FC)", fol: "?", posts: "?", last: 7, d30: 3 },
+                { n: "@..._shinbashi (新橋FC)", fol: "?", posts: "?", last: 24, d30: 3 },
+                { n: "@..._yotsuya (四ツ谷FC)", fol: "?", posts: "?", last: 13, d30: 2 },
+                { n: "@..._machida (町田FC)", fol: "?", posts: "?", last: 19, d30: 1 },
+                { n: "@..._kawagoe (川越FC)", fol: "?", posts: "?", last: 17, d30: 1 },
+                { n: "@..._kuramae (蔵前FC)", fol: "?", posts: "?", last: 18, d30: 1 },
+                { n: "@..._chiba (千葉FC)", fol: "1,963", posts: 188, last: 45, d30: 0 },
+                { n: "@..._shizuoka (静岡FC)", fol: "?", posts: "?", last: 80, d30: 0 },
+                { n: "@..._burger_akabane (赤羽BURGER FC)", fol: "?", posts: "?", last: 169, d30: 0 }
+            ];
+            if (typeof renderSNS === 'function') renderSNS('direct');
+
+            // Menu photo evaluation (Instagram 直近投稿の目視評価)
+            MENU.direct = [
+                { s: "完璧麦酒飯店", ratio: 100, q: 5.0, sc: 96, rk: "S", note: "全投稿が統一感ある皿写真。明るく食欲をそそる中華の見本カタログ", cls: "r-S" },
+                { s: "LABO TOKYO", ratio: 78, q: 4.5, sc: 86, rk: "S", note: "チーズが伸びるバーガー・カラフルドリンクなど撮影クオリティが高い", cls: "r-S" },
+                { s: "KITCHEN 総本店", ratio: 67, q: 4.0, sc: 78, rk: "A", note: "ビールのヒーローショットが強い。枝豆等の寄りも美味しそう", cls: "r-A" },
+                { s: "KITCHEN 富山", ratio: 55, q: 4.0, sc: 72, rk: "A", note: "唐揚げタワー・ビアカレーうどんは秀逸。黄色い文字だけの告知が混在", cls: "r-A" },
+                { s: "KITCHEN 新潟", ratio: 62, q: 4.0, sc: 72, rk: "A", note: "唐揚げ・あんかけ豆腐など料理写真がしっかり。告知グラフィックも一部混在", cls: "r-A" },
+                { s: "マーボードウフ渋谷", ratio: 55, q: 4.0, sc: 70, rk: "A", note: "麻婆豆腐の重厚な料理写真。やや暗めだが専門店らしい迫力", cls: "r-A" },
+                { s: "GARDEN 門仲", ratio: 55, q: 3.5, sc: 68, rk: "B", note: "価格入りメニュー画像が充実。料理写真自体も及第点", cls: "r-B" },
+                { s: "STAND 池袋", ratio: 44, q: 3.5, sc: 66, rk: "B", note: "人物+ドリンク中心で明るい。皿料理の写真を増やす余地", cls: "r-B" },
+                { s: "STAND 福岡", ratio: 40, q: 3.0, sc: 58, rk: "B", note: "ビールタップ・レモンサワー中心。料理の皿写真が少なめ", cls: "r-B" },
+                { s: "STAND 門仲", ratio: 30, q: 3.0, sc: 54, rk: "C", note: "スタッフ写真・告知が多く、料理の実写真が不足", cls: "r-C" },
+                { s: "STAND 亀戸", ratio: 30, q: 3.0, sc: 52, rk: "C", note: "告知グラフィック中心。開店直後で料理写真の蓄積が少ない", cls: "r-C" },
+                { s: "SHOP 横浜BQ", ratio: 25, q: 2.5, sc: 44, rk: "C", note: "ビールの寄りとOPEN告知が中心。料理写真が最も少なく空タイルも", cls: "r-C" }
+            ];
+            // FC店(2026/7/20 目視評価・15店)
+            MENU.fc = [
+                { s: "西荻窪FC", ratio: 60, q: 4.0, sc: 70, rk: "A", note: "唐揚げ・料理を持つ写真が多くバランス良し", cls: "r-A" },
+                { s: "四ツ谷FC", ratio: 55, q: 4.0, sc: 68, rk: "B", note: "巨大ビール・人気メニューの皿写真が映える", cls: "r-B" },
+                { s: "新橋FC", ratio: 55, q: 4.0, sc: 68, rk: "B", note: "千両麻婆豆腐など料理+ビールのヒーローショット", cls: "r-B" },
+                { s: "市川FC", ratio: 55, q: 4.0, sc: 68, rk: "B", note: "麻婆・唐揚げ皿が充実。ビールの寄りも綺麗", cls: "r-B" },
+                { s: "渋谷FC", ratio: 50, q: 4.0, sc: 65, rk: "B", note: "バーガー・デザートなど映え。人物投稿もやや多め", cls: "r-B" },
+                { s: "川越FC", ratio: 55, q: 3.5, sc: 63, rk: "B", note: "価格入りメニュー画像+唐揚げが中心", cls: "r-B" },
+                { s: "蔵前FC", ratio: 50, q: 3.5, sc: 60, rk: "B", note: "牡蠣・唐揚げ皿(V500)など料理が具体的", cls: "r-B" },
+                { s: "千葉FC", ratio: 45, q: 3.5, sc: 58, rk: "B", note: "麻婆豆腐は良いが告知グラフィックも多い", cls: "r-B" },
+                { s: "町田FC", ratio: 40, q: 3.5, sc: 55, rk: "C", note: "告知(青背景)とレモンサワー中心。皿料理少なめ", cls: "r-C" },
+                { s: "中野FC", ratio: 38, q: 3.5, sc: 54, rk: "C", note: "ponzu beer・イベント告知が中心", cls: "r-C" },
+                { s: "立川FC", ratio: 40, q: 3.5, sc: 54, rk: "C", note: "告知・ドリンク中心。スタッフ募集も混在", cls: "r-C" },
+                { s: "静岡FC", ratio: 40, q: 3.5, sc: 54, rk: "C", note: "メニュー画像+ドリンク。最終投稿80日前で更新停滞", cls: "r-C" },
+                { s: "志木FC", ratio: 40, q: 3.5, sc: 54, rk: "C", note: "ビール・ドリンク中心。料理の皿写真を増やす余地", cls: "r-C" },
+                { s: "野毛FC", ratio: 35, q: 3.5, sc: 53, rk: "C", note: "ビールの寄りが大半。料理写真が少なめ", cls: "r-C" },
+                { s: "赤羽BURGER FC", ratio: 30, q: 3.0, sc: 45, rk: "C", note: "最終投稿169日前で休止状態。料理写真も少ない", cls: "r-C" }
+            ];
+            if (typeof renderMenu === 'function') renderMenu('direct');
+
+            // Google reply rate (直近口コミサンプルの返信率, 2026/7/17実測)
+            REPLY.direct = [
+                ["総本店", 100], ["福岡", 100], ["麦酒飯店", 100], ["池袋", 100], ["亀戸", 100],
+                ["富山", 100], ["新潟", 100], ["GARDEN 門仲", 89], ["LABO TOKYO", 89],
+                ["STAND 門仲", 78], ["横浜BQ", 25], ["マーボー渋谷", 0]
+            ];
+            // 全40店の返信率<100%(要対応)のみ、低い順。100%は20店(直営7+FC13)
+            REPLY.all = [
+                ["マーボー渋谷", 0], ["新大久保FC", 0], ["赤羽BURGER FC", 0], ["高崎FC", 22], ["横浜BQ", 25],
+                ["仙台FC", 44], ["市川FC", 56], ["蔵前FC", 67], ["西新宿FC", 67], ["野毛FC", 67],
+                ["STAND 門仲", 78], ["四ツ谷FC", 78], ["志木FC", 78], ["渋谷FC", 88], ["GARDEN 門仲", 89],
+                ["LABO TOKYO", 89], ["西荻窪FC", 89], ["神戸三宮FC", 89], ["長野FC", 89]
+            ];
+            renderReply(document.getElementById("chart-reply"), REPLY.direct);
+            render("chart-reviews", reviews, "件");
+            render("chart-saves", saves, "人");
+            // capture direct arrays so the view toggle can switch back
+            CHART40.google.direct = google;
+            CHART40.reviews.direct = reviews;
+            CHART40.saves.direct = saves;
+        })();
+        // initial KPI render (direct)
+        renderKPIs('direct');
+    </script>
+</body>
+
+</html>
