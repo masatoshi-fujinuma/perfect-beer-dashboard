@@ -153,11 +153,12 @@
     box-shadow:var(--hard);overflow:visible;
   }
   .store-head{
-    display:flex;align-items:center;gap:6px;padding:11px 12px 13px;
+    display:flex;flex-direction:column;align-items:stretch;gap:2px;padding:9px 10px 13px;
     background:linear-gradient(180deg,#FFE24D,var(--gold));
     border-bottom:3px solid var(--ink);position:relative;
     border-radius:16px 16px 0 0;
   }
+  .store-head .row2{display:flex;align-items:center;gap:6px}
   /* ビールの泡：ヘッダー下端に白い泡の丸を並べる */
   .store-head::after{
     content:"";position:absolute;left:0;right:0;bottom:3px;height:11px;pointer-events:none;
@@ -165,9 +166,16 @@
     background-size:16px 11px;
   }
   .store-head .nm{
-    font-weight:800;font-size:16px;flex:1;min-width:0;border:2px solid transparent;background:transparent;
-    border-radius:8px;padding:3px 6px;color:var(--ink);
+    font-weight:800;font-size:14px;width:100%;min-width:0;border:2px solid transparent;background:transparent;
+    border-radius:8px;padding:2px 34px 2px 6px;color:var(--ink);
   }
+  .store-head .note{
+    font-weight:700;font-size:11px;flex:1;min-width:0;border:2px solid transparent;background:transparent;
+    border-radius:8px;padding:1px 6px;color:#6B4A00;
+  }
+  .store-head .del{position:absolute;top:8px;right:9px}
+  .store-head .note:hover{border-color:var(--ink);background:rgba(255,255,255,.5)}
+  .store-head .note:focus{outline:none;border-color:var(--ink);background:#fff}
   .store-head .nm:hover{border-color:var(--ink);background:rgba(255,255,255,.5)}
   .store-head .nm:focus{outline:none;border-color:var(--ink);background:#fff}
   .store-head .cnt{
@@ -323,14 +331,60 @@ let state = {
 };
 
 function seed(){
-  state.stores = [
-    { id:nid(), name:"店舗A", slots:[
-      {id:nid(),title:"店長"},{id:nid(),title:"副店長"},{id:nid(),title:"社員"},{id:nid(),title:"アルバイト"}
-    ]},
-    { id:nid(), name:"店舗B", slots:[
-      {id:nid(),title:"店長"},{id:nid(),title:"社員"},{id:nid(),title:"アルバイト"}
-    ]}
-  ];
+  const SEED_STORES = [
+  {
+    "name": "PERFECT BEER GARDEN 門前仲町",
+    "note": "門前仲町・赤札堂3F(季節営業)"
+  },
+  {
+    "name": "PERFECT BEER KITCHEN 総本店",
+    "note": "門前仲町・冬木"
+  },
+  {
+    "name": "PERFECT BEER STAND 門前仲町",
+    "note": "門前仲町・富岡"
+  },
+  {
+    "name": "PERFECT BEER LABO TOKYO",
+    "note": "門前仲町・富岡(2024/12開店)"
+  },
+  {
+    "name": "PERFECT BEER KITCHEN 富山",
+    "note": "富山駅前・Dタワー(2025/11開店)"
+  },
+  {
+    "name": "PERFECT BEER KITCHEN 新潟",
+    "note": "新潟駅徒歩3分・2026/7直営化"
+  },
+  {
+    "name": "PERFECT BEER STAND 福岡",
+    "note": "大名(2025/12開店)"
+  },
+  {
+    "name": "完璧麦酒飯店 門前仲町",
+    "note": "門前仲町(2026/5/12開店)"
+  },
+  {
+    "name": "PERFECT BEER STAND 池袋",
+    "note": "IT tower TOKYO(2026/4/27開店)"
+  },
+  {
+    "name": "PERFECT BEER STAND 亀戸",
+    "note": "カメイドクロック横(2026/5/26開店)"
+  },
+  {
+    "name": "PERFECT BEER SHOP 横浜ベイクォーター",
+    "note": "横浜駅きた東口(2026/6/4開店)"
+  },
+  {
+    "name": "株式会社マーボードウフ渋谷",
+    "note": "円山町・神泉(2026/6/10開店・別会社)"
+  }
+];
+  state.stores = SEED_STORES.map(o => ({
+    id: nid(), name: o.name, note: o.note,
+    slots: [ {id:nid(), title:"店長"}, {id:nid(), title:"社員"} ]
+  }));
   SEED_STAFF.forEach((sp, i) => {
     state.staff.push({
       id: nid(), name: sp.name, note: "",
@@ -515,14 +569,24 @@ function storeCard(st){
   const nm = document.createElement("input");
   nm.className = "nm";
   nm.value = st.name;
-  nm.onchange = () => { st.name = nm.value.trim() || "無題の店舗"; renderSummary(); };
+  nm.title = st.name;
+  nm.onchange = () => { st.name = nm.value.trim() || "無題の店舗"; nm.title = st.name; renderSummary(); };
   head.appendChild(nm);
+  const row2 = document.createElement("div");
+  row2.className = "row2";
+  const nt = document.createElement("input");
+  nt.className = "note";
+  nt.value = st.note || "";
+  nt.placeholder = "エリア・備考";
+  nt.onchange = () => { st.note = nt.value.trim(); };
+  row2.appendChild(nt);
   const cnt = document.createElement("span");
   cnt.className = "cnt";
   cnt.textContent = filled + " / " + st.slots.length + " 名";
-  head.appendChild(cnt);
+  row2.appendChild(cnt);
+  head.appendChild(row2);
   const del = document.createElement("button");
-  del.className = "btn sm ghost danger";
+  del.className = "btn sm ghost danger del";
   del.textContent = "✕";
   del.title = "店舗を削除";
   del.onclick = () => {
