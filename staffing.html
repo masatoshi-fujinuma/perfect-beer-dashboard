@@ -181,6 +181,18 @@
     border-radius:8px;padding:1px 6px;color:#6B4A00;
   }
   .store-head .del{position:absolute;top:8px;right:9px}
+  .store-head{cursor:grab}
+  .store-head input{cursor:text}
+  .store-head button{cursor:pointer}
+  .ordbtn{
+    flex:none;border:2px solid var(--ink);background:var(--foam);color:var(--ink);
+    border-radius:999px;width:22px;height:20px;line-height:1;font-size:11px;font-weight:800;
+    padding:0;box-shadow:2px 2px 0 var(--ink);
+  }
+  .ordbtn:hover{background:#fff;transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}
+  .ordbtn:disabled{opacity:.3;box-shadow:none;cursor:default;transform:none}
+  .store.dragging-store{opacity:.45}
+  .store.drop-store{outline:4px dashed var(--amber);outline-offset:3px}
   .store-head .note:hover{border-color:var(--ink);background:rgba(255,255,255,.5)}
   .store-head .note:focus{outline:none;border-color:var(--ink);background:#fff}
   .store-head .nm:hover{border-color:var(--ink);background:rgba(255,255,255,.5)}
@@ -290,7 +302,7 @@
   @media print{
     *{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
     aside, header.top, .store-foot, .add-store, .slot-actions,
-    .summary, .store-head .del, .avatar .badge { display:none !important }
+    .summary, .store-head .del, .avatar .badge, .ordbtn { display:none !important }
     html,body{height:auto}
     body{background:#fff;background-image:none}
     .app{height:auto;overflow:visible;display:block}
@@ -686,9 +698,12 @@ function storeCard(st){
 
   const card = document.createElement("div");
   card.className = "store";
+  card.dataset.store = st.id;
 
   const head = document.createElement("div");
   head.className = "store-head";
+  head.title = "ドラッグすると店舗の並び順を入れ替えられます";
+  head.addEventListener("pointerdown", e => startStoreDrag(e, st.id));
   const nm = document.createElement("input");
   nm.className = "nm";
   nm.value = st.name;
@@ -703,6 +718,21 @@ function storeCard(st){
   nt.placeholder = "エリア・備考";
   nt.onchange = () => { st.note = nt.value.trim(); };
   row2.appendChild(nt);
+  const idx = state.stores.findIndex(x => x.id === st.id);
+  const bL = document.createElement("button");
+  bL.className = "ordbtn";
+  bL.textContent = "◀";
+  bL.title = "前へ移動";
+  bL.disabled = idx <= 0;
+  bL.onclick = e => { e.stopPropagation(); moveStoreBy(st.id, -1); };
+  row2.appendChild(bL);
+  const bR = document.createElement("button");
+  bR.className = "ordbtn";
+  bR.textContent = "▶";
+  bR.title = "後ろへ移動";
+  bR.disabled = idx >= state.stores.length - 1;
+  bR.onclick = e => { e.stopPropagation(); moveStoreBy(st.id, 1); };
+  row2.appendChild(bR);
   const cnt = document.createElement("span");
   cnt.className = "cnt";
   cnt.textContent = filled + " / " + st.slots.length + " 名";
@@ -881,6 +911,65 @@ function renderSummary(){
     d.innerHTML = "<b>" + val + "</b><span>" + label + "</span>";
     box.appendChild(d);
   });
+}
+
+/* ============================================================
+   店舗カードの並び替え
+   ============================================================ */
+function moveStoreBy(storeId, delta){
+  const i = state.stores.findIndex(x => x.id === storeId);
+  const j = i + delta;
+  if(i < 0 || j < 0 || j >= state.stores.length) return;
+  const [it] = state.stores.splice(i, 1);
+  state.stores.splice(j, 0, it);
+  render();
+}
+function moveStoreTo(fromId, toId){
+  const i = state.stores.findIndex(x => x.id === fromId);
+  const j = state.stores.findIndex(x => x.id === toId);
+  if(i < 0 || j < 0 || i === j) return;
+  const [it] = state.stores.splice(i, 1);
+  state.stores.splice(j, 0, it);
+  render();
+}
+
+let storeDrag = null;
+function startStoreDrag(e, storeId){
+  if(e.button !== undefined && e.button !== 0) return;
+  if(e.target.closest("input, button, select, textarea")) return;
+  const card = e.target.closest(".store");
+  if(!card) return;
+  e.preventDefault();
+  storeDrag = { id:storeId, card, target:null };
+  card.classList.add("dragging-store");
+  document.body.classList.add("dragging");
+  window.addEventListener("pointermove", onStoreMove);
+  window.addEventListener("pointerup", onStoreUp);
+  window.addEventListener("pointercancel", onStoreUp);
+}
+function onStoreMove(e){
+  if(!storeDrag) return;
+  const el = document.elementFromPoint(e.clientX, e.clientY);
+  const card = el ? el.closest(".store") : null;
+  document.querySelectorAll(".store.drop-store").forEach(c => c.classList.remove("drop-store"));
+  if(card && card !== storeDrag.card){
+    card.classList.add("drop-store");
+    storeDrag.target = card.dataset.store;
+  } else {
+    storeDrag.target = null;
+  }
+}
+function onStoreUp(){
+  if(!storeDrag) return;
+  document.querySelectorAll(".store.drop-store").forEach(c => c.classList.remove("drop-store"));
+  storeDrag.card.classList.remove("dragging-store");
+  document.body.classList.remove("dragging");
+  window.removeEventListener("pointermove", onStoreMove);
+  window.removeEventListener("pointerup", onStoreUp);
+  window.removeEventListener("pointercancel", onStoreUp);
+  const { id, target } = storeDrag;
+  storeDrag = null;
+  if(target) moveStoreTo(id, target);
 }
 
 /* ============================================================
