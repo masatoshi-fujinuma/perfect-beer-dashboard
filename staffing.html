@@ -194,9 +194,25 @@
     display:flex;align-items:center;justify-content:center;color:#C9B274;font-size:22px;font-weight:800;
   }
   .slot-meta{flex:1;min-width:0}
+  .title-row{display:flex;align-items:center;gap:5px}
+  .badge-multi{
+    flex:none;font-size:9.5px;font-weight:800;background:var(--gold);border:2px solid var(--ink);
+    border-radius:999px;padding:1px 7px;line-height:1.3;
+  }
+  .slot.multi .ph{border-color:var(--amber);color:var(--amber);background:#FFF6DC}
+  .slot.multi:hover{background:#FFF3C2}
+  .btn.kenin{background:var(--gold)}
+  .place-list{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:9px}
+  .place-chip{
+    display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:800;
+    background:#fff;border:2px solid var(--ink);border-radius:999px;padding:3px 5px 3px 10px;
+    box-shadow:2px 2px 0 var(--ink);
+  }
+  .place-chip.multi{background:var(--gold)}
+  .place-chip button{border:none;background:transparent;font-size:11px;padding:0 3px;line-height:1;font-weight:800}
   .slot-title{
     border:2px solid transparent;background:transparent;border-radius:8px;padding:2px 6px;
-    font-weight:800;font-size:14px;width:100%;color:var(--ink);
+    font-weight:800;font-size:14px;flex:1;min-width:0;color:var(--ink);
   }
   .slot-title:hover{border-color:#D9C489}
   .slot-title:focus{outline:none;border-color:var(--ink);background:#fff}
@@ -404,6 +420,15 @@ const slotOf = staffId => {
   for (const k in a) if (a[k] === staffId) return k;
   return null;
 };
+/* そのスタッフが入っている枠すべて（兼任枠があると複数になる） */
+const slotIdsOf = staffId => Object.keys(cur().assign).filter(k => cur().assign[k] === staffId);
+const isPlaced = staffId => slotIdsOf(staffId).length > 0;
+function slotInfo(slotId){
+  for (const st of state.stores)
+    for (const sl of st.slots)
+      if (sl.id === slotId) return { store: st, slot: sl };
+  return null;
+}
 function allSlots(){
   const out = [];
   state.stores.forEach(st => st.slots.forEach(sl => out.push({store:st, slot:sl})));
@@ -525,7 +550,7 @@ function renderPool(){
   const pool = document.getElementById("pool");
   const q = document.getElementById("search").value.trim().toLowerCase();
   pool.innerHTML = "";
-  const list = state.staff.filter(p => !slotOf(p.id))
+  const list = state.staff.filter(p => !isPlaced(p.id))
     .filter(p => !q || (p.name + " " + (p.note||"")).toLowerCase().includes(q));
   if(!list.length){
     const e = document.createElement("div");
@@ -612,6 +637,12 @@ function storeCard(st){
     b.onclick = () => { st.slots.push({id:nid(), title:t}); render(); };
     foot.appendChild(b);
   });
+  const bk = document.createElement("button");
+  bk.className = "btn sm kenin";
+  bk.textContent = "＋兼任社員";
+  bk.title = "兼任枠。ここに入った人は他の店舗にも同時に配置できます";
+  bk.onclick = () => { st.slots.push({id:nid(), title:"兼任社員", multi:true}); render(); };
+  foot.appendChild(bk);
   const bf = document.createElement("button");
   bf.className = "btn sm ghost";
   bf.textContent = "＋自由枠";
@@ -628,13 +659,13 @@ function slotRow(st, sl){
   const p = pid ? staffById(pid) : null;
 
   const row = document.createElement("div");
-  row.className = "slot";
+  row.className = "slot" + (sl.multi ? " multi" : "");
   row.dataset.drop = "slot";
   row.dataset.slot = sl.id;
 
   if(p){
     const av = avatarEl(p, {lg:true, edit:true});
-    av.addEventListener("pointerdown", e => startDrag(e, p.id));
+    av.addEventListener("pointerdown", e => startDrag(e, p.id, sl.id));
     row.appendChild(av);
   } else {
     const ph = document.createElement("div");
@@ -645,14 +676,29 @@ function slotRow(st, sl){
 
   const meta = document.createElement("div");
   meta.className = "slot-meta";
+  const titleRow = document.createElement("div");
+  titleRow.className = "title-row";
   const t = document.createElement("input");
   t.className = "slot-title";
   t.value = sl.title;
   t.onchange = () => { sl.title = t.value.trim() || "役職"; };
-  meta.appendChild(t);
+  titleRow.appendChild(t);
+  if(sl.multi){
+    const bm = document.createElement("span");
+    bm.className = "badge-multi";
+    bm.textContent = "兼任";
+    bm.title = "この枠の人は他店舗にも同時に配置できます";
+    titleRow.appendChild(bm);
+  }
+  meta.appendChild(titleRow);
   const who = document.createElement("div");
   who.className = "slot-who" + (p ? "" : " vacant");
-  who.textContent = p ? (p.name + (p.note ? "　" + p.note : "")) : "ここへドラッグ";
+  if(p){
+    const n = slotIdsOf(p.id).length;
+    who.textContent = p.name + (n > 1 ? "（兼任 " + n + "箇所）" : "") + (p.note ? "　" + p.note : "");
+  } else {
+    who.textContent = sl.multi ? "兼任OKの枠 — ここへドラッグ" : "ここへドラッグ";
+  }
   meta.appendChild(who);
   row.appendChild(meta);
 
@@ -665,13 +711,19 @@ function slotRow(st, sl){
     out.onclick = () => { delete a[sl.id]; render(); };
     acts.appendChild(out);
   }
+  const mt = document.createElement("button");
+  mt.className = "btn sm ghost";
+  mt.textContent = sl.multi ? "兼任解除" : "兼任に";
+  mt.title = "兼任枠にすると、この人は他店舗にも同時に配置できます";
+  mt.onclick = () => { sl.multi = !sl.multi; render(); };
+  acts.appendChild(mt);
   const dup = document.createElement("button");
   dup.className = "btn sm ghost";
   dup.textContent = "複製";
   dup.title = "同じ役職の枠をもう1つ";
   dup.onclick = () => {
     const i = st.slots.findIndex(x => x.id === sl.id);
-    st.slots.splice(i+1, 0, {id:nid(), title:sl.title});
+    st.slots.splice(i+1, 0, {id:nid(), title:sl.title, multi: !!sl.multi});
     render();
   };
   acts.appendChild(dup);
@@ -694,7 +746,7 @@ function renderSummary(){
   const a = cur().assign;
   const slots = allSlots();
   const filled = slots.filter(s => a[s.slot.id]).length;
-  const unassigned = state.staff.filter(p => !slotOf(p.id)).length;
+  const unassigned = state.staff.filter(p => !isPlaced(p.id)).length;
   const box = document.getElementById("summary");
   box.innerHTML = "";
   const items = [
@@ -716,7 +768,7 @@ function renderSummary(){
    ドラッグ＆ドロップ（pointer events）
    ============================================================ */
 let drag = null;
-function startDrag(e, staffId){
+function startDrag(e, staffId, fromSlotId){
   if(e.button !== undefined && e.button !== 0) return;
   e.preventDefault();
   const p = staffById(staffId);
@@ -726,7 +778,7 @@ function startDrag(e, staffId){
   const av = avatarEl(p, {lg:true});
   ghost.appendChild(av);
   document.body.appendChild(ghost);
-  drag = { staffId, ghost, hot:null, moved:false };
+  drag = { staffId, from: fromSlotId || null, ghost, hot:null, moved:false };
   document.body.classList.add("dragging");
   moveGhost(e);
   window.addEventListener("pointermove", onDragMove);
@@ -763,29 +815,38 @@ function onDragUp(e){
   window.removeEventListener("pointermove", onDragMove);
   window.removeEventListener("pointerup", onDragUp);
   window.removeEventListener("pointercancel", onDragUp);
-  const id = drag.staffId, moved = drag.moved;
+  const id = drag.staffId, moved = drag.moved, from = drag.from;
   drag = null;
   if(!t){ if(!moved) openPerson(id); return; }
   if(t.dataset.drop === "pool"){
-    const s = slotOf(id);
-    if(s) delete cur().assign[s];
+    const a = cur().assign;
+    if(from) delete a[from];               // ドラッグ元の枠だけ外す
+    else slotIdsOf(id).forEach(k => delete a[k]);
     render();
     return;
   }
   if(t.dataset.drop === "slot"){
-    assign(t.dataset.slot, id);
+    assign(t.dataset.slot, id, from);
     render();
   }
 }
-function assign(slotId, staffId){
+/* 配置ルール：
+   ・通常枠は1人1箇所（別の通常枠に入れると前の通常枠からは外れる）
+   ・兼任枠に入れる場合は今の配置を保持したまま追加 → 複数箇所に在籍できる */
+function assign(slotId, staffId, fromSlotId){
   const a = cur().assign;
-  const from = slotOf(staffId);
+  const info = slotInfo(slotId);
+  const target = info ? info.slot : null;
   const occupant = a[slotId];
-  if(from) delete a[from];
-  a[slotId] = staffId;
-  if(occupant && occupant !== staffId){
-    if(from) a[from] = occupant;   // 入れ替え
+  if(occupant === staffId) return;
+  if(!target || !target.multi){
+    slotIdsOf(staffId).forEach(sid => {
+      const i2 = slotInfo(sid);
+      if(!i2 || !i2.slot.multi) delete a[sid];   // 通常枠だけ解除、兼任枠は残す
+    });
   }
+  a[slotId] = staffId;
+  if(occupant && fromSlotId && !a[fromSlotId]) a[fromSlotId] = occupant;   // 入れ替え
 }
 
 /* ============================================================
@@ -936,19 +997,57 @@ function openPerson(id){
   inner.appendChild(f3);
 
   const f4 = document.createElement("div"); f4.className = "field";
-  f4.innerHTML = "<label>配置</label>";
+  f4.innerHTML = "<label>配置（兼任枠なら複数の店舗に入れます）</label>";
+  const plist = document.createElement("div");
+  plist.className = "place-list";
+  f4.appendChild(plist);
   const sel = document.createElement("select");
-  sel.innerHTML = "<option value=''>未配属</option>";
-  allSlots().forEach(({store, slot}) => {
-    const o = document.createElement("option");
-    o.value = slot.id;
-    const occ = cur().assign[slot.id];
-    o.textContent = store.name + " / " + slot.title + (occ && occ !== p.id ? "（" + (staffById(occ)||{}).name + "）" : "");
-    if(cur().assign[slot.id] === p.id) o.selected = true;
-    sel.appendChild(o);
-  });
   f4.appendChild(sel);
   inner.appendChild(f4);
+
+  function drawPlaces(){
+    plist.innerHTML = "";
+    const ids = slotIdsOf(p.id);
+    if(!ids.length){
+      const e = document.createElement("span");
+      e.className = "hint";
+      e.textContent = "未配属";
+      plist.appendChild(e);
+    }
+    ids.forEach(sid => {
+      const info = slotInfo(sid);
+      if(!info) return;
+      const chip = document.createElement("span");
+      chip.className = "place-chip" + (info.slot.multi ? " multi" : "");
+      chip.appendChild(document.createTextNode(info.store.name + " / " + info.slot.title));
+      const x = document.createElement("button");
+      x.textContent = "✕";
+      x.title = "この配置を外す";
+      x.onclick = () => { delete cur().assign[sid]; drawPlaces(); buildSel(); render(); };
+      chip.appendChild(x);
+      plist.appendChild(chip);
+    });
+  }
+  function buildSel(){
+    sel.innerHTML = "<option value=''>＋ 配置を追加…</option>";
+    allSlots().forEach(({store, slot}) => {
+      if(cur().assign[slot.id] === p.id) return;
+      const o = document.createElement("option");
+      o.value = slot.id;
+      const occ = cur().assign[slot.id];
+      o.textContent = store.name + " / " + slot.title
+        + (slot.multi ? "【兼任】" : "")
+        + (occ ? "（現:" + ((staffById(occ)||{}).name || "") + "）" : "");
+      sel.appendChild(o);
+    });
+    sel.value = "";
+  }
+  sel.onchange = () => {
+    if(!sel.value) return;
+    assign(sel.value, p.id, null);
+    drawPlaces(); buildSel(); render();
+  };
+  drawPlaces(); buildSel();
 
   paint();
 
@@ -958,7 +1057,7 @@ function openPerson(id){
   del.style.marginRight = "auto";
   del.onclick = () => {
     if(!confirm((p.name || "このスタッフ") + " を削除しますか？")) return;
-    state.scenarios.forEach(sc => { const s = Object.keys(sc.assign).find(k => sc.assign[k] === p.id); if(s) delete sc.assign[s]; });
+    state.scenarios.forEach(sc => { Object.keys(sc.assign).forEach(k => { if(sc.assign[k] === p.id) delete sc.assign[k]; }); });
     state.staff = state.staff.filter(x => x.id !== p.id);
     closeModal(); render();
   };
@@ -975,9 +1074,6 @@ function openPerson(id){
     p.name = nameInput.value.trim() || p.name;
     p.note = noteInput.value.trim();
     if(p.img){ p.img.zoom = work.zoom; p.img.x = work.x; p.img.y = work.y; }
-    const s = slotOf(p.id);
-    if(s) delete cur().assign[s];
-    if(sel.value) assign(sel.value, p.id);
     closeModal(); render();
   };
   foot.appendChild(ok);
