@@ -283,13 +283,48 @@
   }
   .toast.show{opacity:1}
 
+  .print-head{display:none}
+
+  /* ---------- 印刷：A4横1枚に全体を収める ---------- */
+  @page{ size: A4 landscape; margin: 8mm; }
   @media print{
-    aside,header.top,.store-foot,.add-store,.slot-actions,.summary{display:none !important}
-    .app{height:auto;overflow:visible}
-    main{overflow:visible;padding:0}
-    .stores{grid-template-columns:repeat(2,1fr)}
-    .store{break-inside:avoid;box-shadow:none}
+    *{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+    aside, header.top, .store-foot, .add-store, .slot-actions,
+    .summary, .store-head .del, .avatar .badge { display:none !important }
+    html,body{height:auto}
     body{background:#fff;background-image:none}
+    .app{height:auto;overflow:visible;display:block}
+    .body{display:block;min-height:0}
+    main{overflow:visible;padding:0;display:block}
+
+    .print-head{
+      display:flex;align-items:baseline;gap:12px;margin:0 0 7px;
+      font-weight:800;font-size:13px;
+    }
+    .print-head em{font-style:normal;font-weight:800;background:var(--gold);border:2px solid var(--ink);border-radius:999px;padding:1px 9px;font-size:11px}
+    .print-head span{font-weight:700;font-size:10px;color:#6B4A00}
+
+    /* grid はページ分割に弱いので印刷では inline-block に切り替え */
+    .stores{display:block;font-size:0;gap:0}
+    .store{
+      display:inline-block;vertical-align:top;width:24.2%;margin:0 0.9% 8px 0;font-size:10px;
+      break-inside:avoid;page-break-inside:avoid;box-shadow:none;border-width:2px;border-radius:12px;
+    }
+    .store:nth-child(4n){margin-right:0}
+    .store-head{padding:5px 8px 7px;border-bottom-width:2px;border-radius:10px 10px 0 0}
+    .store-head::after{display:none}
+    .store-head .nm{font-size:10.5px;padding:0 1px;border:none;background:transparent;letter-spacing:-.01em}
+    .store-head .note{font-size:8.5px;padding:0 2px;border:none;background:transparent}
+    .store-head .cnt{font-size:8.5px;padding:1px 7px;border-width:1.5px;box-shadow:none}
+    .slots{padding:6px 6px 7px;gap:1px}
+    .slot{padding:3px 4px;gap:8px;border:none;background:transparent !important}
+    .slot .ph{width:38px;height:38px;border-width:2px;font-size:14px}
+    .avatar, .avatar.lg{width:38px;height:38px;border-width:2px;box-shadow:0 0 0 1px #1A1A1A}
+    .slot-title{font-size:11px;padding:0 2px;border:none;background:transparent}
+    .slot-who{font-size:9px;padding:0 2px}
+    .badge-multi{font-size:7.5px;padding:1px 5px;border-width:1.5px}
+    .slot-who.vacant{font-size:0}
+    .slot-who.vacant::after{content:"空き";font-size:9px}
   }
   @media (max-width:860px){
     aside{width:220px}
@@ -328,6 +363,7 @@
     </aside>
 
     <main>
+      <div class="print-head" id="printHead"></div>
       <div class="summary" id="summary"></div>
       <div class="stores" id="stores"></div>
     </main>
@@ -556,6 +592,7 @@ function render(){
   renderPool();
   renderStores();
   renderSummary();
+  renderPrintHead();
   scheduleSave();
 }
 
@@ -801,6 +838,27 @@ function slotRow(st, sl){
   row.appendChild(acts);
 
   return row;
+}
+
+function renderPrintHead(){
+  const el = document.getElementById("printHead");
+  if(!el) return;
+  const a = cur().assign;
+  const slots = allSlots();
+  const filled = slots.filter(x => a[x.slot.id]).length;
+  const d = new Date();
+  const ymd = d.getFullYear() + "/" + ("0"+(d.getMonth()+1)).slice(-2) + "/" + ("0"+d.getDate()).slice(-2);
+  el.innerHTML = "";
+  const t = document.createElement("b");
+  t.textContent = "スタッフ配置ボード";
+  el.appendChild(t);
+  const sc = document.createElement("em");
+  sc.textContent = cur().name;
+  el.appendChild(sc);
+  const info = document.createElement("span");
+  info.textContent = state.stores.length + "店舗 / 配置済み " + filled + "名 / 未配属 "
+    + state.staff.filter(x => !isPlaced(x.id)).length + "名　　" + ymd;
+  el.appendChild(info);
 }
 
 function renderSummary(){
