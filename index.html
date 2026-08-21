@@ -870,7 +870,19 @@
         <!-- ============ CHANGELOG ============ -->
         <div class="changelog" id="changelog">
             <h2><span class="cl-badge">🆕 新着更新情報</span></h2>
-            <div class="cl-updated">毎日 10:00(日本時間)に自動更新 ｜ 最終更新: <b>2026年7月20日</b></div>
+            <div class="cl-updated">毎日 10:00(日本時間)に自動更新 ｜ 最終更新: <b>2026年8月21日</b></div>
+
+            <div class="cl-entry">
+                <div class="cl-date">2026年8月21日 <span class="new">最新</span></div>
+                <ul>
+                    <li><b>売上速報(ダイニーPOS)セクションを新設</b> — 直営13店の前日売上・客数・客単価と当月累計を掲載</li>
+                    <li>2026/8/20(木)の直営売上は<span class="cl-up">¥878,112(332人・客単価¥2,645)</span>。<span
+                            class="cl-up">マーボードウフ渋谷¥261,394</span>・GARDEN門前仲町¥227,740の2店で前日売上の56%</li>
+                    <li>当月累計(8/1〜8/20)は直営<span class="cl-up">¥19,330,473</span>。ダイニー全19店¥32,181,998に対し<b>直営比率60.1%</b></li>
+                    <li>気づき: <span class="cl-down">亀戸(¥20,522)・福岡(¥24,058)・横浜BQ(¥27,844)</span>が前日売上の下位3店。横浜BQは客数20人と多いのに客単価¥1,392で単価が課題</li>
+                    <li><span class="cl-down">富山・明治神宮野球場はダイニー未導入</span>のため「？」表示。Airレジ側の連携は今後の課題</li>
+                </ul>
+            </div>
 
             <div class="cl-entry">
                 <div class="cl-date">2026年7月20日 <span class="new">最新</span></div>
@@ -915,9 +927,41 @@
             <div class="tiles" id="kpi-tiles"></div>
         </section>
 
+        <!-- ============ SALES (dinii POS) ============ -->
+        <section>
+            <h2><span class="n">1</span>売上速報(ダイニーPOS)<span class="scope-lbl"
+                    style="font-size:11px;color:var(--text-muted);font-weight:600;margin-left:4px">直営13店・前日実績</span>
+            </h2>
+            <div class="note">ダイニーPOS「店舗別売上一覧」から取得。<b>前日</b>=<span id="sales-day-lbl"></span>、<b>当月累計</b>=<span
+                    id="sales-mtd-lbl"></span>。<b>POS売上のみ</b>でPOS外売上(現金手入力など)は含みません。<b>？</b>=ダイニー未導入のため未取得。</div>
+            <div class="tiles" id="sales-tiles" style="margin:12px 0 14px"></div>
+            <div class="matrix-scroller">
+                <table class="matrix">
+                    <thead>
+                        <tr>
+                            <th class="rowh" rowspan="2">店舗</th>
+                            <th colspan="3" class="th-group">前日</th>
+                            <th colspan="3" class="th-group">当月累計</th>
+                        </tr>
+                        <tr>
+                            <th>売上</th>
+                            <th>客数</th>
+                            <th>客単価</th>
+                            <th>売上</th>
+                            <th>客数</th>
+                            <th>客単価</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sales-body"></tbody>
+                </table>
+            </div>
+            <div class="note">※ 合計はダイニー導入の直営11店の実測合計。富山・明治神宮野球場はダイニー未導入のため合計に含みません。ダイニー全19店(FC含む)の当月累計は<b>¥32,181,998</b>で、直営の占める比率は<b>60.1%</b>。
+            </div>
+        </section>
+
         <!-- ============ MATRIX ============ -->
         <section>
-            <h2><span class="n">1</span>店舗 × チャネル マトリクス</h2>
+            <h2><span class="n">2</span>店舗 × チャネル マトリクス</h2>
             <div class="matrix-scroller">
                 <table class="matrix">
                     <thead>
@@ -1267,7 +1311,7 @@
 
         <!-- ============ CHARTS ============ -->
         <section>
-            <h2><span class="n">2</span>食べログ / Google / Instagram パフォーマンス比較<span class="fc-only-note"
+            <h2><span class="n">3</span>食べログ / Google / Instagram パフォーマンス比較<span class="fc-only-note"
                     style="font-size:11px;color:var(--good-text);font-weight:700;margin-left:6px">← 全40店の上位20に切替中</span>
             </h2>
             <div class="charts">
@@ -1297,7 +1341,7 @@
 
         <!-- ============ SNS ACTIVITY ============ -->
         <section>
-            <h2><span class="n">3</span>SNS運用アクティビティ(Instagram 投稿頻度)<span class="scope-lbl"
+            <h2><span class="n">4</span>SNS運用アクティビティ(Instagram 投稿頻度)<span class="scope-lbl"
                     style="font-size:11px;color:var(--text-muted);font-weight:600;margin-left:4px">タブ連動(直営+FC17店)</span>
             </h2>
             <div class="note">2026年7月17日にInstagram
@@ -1325,7 +1369,7 @@
 
         <!-- ============ REPLY RATE ============ -->
         <section>
-            <h2><span class="n">4</span>Google口コミ 返信率<span class="scope-lbl"
+            <h2><span class="n">5</span>Google口コミ 返信率<span class="scope-lbl"
                     style="font-size:11px;color:var(--text-muted);font-weight:600;margin-left:4px">全40店(タブ連動)</span>
             </h2>
             <div class="note">
@@ -1354,7 +1398,7 @@
 
         <!-- ============ MENU PHOTOS ============ -->
         <section>
-            <h2><span class="n">5</span>メニュー写真 評価(掲載量 × クオリティ)<span class="scope-lbl"
+            <h2><span class="n">6</span>メニュー写真 評価(掲載量 × クオリティ)<span class="scope-lbl"
                     style="font-size:11px;color:var(--text-muted);font-weight:600;margin-left:4px">タブ連動(直営+FC15店)</span>
             </h2>
             <div class="note">
@@ -1381,7 +1425,7 @@
 
         <!-- ============ PROPOSALS ============ -->
         <section>
-            <h2><span class="n">6</span>優先改善提案(インパクト順)</h2>
+            <h2><span class="n">7</span>優先改善提案(インパクト順)</h2>
             <div class="props">
                 <div class="prop p-good">
                     <h3><span class="tag t-good">強み発見</span>① Google評価は平均4.7と圧倒的 — このギャップを集客に使う</h3>
@@ -1426,7 +1470,7 @@
 
         <!-- ============ STORE CARDS ============ -->
         <section>
-            <h2><span class="n">7</span>店舗別カルテ(総合ランク付き)<span
+            <h2><span class="n">8</span>店舗別カルテ(総合ランク付き)<span
                     style="font-size:11px;color:var(--text-muted);font-weight:600;margin-left:4px">直営13店</span></h2>
             <div class="note">総合ランク = 食べログ(30点) + Google(25点) + SNS発信力(25点) + 掲載カバレッジ・情報鮮度(20点) の100点評価。<b>S</b>≧85 /
                 <b>A</b> 70〜84 / <b>B</b> 55〜69 / <b>C</b> 40〜54 / <b>D</b> 40未満。判定内訳: S×1(LABO) / A×2(総本店・GARDEN) /
@@ -1761,7 +1805,7 @@
 
         <!-- ============ BRAND ============ -->
         <section>
-            <h2><span class="n">8</span>ブランド共通チャネル</h2>
+            <h2><span class="n">9</span>ブランド共通チャネル</h2>
             <div class="tiles">
                 <div class="tile">
                     <div class="label">X(旧Twitter)</div>
@@ -2198,6 +2242,89 @@
             CHART40.reviews.direct = reviews;
             CHART40.saves.direct = saves;
         })();
+        // ---- 売上(ダイニーPOS・直営13店) ----
+        // 更新手順: SALES_META の日付と SALES の s/c/u(前日) ・ ms/mc/mu(当月累計) を差し替えるだけ。
+        // s=売上, c=客数, u=客単価 / ms=当月売上, mc=当月客数, mu=当月客単価 / null は未取得(?)表示。
+        var SALES_META = {
+            day: "2026年8月20日(木)",
+            mtd: "2026年8月1日〜20日",
+            allStoresMtd: 32181998,   // ダイニー全19店(FC含む)の当月累計
+            source: "dinii dashboard / 店舗別売上一覧"
+        };
+        var SALES = [
+            { n: "株式会社マーボードウフ渋谷", d: "dinii: 株式会社マーボードウフ", s: 261394, c: 118, u: 2215, ms: 4566426, mc: 2244, mu: 2035 },
+            { n: "PERFECT BEER GARDEN 門前仲町", d: "門前仲町・赤札堂3F(季節営業)", s: 227740, c: 57, u: 3995, ms: 3413066, mc: 913, mu: 3738 },
+            { n: "PERFECT BEER KITCHEN 新潟", d: "dinii: PERFECT BEER NIIGATA", s: 63810, c: 18, u: 3545, ms: 1129050, mc: 444, mu: 2543 },
+            { n: "PERFECT BEER STAND 門前仲町", d: "dinii: PERFECT BEER STAND MONNAKA", s: 62916, c: 18, u: 3495, ms: 957404, mc: 408, mu: 2347 },
+            { n: "PERFECT BEER KITCHEN 総本店", d: "門前仲町", s: 57993, c: 17, u: 3411, ms: 1092495, mc: 344, mu: 3176 },
+            { n: "PERFECT BEER STAND 池袋", d: "池袋", s: 54591, c: 33, u: 1654, ms: 1450149, mc: 757, mu: 1916 },
+            { n: "PERFECT BEER LABO TOKYO", d: "東京", s: 52579, c: 23, u: 2286, ms: 2443906, mc: 986, mu: 2479 },
+            { n: "PERFECT BEER SHOP 横浜ベイクォーター", d: "dinii: PERFECT BEER SHOP 横浜", s: 27844, c: 20, u: 1392, ms: 1696409, mc: 1080, mu: 1571 },
+            { n: "完璧麦酒飯店 門前仲町", d: "門前仲町", s: 24665, c: 5, u: 4933, ms: 1017084, mc: 350, mu: 2906 },
+            { n: "PERFECT BEER STAND 福岡", d: "dinii: PERFECT BEER STAND FUKUOKA", s: 24058, c: 11, u: 2187, ms: 626558, mc: 333, mu: 1882 },
+            { n: "PERFECT BEER STAND 亀戸", d: "亀戸", s: 20522, c: 12, u: 1710, ms: 937926, mc: 504, mu: 1861 },
+            { n: "PERFECT BEER KITCHEN 富山", d: "ダイニー未導入", s: null, c: null, u: null, ms: null, mc: null, mu: null },
+            { n: "PERFECT BEER SHOP 明治神宮野球場", d: "ダイニー未導入(季節営業)", s: null, c: null, u: null, ms: null, mc: null, mu: null }
+        ];
+        function jpNum(v) { return v == null ? "？" : Number(v).toLocaleString("ja-JP"); }
+        function jpYen(v) { return v == null ? "？" : "¥" + Number(v).toLocaleString("ja-JP"); }
+        function renderSales() {
+            var tb = document.getElementById("sales-body"); if (!tb) return;
+            var dl = document.getElementById("sales-day-lbl"); if (dl) dl.textContent = SALES_META.day;
+            var ml = document.getElementById("sales-mtd-lbl"); if (ml) ml.textContent = SALES_META.mtd;
+
+            var t = { s: 0, c: 0, ms: 0, mc: 0, n: 0 };
+            SALES.forEach(function (r) {
+                if (r.s == null) return;
+                t.s += r.s; t.c += r.c; t.ms += r.ms; t.mc += r.mc; t.n++;
+            });
+            var du = t.c ? Math.round(t.s / t.c) : null;
+            var mu = t.mc ? Math.round(t.ms / t.mc) : null;
+            var share = SALES_META.allStoresMtd ? (t.ms / SALES_META.allStoresMtd * 100) : null;
+
+            // --- tiles ---
+            var tiles = document.getElementById("sales-tiles");
+            if (tiles) {
+                tiles.innerHTML =
+                    tile("前日 売上合計", jpYen(t.s), SALES_META.day + " ｜ 直営" + t.n + "店計", "goodv") +
+                    tile("前日 客数 / 客単価", jpNum(t.c) + '<small>人</small>', "客単価 " + jpYen(du), "") +
+                    tile("当月累計 売上", jpYen(t.ms), SALES_META.mtd, "goodv") +
+                    tile("当月累計 客数 / 客単価", jpNum(t.mc) + '<small>人</small>', "客単価 " + jpYen(mu), "") +
+                    tile("全社に占める直営比率", (share == null ? "？" : share.toFixed(1) + '<small>%</small>'), "ダイニー全19店 " + jpYen(SALES_META.allStoresMtd) + " 中", "");
+            }
+
+            // --- rows ---
+            tb.innerHTML = '';
+            var head = document.createElement("tr");
+            head.innerHTML =
+                '<td class="rowh" style="background:var(--brand)">直営合計<span class="area">ダイニー導入 ' + t.n + '店</span></td>' +
+                cell(jpYen(t.s), 1) + cell(jpNum(t.c) + "人", 1) + cell(jpYen(du), 1) +
+                cell(jpYen(t.ms), 1) + cell(jpNum(t.mc) + "人", 1) + cell(jpYen(mu), 1);
+            head.style.background = "var(--brand-soft)";
+            tb.appendChild(head);
+
+            SALES.forEach(function (r) {
+                var tr = document.createElement("tr");
+                var na = (r.s == null);
+                tr.innerHTML =
+                    '<td class="rowh" style="font-weight:700;font-size:11.5px">' + r.n +
+                    (r.d ? '<span class="area">' + r.d + '</span>' : '') + '</td>' +
+                    cell(jpYen(r.s), 0, na) + cell(na ? "？" : jpNum(r.c) + "人", 0, na) + cell(jpYen(r.u), 0, na) +
+                    cell(jpYen(r.ms), 0, na) + cell(na ? "？" : jpNum(r.mc) + "人", 0, na) + cell(jpYen(r.mu), 0, na);
+                tb.appendChild(tr);
+            });
+
+            function tile(label, value, hint, cls) {
+                return '<div class="tile ' + cls + '"><div class="label">' + label + '</div>' +
+                    '<div class="value">' + value + '</div><div class="hint">' + hint + '</div></div>';
+            }
+            function cell(v, bold, muted) {
+                return '<td style="font-variant-numeric:tabular-nums;text-align:right;padding-right:14px' +
+                    (bold ? ';font-weight:800' : '') + (muted ? ';color:var(--text-muted)' : '') + '">' + v + '</td>';
+            }
+        }
+        renderSales();
+
         // initial KPI render (direct)
         renderKPIs('direct');
     </script>
