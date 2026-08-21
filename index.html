@@ -963,8 +963,7 @@
                     <tbody id="sales-body"></tbody>
                 </table>
             </div>
-            <div class="note">※ 合計はダイニー導入の直営11店の実測合計。富山・明治神宮野球場はダイニー未導入のため合計に含みません。ダイニー全19店(FC含む)の当月累計は<b>¥32,181,998</b>で、直営の占める比率は<b>60.1%</b>。
-            </div>
+            <div class="note">※ 合計はダイニー導入の直営11店の実測合計。富山・明治神宮野球場はダイニー未導入のため合計に含みません。</div>
         </section>
 
         <!-- ============ MATRIX ============ -->
@@ -2256,7 +2255,6 @@
         var SALES_META = {
             day: "2026年8月20日(木)",
             mtd: "2026年8月1日〜20日",
-            allStoresMtd: 32181998,   // ダイニー全19店(FC含む)の当月累計
             source: "dinii dashboard / 店舗別売上一覧"
         };
         var SALES = [
@@ -2288,7 +2286,6 @@
             });
             var du = t.c ? Math.round(t.s / t.c) : null;
             var mu = t.mc ? Math.round(t.ms / t.mc) : null;
-            var share = SALES_META.allStoresMtd ? (t.ms / SALES_META.allStoresMtd * 100) : null;
 
             // --- tiles ---
             var tiles = document.getElementById("sales-tiles");
@@ -2297,8 +2294,7 @@
                     tile("前日 売上合計", jpYen(t.s), SALES_META.day + " ｜ 直営" + t.n + "店計", "goodv") +
                     tile("前日 客数 / 客単価", jpNum(t.c) + '<small>人</small>', "客単価 " + jpYen(du), "") +
                     tile("当月累計 売上", jpYen(t.ms), SALES_META.mtd, "goodv") +
-                    tile("当月累計 客数 / 客単価", jpNum(t.mc) + '<small>人</small>', "客単価 " + jpYen(mu), "") +
-                    tile("全社に占める直営比率", (share == null ? "？" : share.toFixed(1) + '<small>%</small>'), "ダイニー全19店 " + jpYen(SALES_META.allStoresMtd) + " 中", "");
+                    tile("当月累計 客数 / 客単価", jpNum(t.mc) + '<small>人</small>', "客単価 " + jpYen(mu), "");
             }
 
             // --- rows ---
