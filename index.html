@@ -870,7 +870,20 @@
         <!-- ============ CHANGELOG ============ -->
         <div class="changelog" id="changelog">
             <h2><span class="cl-badge">🆕 新着更新情報</span></h2>
-            <div class="cl-updated">毎日 10:00(日本時間)に自動更新 ｜ 最終更新: <b>2026年8月21日</b></div>
+            <div class="cl-updated">毎日 22:00(日本時間)に自動更新 ｜ 最終更新: <b>2026年8月22日</b></div>
+
+            <div class="cl-entry">
+                <div class="cl-date">2026年8月22日 <span class="new">最新</span></div>
+                <ul>
+                    <li><b>売上に「同曜日平均比」と「前年同曜日比」を追加</b> — 前日売上を直近8週の同じ曜日の平均、および前年の同じ曜日と比較。100%超は緑、割れは赤で表示</li>
+                    <li>2026/8/21(金)の直営売上は<span class="cl-up">¥1,429,210(482人・客単価¥2,965)</span>。同曜日平均比は<b>98.0%</b>とほぼ平常運転</li>
+                    <li><span class="cl-up">GARDEN門前仲町が¥467,130・同曜日平均比158.8%</span>と突出。前年同曜日比も151.9%で、季節営業のピークが効いている</li>
+                    <li>気づき: <span class="cl-down">新潟が同曜日平均比24.8%(¥22,770)・前年同曜日比48.6%</span>と大きく沈み、<span
+                            class="cl-down">池袋70.8%・横浜BQ74.4%・マーボードウフ渋谷75.9%</span>も平均割れ。金曜の取りこぼしが複数店で同時発生</li>
+                    <li>当月累計(8/1〜21)は直営<span class="cl-up">¥22,685,465</span>(8,845人・客単価¥2,565)</li>
+                    <li>前年同曜日比は<b>1年前もダイニーを導入していた4店のみ</b>が対象(GARDEN門仲・LABO・総本店・新潟)。4店計では<span class="cl-up">116.0%</span></li>
+                </ul>
+            </div>
 
             <div class="cl-entry">
                 <div class="cl-date">2026年8月21日 <span class="new">最新</span></div>
@@ -941,7 +954,8 @@
                     style="font-size:11px;color:var(--text-muted);font-weight:600;margin-left:4px">直営13店・前日実績</span>
             </h2>
             <div class="note">ダイニーPOS「店舗別売上一覧」から取得。<b>前日</b>=<span id="sales-day-lbl"></span>、<b>当月累計</b>=<span
-                    id="sales-mtd-lbl"></span>。<b>POS売上のみ</b>でPOS外売上(現金手入力など)は含みません。<b>？</b>=ダイニー未導入のため未取得。</div>
+                    id="sales-mtd-lbl"></span>。<b>同曜日平均比</b>=前日を<span id="sales-wa-lbl"></span>の平均と比べた値、<b>前年同曜日比</b>=<span
+                    id="sales-py-lbl"></span>と比べた値(100%超で緑)。<b>POS売上のみ</b>でPOS外売上(現金手入力など)は含みません。<b>？</b>=データなし。</div>
             <div class="tiles" id="sales-tiles" style="margin:12px 0 14px"></div>
             <div class="matrix-scroller">
                 <table class="matrix">
@@ -949,12 +963,15 @@
                         <tr>
                             <th class="rowh" rowspan="2">店舗</th>
                             <th colspan="3" class="th-group">前日</th>
+                            <th colspan="2" class="th-group">前日の比較</th>
                             <th colspan="3" class="th-group">当月累計</th>
                         </tr>
                         <tr>
                             <th>売上</th>
                             <th>客数</th>
                             <th>客単価</th>
+                            <th>同曜日平均比</th>
+                            <th>前年同曜日比</th>
                             <th>売上</th>
                             <th>客数</th>
                             <th>客単価</th>
@@ -963,7 +980,7 @@
                     <tbody id="sales-body"></tbody>
                 </table>
             </div>
-            <div class="note">※ 合計はダイニー導入の直営11店の実測合計。富山・明治神宮野球場はダイニー未導入のため合計に含みません。</div>
+            <div class="note">※ 合計はダイニー導入の直営店の実測合計。富山・明治神宮野球場はダイニー未導入のため含みません。前年同曜日比は<b>1年前もダイニーを導入していた店だけ</b>が対象で、合計欄もその対象店だけを足して比較しています(それ以外は「？」)。</div>
         </section>
 
         <!-- ============ MATRIX ============ -->
@@ -2252,40 +2269,52 @@
         // ---- 売上(ダイニーPOS・直営13店) ----
         // 更新手順: SALES_META の日付と SALES の s/c/u(前日) ・ ms/mc/mu(当月累計) を差し替えるだけ。
         // s=売上, c=客数, u=客単価 / ms=当月売上, mc=当月客数, mu=当月客単価 / null は未取得(?)表示。
+        // ---- 売上(ダイニーPOS・直営13店) ----
+        // 更新手順: SALES_META の日付ラベルと SALES 各行の数値を差し替えるだけ。
+        // s/c/u = 前日の 売上・客数・客単価 / ms/mc/mu = 当月累計 / py = 前年同曜日の売上 / wa = 直近8週の同曜日平均売上
+        // null は未取得(「？」表示)。合計・比率・タイルはすべてJSが自動計算する。
         var SALES_META = {
-            day: "2026年8月20日(木)",
-            mtd: "2026年8月1日〜20日",
+            day: "2026年8月21日(金)",
+            mtd: "2026年8月1日〜21日",
+            pyDay: "2025年8月22日(金)",
+            waLabel: "直近8週の金曜",
             source: "dinii dashboard / 店舗別売上一覧"
         };
         var SALES = [
-            { n: "株式会社マーボードウフ渋谷", d: "dinii: 株式会社マーボードウフ", s: 261394, c: 118, u: 2215, ms: 4566426, mc: 2244, mu: 2035 },
-            { n: "PERFECT BEER GARDEN 門前仲町", d: "門前仲町・赤札堂3F(季節営業)", s: 227740, c: 57, u: 3995, ms: 3413066, mc: 913, mu: 3738 },
-            { n: "PERFECT BEER KITCHEN 新潟", d: "dinii: PERFECT BEER NIIGATA", s: 63810, c: 18, u: 3545, ms: 1129050, mc: 444, mu: 2543 },
-            { n: "PERFECT BEER STAND 門前仲町", d: "dinii: PERFECT BEER STAND MONNAKA", s: 62916, c: 18, u: 3495, ms: 957404, mc: 408, mu: 2347 },
-            { n: "PERFECT BEER KITCHEN 総本店", d: "門前仲町", s: 57993, c: 17, u: 3411, ms: 1092495, mc: 344, mu: 3176 },
-            { n: "PERFECT BEER STAND 池袋", d: "池袋", s: 54591, c: 33, u: 1654, ms: 1450149, mc: 757, mu: 1916 },
-            { n: "PERFECT BEER LABO TOKYO", d: "東京", s: 52579, c: 23, u: 2286, ms: 2443906, mc: 986, mu: 2479 },
-            { n: "PERFECT BEER SHOP 横浜ベイクォーター", d: "dinii: PERFECT BEER SHOP 横浜", s: 27844, c: 20, u: 1392, ms: 1696409, mc: 1080, mu: 1571 },
-            { n: "完璧麦酒飯店 門前仲町", d: "門前仲町", s: 24665, c: 5, u: 4933, ms: 1017084, mc: 350, mu: 2906 },
-            { n: "PERFECT BEER STAND 福岡", d: "dinii: PERFECT BEER STAND FUKUOKA", s: 24058, c: 11, u: 2187, ms: 626558, mc: 333, mu: 1882 },
-            { n: "PERFECT BEER STAND 亀戸", d: "亀戸", s: 20522, c: 12, u: 1710, ms: 937926, mc: 504, mu: 1861 },
-            { n: "PERFECT BEER KITCHEN 富山", d: "ダイニー未導入", s: null, c: null, u: null, ms: null, mc: null, mu: null },
-            { n: "PERFECT BEER SHOP 明治神宮野球場", d: "ダイニー未導入(季節営業)", s: null, c: null, u: null, ms: null, mc: null, mu: null }
+            { n: "PERFECT BEER GARDEN 門前仲町", d: "門前仲町・赤札堂3F(季節営業)", s: 467130, c: 92, u: 5078, ms: 4221230, mc: 1005, mu: 4200, py: 307530, wa: 294141 },
+            { n: "株式会社マーボードウフ渋谷", d: "dinii: 株式会社マーボードウフ", s: 260370, c: 129, u: 2018, ms: 5281440, mc: 2373, mu: 2226, py: null, wa: 343208 },
+            { n: "PERFECT BEER LABO TOKYO", d: "東京", s: 201560, c: 51, u: 3952, ms: 2889300, mc: 1037, mu: 2786, py: 179310, wa: 166662 },
+            { n: "PERFECT BEER STAND 門前仲町", d: "dinii: PERFECT BEER STAND MONNAKA", s: 96580, c: 40, u: 2414, ms: 1149580, mc: 448, mu: 2566, py: null, wa: 87974 },
+            { n: "完璧麦酒飯店 門前仲町", d: "門前仲町", s: 85110, c: 23, u: 3700, ms: 1203780, mc: 373, mu: 3227, py: null, wa: 82069 },
+            { n: "PERFECT BEER SHOP 横浜ベイクォーター", d: "dinii: PERFECT BEER SHOP 横浜", s: 84270, c: 36, u: 2341, ms: 1948375, mc: 1116, mu: 1746, py: null, wa: 113299 },
+            { n: "PERFECT BEER STAND 池袋", d: "池袋", s: 72340, c: 39, u: 1855, ms: 1666620, mc: 796, mu: 2094, py: null, wa: 102151 },
+            { n: "PERFECT BEER KITCHEN 総本店", d: "門前仲町", s: 66820, c: 26, u: 2570, ms: 1268470, mc: 370, mu: 3428, py: 120200, wa: 93084 },
+            { n: "PERFECT BEER STAND 亀戸", d: "亀戸", s: 58710, c: 29, u: 2024, ms: 1090000, mc: 533, mu: 2045, py: null, wa: 56519 },
+            { n: "PERFECT BEER KITCHEN 新潟", d: "dinii: PERFECT BEER NIIGATA", s: 22770, c: 12, u: 1898, ms: 1264010, mc: 456, mu: 2772, py: 46830, wa: 91777 },
+            { n: "PERFECT BEER STAND 福岡", d: "dinii: PERFECT BEER STAND FUKUOKA", s: 13550, c: 5, u: 2710, ms: 702660, mc: 338, mu: 2079, py: null, wa: 27067 },
+            { n: "PERFECT BEER KITCHEN 富山", d: "ダイニー未導入", s: null, c: null, u: null, ms: null, mc: null, mu: null, py: null, wa: null },
+            { n: "PERFECT BEER SHOP 明治神宮野球場", d: "ダイニー未導入(季節営業)", s: null, c: null, u: null, ms: null, mc: null, mu: null, py: null, wa: null }
         ];
         function jpNum(v) { return v == null ? "？" : Number(v).toLocaleString("ja-JP"); }
         function jpYen(v) { return v == null ? "？" : "¥" + Number(v).toLocaleString("ja-JP"); }
         function renderSales() {
             var tb = document.getElementById("sales-body"); if (!tb) return;
-            var dl = document.getElementById("sales-day-lbl"); if (dl) dl.textContent = SALES_META.day;
-            var ml = document.getElementById("sales-mtd-lbl"); if (ml) ml.textContent = SALES_META.mtd;
+            setTxt("sales-day-lbl", SALES_META.day);
+            setTxt("sales-mtd-lbl", SALES_META.mtd);
+            setTxt("sales-wa-lbl", SALES_META.waLabel);
+            setTxt("sales-py-lbl", SALES_META.pyDay);
 
-            var t = { s: 0, c: 0, ms: 0, mc: 0, n: 0 };
+            var t = { s: 0, c: 0, ms: 0, mc: 0, n: 0, wa: 0, waN: 0, py: 0, pyNow: 0, pyN: 0 };
             SALES.forEach(function (r) {
                 if (r.s == null) return;
                 t.s += r.s; t.c += r.c; t.ms += r.ms; t.mc += r.mc; t.n++;
+                if (r.wa != null) { t.wa += r.wa; t.waN++; }
+                if (r.py != null) { t.py += r.py; t.pyNow += r.s; t.pyN++; }
             });
             var du = t.c ? Math.round(t.s / t.c) : null;
             var mu = t.mc ? Math.round(t.ms / t.mc) : null;
+            var waR = t.wa ? (t.s / t.wa * 100) : null;
+            var pyR = t.py ? (t.pyNow / t.py * 100) : null;
 
             // --- tiles ---
             var tiles = document.getElementById("sales-tiles");
@@ -2293,6 +2322,8 @@
                 tiles.innerHTML =
                     tile("前日 売上合計", jpYen(t.s), SALES_META.day + " ｜ 直営" + t.n + "店計", "goodv") +
                     tile("前日 客数 / 客単価", jpNum(t.c) + '<small>人</small>', "客単価 " + jpYen(du), "") +
+                    tile("同曜日平均比", pct(waR, 1), SALES_META.waLabel + "平均 " + jpYen(t.wa), "") +
+                    tile("前年同曜日比", pct(pyR, 1), SALES_META.pyDay + "比 ｜ 比較できる" + t.pyN + "店のみ", "") +
                     tile("当月累計 売上", jpYen(t.ms), SALES_META.mtd, "goodv") +
                     tile("当月累計 客数 / 客単価", jpNum(t.mc) + '<small>人</small>', "客単価 " + jpYen(mu), "");
             }
@@ -2303,6 +2334,7 @@
             head.innerHTML =
                 '<td class="rowh" style="background:var(--brand)">直営合計<span class="area">ダイニー導入 ' + t.n + '店</span></td>' +
                 cell(jpYen(t.s), 1) + cell(jpNum(t.c) + "人", 1) + cell(jpYen(du), 1) +
+                ratioCell(waR, 1) + ratioCell(pyR, 1) +
                 cell(jpYen(t.ms), 1) + cell(jpNum(t.mc) + "人", 1) + cell(jpYen(mu), 1);
             head.style.background = "var(--brand-soft)";
             tb.appendChild(head);
@@ -2314,17 +2346,31 @@
                     '<td class="rowh" style="font-weight:700;font-size:11.5px">' + r.n +
                     (r.d ? '<span class="area">' + r.d + '</span>' : '') + '</td>' +
                     cell(jpYen(r.s), 0, na) + cell(na ? "？" : jpNum(r.c) + "人", 0, na) + cell(jpYen(r.u), 0, na) +
+                    ratioCell(r.wa ? (r.s / r.wa * 100) : null, 0) +
+                    ratioCell(r.py ? (r.s / r.py * 100) : null, 0) +
                     cell(jpYen(r.ms), 0, na) + cell(na ? "？" : jpNum(r.mc) + "人", 0, na) + cell(jpYen(r.mu), 0, na);
                 tb.appendChild(tr);
             });
 
+            function setTxt(id, v) { var e = document.getElementById(id); if (e) e.textContent = v; }
+            function pct(v, big) { return v == null ? "？" : v.toFixed(1) + '<small>%</small>'; }
             function tile(label, value, hint, cls) {
+                var plain = String(value).replace(/<[^>]*>/g, '');
+                var fs = plain.length > 10 ? ';font-size:22px' : (plain.length > 8 ? ';font-size:24px' : '');
                 return '<div class="tile ' + cls + '"><div class="label">' + label + '</div>' +
-                    '<div class="value">' + value + '</div><div class="hint">' + hint + '</div></div>';
+                    '<div class="value" style="white-space:nowrap' + fs + '">' + value + '</div>' +
+                    '<div class="hint">' + hint + '</div></div>';
             }
             function cell(v, bold, muted) {
                 return '<td style="font-variant-numeric:tabular-nums;text-align:right;padding-right:14px' +
                     (bold ? ';font-weight:800' : '') + (muted ? ';color:var(--text-muted)' : '') + '">' + v + '</td>';
+            }
+            function ratioCell(v, bold) {
+                if (v == null) return '<td style="text-align:right;padding-right:14px;color:var(--text-muted)">？</td>';
+                var col = v >= 100 ? 'var(--good-text)' : 'var(--critical)';
+                var arrow = v >= 100 ? '↑' : '↓';
+                return '<td style="font-variant-numeric:tabular-nums;text-align:right;padding-right:14px;color:' + col +
+                    ';font-weight:' + (bold ? 800 : 700) + '">' + arrow + ' ' + v.toFixed(1) + '%</td>';
             }
         }
         renderSales();
