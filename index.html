@@ -870,7 +870,21 @@
         <!-- ============ CHANGELOG ============ -->
         <div class="changelog" id="changelog">
             <h2><span class="cl-badge">🆕 新着更新情報</span></h2>
-            <div class="cl-updated">毎日 22:00(日本時間)に自動更新 ｜ 最終更新: <b>2026年8月22日</b></div>
+            <div class="cl-updated">毎日 22:00(日本時間)に自動更新 ｜ 最終更新: <b>2026年8月26日</b></div>
+
+            <div class="cl-entry">
+                <div class="cl-date">2026年8月26日 <span class="new">最新</span></div>
+                <ul>
+                    <li>売上を<b>8/25(火)実績</b>に更新。直営 <span class="cl-down">¥768,250(265人・客単価¥2,899)</span>、同曜日平均比 <span
+                            class="cl-down">76.8%</span> と火曜平均を大きく下回り</li>
+                    <li><span class="cl-down">マーボードウフ渋谷が¥90,540・同曜日平均比35.3%</span>と急落(火曜平均¥256,575)。<span
+                            class="cl-down">新潟32.3%・LABO 68.4%・STAND門仲70.6%</span>も平均割れで、全体の落ち込みはこの4店が主因</li>
+                    <li>支えたのは<span class="cl-up">GARDEN門前仲町 ¥262,120(平均比116.8%・前年同曜日比222.9%)</span>と<span
+                            class="cl-up">池袋116.2%</span>・亀戸102.1%</li>
+                    <li>当月累計(8/1〜25)は直営<span class="cl-up">¥26,603,915</span>(10,464人・客単価¥2,542)。前年同曜日比は比較できる4店計で105.4%</li>
+                    <li><b>8/22〜8/25の自動更新が動いていませんでした</b> — 定期タスクは起動していたものの、実行セッションからユーザーのChromeに接続できず約45秒で終了。ダッシュボードは8/21のまま止まっていました。原因を特定し、タスクを作り直して対応済み</li>
+                </ul>
+            </div>
 
             <div class="cl-entry">
                 <div class="cl-date">2026年8月22日 <span class="new">最新</span></div>
@@ -2278,24 +2292,24 @@
         // s/c/u = 前日の 売上・客数・客単価 / ms/mc/mu = 当月累計 / py = 前年同曜日の売上 / wa = 直近8週の同曜日平均売上
         // null は未取得(「？」表示)。合計・比率・タイルはすべてJSが自動計算する。
         var SALES_META = {
-            day: "2026年8月21日(金)",
-            mtd: "2026年8月1日〜21日",
-            pyDay: "2025年8月22日(金)",
-            waLabel: "直近8週の金曜",
+            day: "2026年8月25日(火)",
+            mtd: "2026年8月1日〜25日",
+            pyDay: "2025年8月26日(火)",
+            waLabel: "直近8週の火曜",
             source: "dinii dashboard / 店舗別売上一覧"
         };
         var SALES = [
-            { n: "PERFECT BEER GARDEN 門前仲町", d: "門前仲町・赤札堂3F(季節営業)", s: 467130, c: 92, u: 5078, ms: 4221230, mc: 1005, mu: 4200, py: 307530, wa: 294141 },
-            { n: "株式会社マーボードウフ渋谷", d: "dinii: 株式会社マーボードウフ", s: 260370, c: 129, u: 2018, ms: 5281440, mc: 2373, mu: 2226, py: null, wa: 343208 },
-            { n: "PERFECT BEER LABO TOKYO", d: "東京", s: 201560, c: 51, u: 3952, ms: 2889300, mc: 1037, mu: 2786, py: 179310, wa: 166662 },
-            { n: "PERFECT BEER STAND 門前仲町", d: "dinii: PERFECT BEER STAND MONNAKA", s: 96580, c: 40, u: 2414, ms: 1149580, mc: 448, mu: 2566, py: null, wa: 87974 },
-            { n: "完璧麦酒飯店 門前仲町", d: "門前仲町", s: 85110, c: 23, u: 3700, ms: 1203780, mc: 373, mu: 3227, py: null, wa: 82069 },
-            { n: "PERFECT BEER SHOP 横浜ベイクォーター", d: "dinii: PERFECT BEER SHOP 横浜", s: 84270, c: 36, u: 2341, ms: 1948375, mc: 1116, mu: 1746, py: null, wa: 113299 },
-            { n: "PERFECT BEER STAND 池袋", d: "池袋", s: 72340, c: 39, u: 1855, ms: 1666620, mc: 796, mu: 2094, py: null, wa: 102151 },
-            { n: "PERFECT BEER KITCHEN 総本店", d: "門前仲町", s: 66820, c: 26, u: 2570, ms: 1268470, mc: 370, mu: 3428, py: 120200, wa: 93084 },
-            { n: "PERFECT BEER STAND 亀戸", d: "亀戸", s: 58710, c: 29, u: 2024, ms: 1090000, mc: 533, mu: 2045, py: null, wa: 56519 },
-            { n: "PERFECT BEER KITCHEN 新潟", d: "dinii: PERFECT BEER NIIGATA", s: 22770, c: 12, u: 1898, ms: 1264010, mc: 456, mu: 2772, py: 46830, wa: 91777 },
-            { n: "PERFECT BEER STAND 福岡", d: "dinii: PERFECT BEER STAND FUKUOKA", s: 13550, c: 5, u: 2710, ms: 702660, mc: 338, mu: 2079, py: null, wa: 27067 },
+            { n: "PERFECT BEER GARDEN 門前仲町", d: "門前仲町・赤札堂3F(季節営業)", s: 262120, c: 59, u: 4443, ms: 4739190, mc: 1133, mu: 4183, py: 117580, wa: 224441 },
+            { n: "株式会社マーボードウフ渋谷", d: "dinii: 株式会社マーボードウフ", s: 90540, c: 54, u: 1677, ms: 5916220, mc: 2675, mu: 2212, py: null, wa: 256575 },
+            { n: "PERFECT BEER STAND 池袋", d: "池袋", s: 79030, c: 18, u: 4391, ms: 2036450, mc: 977, mu: 2084, py: null, wa: 68021 },
+            { n: "PERFECT BEER LABO TOKYO", d: "東京", s: 78450, c: 20, u: 3922, ms: 3391940, mc: 1205, mu: 2815, py: 171920, wa: 114700 },
+            { n: "完璧麦酒飯店 門前仲町", d: "門前仲町", s: 57590, c: 15, u: 3839, ms: 1432190, mc: 437, mu: 3277, py: null, wa: 68644 },
+            { n: "PERFECT BEER SHOP 横浜ベイクォーター", d: "dinii: PERFECT BEER SHOP 横浜", s: 51870, c: 37, u: 1402, ms: 2570895, mc: 1483, mu: 1734, py: null, wa: 63536 },
+            { n: "PERFECT BEER KITCHEN 総本店", d: "門前仲町", s: 43320, c: 12, u: 3610, ms: 1547970, mc: 443, mu: 3494, py: 34720, wa: 56725 },
+            { n: "PERFECT BEER STAND 亀戸", d: "亀戸", s: 38710, c: 17, u: 2277, ms: 1345270, mc: 654, mu: 2057, py: null, wa: 37901 },
+            { n: "PERFECT BEER STAND 門前仲町", d: "dinii: PERFECT BEER STAND MONNAKA", s: 30690, c: 16, u: 1918, ms: 1319370, mc: 516, mu: 2557, py: null, wa: 43446 },
+            { n: "PERFECT BEER STAND 福岡", d: "dinii: PERFECT BEER STAND FUKUOKA", s: 23330, c: 11, u: 2121, ms: 822230, mc: 397, mu: 2071, py: null, wa: 27681 },
+            { n: "PERFECT BEER KITCHEN 新潟", d: "dinii: PERFECT BEER NIIGATA", s: 12600, c: 6, u: 2100, ms: 1482190, mc: 544, mu: 2725, py: 52120, wa: 38996 },
             { n: "PERFECT BEER KITCHEN 富山", d: "ダイニー未導入", s: null, c: null, u: null, ms: null, mc: null, mu: null, py: null, wa: null },
             { n: "PERFECT BEER SHOP 明治神宮野球場", d: "ダイニー未導入(季節営業)", s: null, c: null, u: null, ms: null, mc: null, mu: null, py: null, wa: null }
         ];
