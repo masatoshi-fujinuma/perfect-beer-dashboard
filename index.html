@@ -870,10 +870,24 @@
         <!-- ============ CHANGELOG ============ -->
         <div class="changelog" id="changelog">
             <h2><span class="cl-badge">🆕 新着更新情報</span></h2>
-            <div class="cl-updated">毎日 22:00(日本時間)に自動更新 ｜ 最終更新: <b>2026年8月27日</b></div>
+            <div class="cl-updated">毎日 22:00(日本時間)に自動更新 ｜ 最終更新: <b>2026年8月28日</b></div>
 
             <div class="cl-entry">
-                <div class="cl-date">2026年8月27日 <span class="new">最新</span></div>
+                <div class="cl-date">2026年8月28日 <span class="new">最新</span></div>
+                <ul>
+                    <li>売上を<b>8/27(木)実績</b>に更新。直営 <span class="cl-down">¥900,975(316人・客単価¥2,851)</span>、同曜日平均比 <span class="cl-down">97.0%</span>(木曜平均¥929,120)とほぼ平常水準</li>
+                    <li><span class="cl-up">STAND門前仲町が¥293,954・同曜日平均比507.1%</span>と突出(木曜平均¥57,969)。客数48人・客単価¥6,124と単価も通常の2倍超で、貸切・団体利用があった可能性。この1店で直営売上の33%を占めました</li>
+                    <li>他に平均を超えたのは<span class="cl-up">総本店122.8%(¥63,139)</span>・<span class="cl-up">亀戸113.9%</span>・<span class="cl-up">LABO TOKYO 111.3%(¥131,019)</span>の3店</li>
+                    <li>大きく割れたのは<span class="cl-down">GARDEN門前仲町8.5%(¥15,821・客数9人)</span>と<span class="cl-down">福岡11.2%(¥3,193・客数4人)</span>。GARDEN門仲は季節営業のピークを過ぎ、8/6の¥448,058から急速に縮小しています</li>
+                    <li>ほかに<span class="cl-down">マーボードウフ渋谷73.9%・新潟80.7%・完璧麦酒飯店81.3%・横浜BQ81.6%・池袋85.2%</span>が平均割れ。STAND門仲の特需を除くと木曜としては弱い1日でした</li>
+                    <li>前年同曜日(2025/8/28)比は比較できる4店計で<span class="cl-down">52.3%</span>(<span class="cl-up">LABO 107.7%</span> / <span class="cl-down">総本店86.3%・新潟41.2%・GARDEN門仲8.3%</span>)。GARDEN門仲の季節ピークのずれが全体を押し下げています</li>
+                    <li>当月累計(8/1〜27)は直営<span class="cl-up">¥25,959,925</span>(11,122人・客単価¥2,334)</li>
+                    <li><b>数値の注記</b>: ダイニー側の当月累計が前日取得値より約10%低い水準に変わっています(客数は完全一致、日次の売上も過去分は不変)。当月累計=日次の積み上げとして今回の実測値どうしは完全に整合するため、<b>実測値をそのまま採用</b>しました。前日比で当月累計が下がって見えるのはこのためです</li>
+                </ul>
+            </div>
+
+            <div class="cl-entry">
+                <div class="cl-date">2026年8月27日</div>
                 <ul>
                     <li>売上を<b>8/26(水)実績</b>に更新。直営 <span class="cl-down">¥952,170(342人・客単価¥2,784)</span>、同曜日平均比 <span class="cl-down">86.1%</span> と水曜平均を下回り</li>
                     <li>平均を超えたのは<span class="cl-up">完璧麦酒飯店 門前仲町 137.6%(¥69,740)</span>・<span class="cl-up">STAND門仲 109.1%</span>・<span class="cl-up">横浜ベイクォーター 107.5%</span>・亀戸 103.9% の4店</li>
@@ -936,15 +950,6 @@
                 </ul>
             </div>
 
-            <div class="cl-entry">
-                <div class="cl-date">2026年7月20日</div>
-                <ul>
-                    <li><b>返信率・SNS投稿頻度・メニュー写真の3セクションもタブ連動で40店対応に</b></li>
-                    <li>Google返信率をFC27店も全実測 → <span class="cl-up">100%が20店</span>とFCも返信文化が強い。一方<span
-                            class="cl-down">新大久保・赤羽BURGER・高崎(22%)は要改善</span></li>
-                    <li>FC店のIG投稿頻度17店・メニュー写真15店を追加(残りは自動更新で順次)。<span class="cl-down">赤羽BURGERは最終投稿169日前</span>で休止状態</li>
-                </ul>
-            </div>
         </div>
 
 
@@ -2280,24 +2285,24 @@
         // s/c/u = 前日の 売上・客数・客単価 / ms/mc/mu = 当月累計 / py = 前年同曜日の売上 / wa = 直近8週の同曜日平均売上
         // null は未取得(「？」表示)。合計・比率・タイルはすべてJSが自動計算する。
         var SALES_META = {
-            day: "2026年8月26日(水)",
-            mtd: "2026年8月1日〜26日",
-            pyDay: "2025年8月27日(水)",
-            waLabel: "直近8週の水曜",
+            day: "2026年8月27日(木)",
+            mtd: "2026年8月1日〜27日",
+            pyDay: "2025年8月28日(木)",
+            waLabel: "直近8週の木曜",
             source: "dinii dashboard / 店舗別売上一覧"
         };
         var SALES = [
-            { n: "PERFECT BEER GARDEN 門前仲町", d: "門前仲町・赤札堂3F(季節営業)", s: 248360, c: 55, u: 4516, ms: 4987550, mc: 1188, mu: 4198, py: 217520, wa: 272719 },
-            { n: "株式会社マーボードウフ渋谷", d: "dinii: 株式会社マーボードウフ", s: 187300, c: 86, u: 2178, ms: 6103520, mc: 2761, mu: 2211, py: null, wa: 253270 },
-            { n: "PERFECT BEER LABO TOKYO", d: "東京", s: 100090, c: 37, u: 2705, ms: 3492030, mc: 1242, mu: 2812, py: 128610, wa: 127086 },
-            { n: "PERFECT BEER SHOP 横浜ベイクォーター", d: "dinii: PERFECT BEER SHOP 横浜", s: 95860, c: 37, u: 2591, ms: 2666755, mc: 1520, mu: 1754, py: null, wa: 89151 },
-            { n: "完璧麦酒飯店 門前仲町", d: "門前仲町", s: 69740, c: 24, u: 2906, ms: 1501930, mc: 461, mu: 3258, py: null, wa: 50672 },
-            { n: "PERFECT BEER STAND 池袋", d: "池袋", s: 68000, c: 31, u: 2194, ms: 2104450, mc: 1008, mu: 2088, py: null, wa: 80450 },
-            { n: "PERFECT BEER STAND 門前仲町", d: "dinii: PERFECT BEER STAND MONNAKA", s: 57080, c: 22, u: 2595, ms: 1376450, mc: 538, mu: 2558, py: null, wa: 52311 },
-            { n: "PERFECT BEER KITCHEN 総本店", d: "門前仲町", s: 53810, c: 13, u: 4139, ms: 1601780, mc: 456, mu: 3513, py: 46140, wa: 66589 },
-            { n: "PERFECT BEER STAND 亀戸", d: "亀戸", s: 40620, c: 22, u: 1846, ms: 1385890, mc: 676, mu: 2050, py: null, wa: 39086 },
-            { n: "PERFECT BEER KITCHEN 新潟", d: "dinii: PERFECT BEER NIIGATA", s: 26650, c: 13, u: 2050, ms: 1508840, mc: 557, mu: 2709, py: 71860, wa: 54251 },
-            { n: "PERFECT BEER STAND 福岡", d: "dinii: PERFECT BEER STAND FUKUOKA", s: 4660, c: 2, u: 2330, ms: 826890, mc: 399, mu: 2072, py: null, wa: 20892 },
+            { n: "PERFECT BEER STAND 門前仲町", d: "dinii: PERFECT BEER STAND MONNAKA", s: 293954, c: 48, u: 6124, ms: 1545445, mc: 586, mu: 2637, py: null, wa: 57969 },
+            { n: "株式会社マーボードウフ渋谷", d: "dinii: 株式会社マーボードウフ", s: 178998, c: 103, u: 1738, ms: 5729835, mc: 2864, mu: 2001, py: null, wa: 242202 },
+            { n: "PERFECT BEER LABO TOKYO", d: "東京", s: 131019, c: 43, u: 3047, ms: 3306163, mc: 1285, mu: 2573, py: 121657, wa: 117697 },
+            { n: "PERFECT BEER STAND 池袋", d: "池袋", s: 64319, c: 25, u: 2573, ms: 1978399, mc: 1033, mu: 1915, py: null, wa: 75535 },
+            { n: "PERFECT BEER KITCHEN 総本店", d: "門前仲町", s: 63139, c: 17, u: 3714, ms: 1519419, mc: 473, mu: 3212, py: 73153, wa: 51398 },
+            { n: "PERFECT BEER STAND 亀戸", d: "亀戸", s: 45159, c: 19, u: 2377, ms: 1305506, mc: 695, mu: 1878, py: null, wa: 39654 },
+            { n: "PERFECT BEER SHOP 横浜ベイクォーター", d: "dinii: PERFECT BEER SHOP 横浜", s: 45158, c: 24, u: 1882, ms: 2471600, mc: 1544, mu: 1601, py: null, wa: 55344 },
+            { n: "完璧麦酒飯店 門前仲町", d: "門前仲町", s: 30422, c: 10, u: 3042, ms: 1395959, mc: 471, mu: 2964, py: null, wa: 37420 },
+            { n: "PERFECT BEER KITCHEN 新潟", d: "dinii: PERFECT BEER NIIGATA", s: 29793, c: 14, u: 2128, ms: 1402220, mc: 571, mu: 2456, py: 72360, wa: 36934 },
+            { n: "PERFECT BEER GARDEN 門前仲町", d: "門前仲町・赤札堂3F(季節営業)", s: 15821, c: 9, u: 1758, ms: 4550352, mc: 1197, mu: 3801, py: 191519, wa: 186437 },
+            { n: "PERFECT BEER STAND 福岡", d: "dinii: PERFECT BEER STAND FUKUOKA", s: 3193, c: 4, u: 798, ms: 755027, mc: 403, mu: 1874, py: null, wa: 28530 },
             { n: "PERFECT BEER KITCHEN 富山", d: "ダイニー未導入", s: null, c: null, u: null, ms: null, mc: null, mu: null, py: null, wa: null },
             { n: "PERFECT BEER SHOP 明治神宮野球場", d: "ダイニー未導入(季節営業)", s: null, c: null, u: null, ms: null, mc: null, mu: null, py: null, wa: null }
         ];
