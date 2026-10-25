@@ -167,6 +167,24 @@ table.mx{border-collapse:separate;border-spacing:0;font-size:.8rem;min-width:100
 .other{display:flex;gap:8px;flex-wrap:wrap}
 .other input{flex:1 1 160px;min-width:0}
 .modal .foot2{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;font-size:.75rem;color:var(--muted)}
+.ov{margin-top:18px}
+.ovhead{display:flex;justify-content:space-between;align-items:flex-end;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.ov h2{font-size:1.05rem;margin:0;font-weight:800}
+.ov h2 .t{position:relative;padding-bottom:6px;display:inline-block}
+.ov h2 .t::after{content:"";position:absolute;left:0;bottom:0;width:36px;height:5px;background:var(--yellow);border-radius:3px}
+.ovsub{font-size:.75rem;color:var(--muted);font-weight:700}
+.ovgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.oc{border:var(--bw) solid var(--line);border-radius:14px;background:var(--surface);color:var(--ink);font:inherit;text-align:left;padding:8px 11px 7px;cursor:pointer;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline;gap:4px 8px;min-width:0}
+.oc .om,.oc .oq{grid-column:1/-1}
+.oc[aria-current="true"]{background:var(--yellow);color:#111}
+.oc .on{font-weight:800;font-size:.84rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.oc .op{font-family:var(--f-en);font-weight:900;font-size:1.35rem;line-height:1;font-variant-numeric:tabular-nums}
+.oc .op small{font-family:var(--f-body);font-size:.7rem;font-weight:700;margin-left:1px}
+.oc .om{height:8px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);overflow:hidden;display:flex}
+.oc .om i{display:block;height:100%}
+.oc .oq{font-size:.68rem;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.oc[aria-current="true"] .oq{color:#111}
+.oc.none .op{color:var(--muted)}
 .tag.new{background:var(--yellow);color:#111;border-color:var(--line)}
 .note a{color:var(--ink);font-weight:800}
 .note{font-size:.78rem;color:var(--muted);margin-top:28px;max-width:65ch}
@@ -221,8 +239,6 @@ table.mx{border-collapse:separate;border-spacing:0;font-size:.8rem;min-width:100
   <div class="row">
     <input type="search" id="q" placeholder="キーワードで絞り込み">
     <button class="chip" id="fRep" aria-pressed="false">3回以上言われた指示</button>
-    <button class="chip" id="fTodo" aria-pressed="false">〇以外だけ</button>
-    <button class="chip" id="fIg" aria-pressed="false">代表メッセージ</button>
   </div>
   <div class="chips" id="cats"></div>
 </div>
@@ -234,6 +250,10 @@ table.mx{border-collapse:separate;border-spacing:0;font-size:.8rem;min-width:100
   <div class="acts"><button type="button" class="btn ghost" id="nsCancel">閉じる</button><button type="submit" class="btn">追加する</button></div>
 </form>
 
+<section class="ov" aria-labelledby="ovTitle">
+  <div class="ovhead"><h2 id="ovTitle"><span class="t">店舗別の達成率</span></h2><span class="ovsub" id="ovSub"></span></div>
+  <div class="ovgrid" id="ovGrid"></div>
+</section>
 <div id="listView">
   <div class="summary" id="summary"></div>
   <div class="addrow"><button class="btn" id="addItemBtn">＋ 指示を追加</button></div>
@@ -303,16 +323,15 @@ const stale=iso=>iso&&(Date.now()-new Date(iso).getTime())>7*864e5;
 
 function filtered(sid){
   const q=st.q.trim();
-  return ITEMS.filter(it=>it.sec===st.sec && (!sid||applies(it,sid)) && (!st.cat||it.cat===st.cat) && (!st.rep||it.rep>=3) && (!st.ig||(it.links&&it.links.length))
-    && (!q||(it.text+it.detail+it.quote+it.scope+it.who.join("")).includes(q))
-    && (!st.todo||!sid||(checks[key(it.id,sid)]?.status!=="ok"&&checks[key(it.id,sid)]?.status!=="na")));
+  return ITEMS.filter(it=>it.sec===st.sec && (!sid||applies(it,sid)) && (!st.cat||it.cat===st.cat) && (!st.rep||it.rep>=3)
+    && (!q||(it.text+it.detail+it.quote+it.scope+it.who.join("")).includes(q)));
 }
 
 function renderControls(){
   $("#store").innerHTML=STORES.map(s=>`<option value="${s.id}"${s.id===st.store?" selected":""}>${esc(s.name)}</option>`).join("");
   $("#secA").setAttribute("aria-pressed",st.sec==="A");$("#secB").setAttribute("aria-pressed",st.sec==="B");
   $("#vList").setAttribute("aria-pressed",st.view==="list");$("#vMx").setAttribute("aria-pressed",st.view==="mx");
-  $("#fRep").setAttribute("aria-pressed",st.rep);$("#fTodo").setAttribute("aria-pressed",st.todo);$("#fIg").setAttribute("aria-pressed",st.ig);
+  $("#fRep").setAttribute("aria-pressed",st.rep);
   $("#store").disabled = st.view==="mx";
   const canAdd=!!db&&canWrite;
   $("#addStoreBtn").disabled=!canAdd; $("#addItemBtn").disabled=!canAdd;
@@ -387,10 +406,20 @@ function renderMx(){
   $("#mx").innerHTML=head+`<tbody>${body}</tbody>`+foot;
 }
 
+function renderOverview(){
+  const rows=STORES.map(s=>{const its=ITEMS.filter(i=>i.sec===st.sec&&applies(i,s.id));const c=counts(s.id,its);const t=its.length-c.na;const done=c.ok+c.part+c.ng;return {s,c,t,done,pct:t?Math.round(c.ok/t*100):0};});
+  const w=(n,t)=>t?(n/t*100):0;
+  $("#ovSub").textContent=(st.sec==="A"?"現場スタッフ":"責任者・社員")+"の項目で〇の割合／タップでその店舗を開く";
+  $("#ovGrid").innerHTML=rows.map(r=>`<button class="oc${r.done?"":" none"}" data-s="${r.s.id}" aria-current="${st.view==="list"&&r.s.id===st.store}">
+    <span class="on">${esc(r.s.name)}</span>
+    <span class="op">${r.done?r.pct:"−"}<small>${r.done?"%":""}</small></span>
+    <span class="om" aria-hidden="true"><i style="width:${w(r.c.ok,r.t)}%;background:var(--yellow)"></i><i style="width:${w(r.c.part,r.t)}%;background:var(--yellow-pale)"></i><i style="width:${w(r.c.ng,r.t)}%;background:var(--pink)"></i></span>
+    <span class="oq">〇${r.c.ok} △${r.c.part} ×${r.c.ng} 未${r.c.none}</span></button>`).join("");
+}
 function render(){
   const a=document.activeElement, keep=a&&a.id&&a.id.startsWith("n_")?{id:a.id,v:a.value,s:a.selectionStart}:null;
   if(!STORES.some(s=>s.id===st.store)) st.store=STORES[0].id;
-  renderControls(); if(st.view==="list") renderList(); else renderMx();
+  renderControls(); renderOverview(); if(st.view==="list") renderList(); else renderMx();
   if(keep){const el=document.getElementById(keep.id); if(el){el.value=keep.v; el.focus(); try{el.setSelectionRange(keep.s,keep.s)}catch(e){}}}
 }
 
@@ -400,10 +429,9 @@ $("#secB").onclick=()=>{st.sec="B";st.cat="";saveLocal();render();};
 $("#vList").onclick=()=>{st.view="list";render();};
 $("#vMx").onclick=()=>{st.view="mx";render();};
 $("#fRep").onclick=()=>{st.rep=!st.rep;render();};
-$("#fTodo").onclick=()=>{st.todo=!st.todo;render();};
-$("#fIg").onclick=()=>{st.ig=!st.ig;render();};
 let qT; $("#q").addEventListener("input",e=>{clearTimeout(qT);qT=setTimeout(()=>{st.q=e.target.value;render();},200);});
 $("#cats").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;st.cat=b.dataset.cat;render();});
+$("#ovGrid").addEventListener("click",e=>{const b=e.target.closest(".oc");if(!b)return;st.store=b.dataset.s;st.view="list";st.cat="";saveLocal();render();document.getElementById("summary").scrollIntoView({block:"start"});});
 const openStore=th=>{st.store=th.dataset.s;st.view="list";saveLocal();render();window.scrollTo({top:0});};
 $("#mx").addEventListener("click",e=>{const th=e.target.closest("th[data-s]");if(th)openStore(th);});
 $("#mx").addEventListener("keydown",e=>{const th=e.target.closest("th[data-s]");if(th&&(e.key==="Enter"||e.key===" ")){e.preventDefault();openStore(th);}});
