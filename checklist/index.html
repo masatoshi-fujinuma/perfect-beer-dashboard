@@ -385,7 +385,7 @@ function renderControls(){
 
 function counts(sid,items){
   const c={ok:0,part:0,ng:0,na:0,none:0};
-  items.forEach(it=>{const s=checks[key(it.id,sid)]?.status; c[s&&c[s]!==undefined?s:"none"]++;});
+  items.forEach(it=>{const s=checks[key(it.id,sid)]?.status; c[s==="ok"||s==="ng"?s:"none"]++;});
   return c;
 }
 
@@ -393,17 +393,17 @@ function renderList(){
   const sid=tgt();
   if(!sid){ $("#summary").innerHTML=""; $("#list").innerHTML=`<div class="empty"><img src="${IMG.roll}" alt="">${(pf()===ALL?members.length:members.some(m=>m.store===pf()))?"上の一覧から、チェックするスタッフを選んでください":"この店舗のスタッフがまだいません。「＋スタッフ」から追加してください"}</div>`; return; }
   const all=ITEMS.filter(it=>inScope(it,sid));
-  const c=counts(sid,all), tot=all.length-c.na, pct=tot?Math.round(c.ok/tot*100):0;
+  const c=counts(sid,all), tot=all.length, pct=tot?Math.round(c.ok/tot*100):0;
   const w=n=>tot?(n/tot*100):0;
-  const done=c.ok+c.part+c.ng;
+  const done=c.ok+c.ng;
   const [img,cheer]= done===0?[IMG.roll,"まだチェックがありません。〇△×をつけてみよう"]
     : pct>=80?[IMG.heart,"いい感じ！この調子でキープ"]
     : pct>=40?[IMG.drink,"あと少し。×の項目から手をつけよう"]
     : [IMG.beerhead,"できていない項目が多め。今日の1つを決めよう"];
   $("#summary").innerHTML=`<div class="sumhead"><span class="storename">${esc(tgtLabel(sid))}${isP(sid)&&memberOf(sid)?`<small class="pstore">${esc(storeName(memberOf(sid).store))}</small>`:""}</span><span class="score">${pct}<small>% できている</small></span></div>
     <div class="cheer">${cheer}</div>
-    <div class="meter" role="img" aria-label="〇${c.ok} △${c.part} ×${c.ng} 未${c.none}"><i style="width:${w(c.ok)}%;background:var(--yellow)"></i><i style="width:${w(c.part)}%;background:var(--yellow-pale)"></i><i style="width:${w(c.ng)}%;background:var(--pink)"></i></div>
-    <div class="legend"><span><span class="sw" style="background:var(--yellow)"></span>〇 <b>${c.ok}</b></span><span><span class="sw" style="background:var(--yellow-pale)"></span>△ <b>${c.part}</b></span><span><span class="sw" style="background:var(--pink)"></span>× <b>${c.ng}</b></span><span><span class="sw" style="background:var(--surface)"></span>未チェック <b>${c.none}</b></span><span>対象外 <b>${c.na}</b></span><span>全${all.length}項目</span></div>
+    <div class="meter" role="img" aria-label="〇${c.ok} ×${c.ng} 未${c.none}"><i style="width:${w(c.ok)}%;background:var(--yellow)"></i><i style="width:${w(c.ng)}%;background:var(--pink)"></i></div>
+    <div class="legend"><span><span class="sw" style="background:var(--yellow)"></span>〇 <b>${c.ok}</b></span><span><span class="sw" style="background:var(--pink)"></span>× <b>${c.ng}</b></span><span><span class="sw" style="background:var(--surface)"></span>未チェック <b>${c.none}</b></span><span>全${all.length}項目</span></div>
     <div class="mascot"><img src="${img}" alt=""></div>`;
   const items=filtered(sid);
   if(!items.length){$("#list").innerHTML=`<div class="empty"><img src="${IMG.roll}" alt="">条件に合う項目はありません</div>`;return;}
@@ -417,7 +417,7 @@ function renderList(){
       return `<article class="item" data-st="${s}" data-id="${it.id}">
         <div><div class="txt">${esc(it.text)}</div>
           <div class="meta">${it.scope==="全店"?`<span class="tag">全店</span>`:`<span class="tag store">${esc(it.scope.replace(/,/g,"・"))}</span>`}<span class="tag">${esc(it.role)}</span>${it.rep>=2?`<span class="tag rep">×${it.rep}回</span>`:""}${it.conf==="low"?`<span class="tag low">要確認</span>`:""}${it.custom?`<span class="tag new">追加</span>`:""}<span>最終指示 ${md(it.last)}</span></div></div>
-        <div class="marks">${["ok","part","ng","na"].map(m=>`<button class="mk ${m}" data-m="${m}" aria-pressed="${s===m}" aria-label="${MARK[m]}"${dis}>${MARK[m]}</button>`).join("")}</div>
+        <div class="marks">${["ok","ng"].map(m=>`<button class="mk ${m}" data-m="${m}" aria-pressed="${s===m}" aria-label="${MARK[m]}"${dis}>${MARK[m]}</button>`).join("")}</div>
         <div class="foot"><input type="text" id="n_${it.id}" placeholder="メモ（できていない理由・対策など）" value="${esc(ck.note||"")}"${dis}>${ck.at?`<span class="stamp${stale(ck.at)?" stale":""}">${fmtDT(ck.at)} 確認${by}</span>`:""}</div>
         ${(ck.hist&&ck.hist.length)?`<details class="hist" data-d="h_${it.id}"${openD.has("h_"+it.id)?" open":""}><summary>これまでの記録 ${ck.hist.length}件</summary><ol>${ck.hist.map(h=>`<li><span class="ht">${fmtDT(h.t)}</span>${h.b?avHtml(staffByName(h.b)||{name:h.b},"sm")+`<span class="hb">${esc(h.b)}</span>`:""}<span class="hm ${h.s||"none"}">${h.s?MARK[h.s]:"未"}</span>${h.n?`<span class="hn">${esc(h.n)}</span>`:""}</li>`).join("")}</ol></details>`:""}
         <details data-d="${it.id}"${openD.has(it.id)?" open":""}><summary>元の指示</summary><div class="body">
@@ -441,21 +441,21 @@ function renderMx(){
     its.forEach(it=>{
       body+=`<tr><th class="it">${esc(it.text)}${it.rep>=3?` <span class="tag rep">×${it.rep}</span>`:""}</th>`+STORES.map(s=>{
         if(!applies(it,s.id)) return `<td><span class="c off">·</span></td>`;
-        const v=checks[key(it.id,s.id)]?.status; const cls=v||"none";
-        return `<td><span class="c ${cls}" title="${esc(s.name)}">${v==="part"?"":v?(v==="na"?"−":MARK[v]):"・"}</span></td>`;}).join("")+`</tr>`;
+        const v0=checks[key(it.id,s.id)]?.status, v=(v0==="ok"||v0==="ng")?v0:""; const cls=v||"none";
+        return `<td><span class="c ${cls}" title="${esc(s.name)}">${v?MARK[v]:"・"}</span></td>`;}).join("")+`</tr>`;
     });
   });
-  const foot=`<tfoot><tr><th class="it">〇の割合</th>${STORES.map(s=>{const its=ITEMS.filter(i=>applies(i,s.id));const c=counts(s.id,its);const t=its.length-c.na;return `<td>${t?Math.round(c.ok/t*100):0}%</td>`}).join("")}</tr></tfoot>`;
+  const foot=`<tfoot><tr><th class="it">〇の割合</th>${STORES.map(s=>{const its=ITEMS.filter(i=>applies(i,s.id));const c=counts(s.id,its);const t=its.length;return `<td>${t?Math.round(c.ok/t*100):0}%</td>`}).join("")}</tr></tfoot>`;
   $("#mx").innerHTML=head+`<tbody>${body}</tbody>`+foot;
 }
 
 function cardHtml(id,name,sub,c,t,current,attr){
-  const done=c.ok+c.part+c.ng, pct=t?Math.round(c.ok/t*100):0, w=n=>t?(n/t*100):0;
+  const done=c.ok+c.ng, pct=t?Math.round(c.ok/t*100):0, w=n=>t?(n/t*100):0;
   return `<button class="oc${done?"":" none"}" ${attr}="${esc(id)}" aria-current="${current}">
     <span class="on">${esc(name)}${sub?`<small class="osub">${esc(sub)}</small>`:""}</span>
     <span class="op">${done?pct:"−"}<small>${done?"%":""}</small></span>
-    <span class="om" aria-hidden="true"><i style="width:${w(c.ok)}%;background:var(--yellow)"></i><i style="width:${w(c.part)}%;background:var(--yellow-pale)"></i><i style="width:${w(c.ng)}%;background:var(--pink)"></i></span>
-    <span class="oq">〇${c.ok} △${c.part} ×${c.ng} 未${c.none}</span></button>`;
+    <span class="om" aria-hidden="true"><i style="width:${w(c.ok)}%;background:var(--yellow)"></i><i style="width:${w(c.ng)}%;background:var(--pink)"></i></span>
+    <span class="oq">〇${c.ok} ×${c.ng} 未${c.none}</span></button>`;
 }
 function renderOverview(){
   if(st.mode==="person"){
@@ -463,13 +463,13 @@ function renderOverview(){
     const all=pf()===ALL, order=id=>{const i=STORES.findIndex(s=>s.id===id);return i<0?999:i;};
     const ms=(all?members.slice():members.filter(m=>m.store===pf())).sort((a,b)=>order(a.store)-order(b.store)||a.name.localeCompare(b.name,"ja"));
     $("#ovSub").textContent=(all?`全スタッフ ${ms.length}人`:storeName(pf())+"のスタッフ")+"／全店共通の項目で〇の割合／タップでその人を開く";
-    $("#ovGrid").innerHTML=ms.length?ms.map(m=>{const sid=pid(m);const its=ITEMS.filter(i=>inScope(i,sid));const c=counts(sid,its);return cardHtml(m.store+":"+m.name,m.name,all?(STORES.find(s=>s.id===m.store)||{}).name||"":"",c,its.length-c.na,m.name===st.person&&m.store===st.pstore,"data-p");}).join("")
+    $("#ovGrid").innerHTML=ms.length?ms.map(m=>{const sid=pid(m);const its=ITEMS.filter(i=>inScope(i,sid));const c=counts(sid,its);return cardHtml(m.store+":"+m.name,m.name,all?(STORES.find(s=>s.id===m.store)||{}).name||"":"",c,its.length,m.name===st.person&&m.store===st.pstore,"data-p");}).join("")
       :`<div class="ovsub">${all?"スタッフはまだ登録されていません。":"この店舗のスタッフはまだ登録されていません。"}「＋スタッフ」から追加してください。</div>`;
     return;
   }
   $("#ovTitle").innerHTML=`<span class="t">店舗別の達成率</span>`;
   $("#ovSub").textContent="全項目で〇の割合／タップでその店舗を開く";
-  $("#ovGrid").innerHTML=STORES.map(s=>{const its=ITEMS.filter(i=>applies(i,s.id));const c=counts(s.id,its);return cardHtml(s.id,s.name,"",c,its.length-c.na,st.view==="list"&&s.id===st.store,"data-s");}).join("");
+  $("#ovGrid").innerHTML=STORES.map(s=>{const its=ITEMS.filter(i=>applies(i,s.id));const c=counts(s.id,its);return cardHtml(s.id,s.name,"",c,its.length,st.view==="list"&&s.id===st.store,"data-s");}).join("");
 }
 function render(){
   const a=document.activeElement, keep=a&&a.id&&a.id.startsWith("n_")?{id:a.id,v:a.value,s:a.selectionStart}:null;
