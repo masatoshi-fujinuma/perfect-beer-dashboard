@@ -185,6 +185,15 @@ table.mx{border-collapse:separate;border-spacing:0;font-size:.8rem;min-width:100
 .oc .oq{font-size:.68rem;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
 .oc[aria-current="true"] .oq{color:#111}
 .oc.none .op{color:var(--muted)}
+details.hist{grid-column:1/-1;font-size:.76rem}
+details.hist summary{font-weight:700;color:var(--muted)}
+details.hist ol{list-style:none;margin:6px 0 0;padding:8px 10px;background:var(--gray-bg);border-radius:10px;display:grid;gap:5px}
+details.hist li{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;color:var(--ink)}
+.ht{font-variant-numeric:tabular-nums;color:var(--muted);font-weight:700;min-width:6.5em}
+.hb{font-weight:800}
+.hm{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 4px;border-radius:999px;border:1.5px solid var(--line);font-weight:800;font-size:.72rem}
+.hm.ok{background:var(--yellow);color:#111}.hm.part{background:linear-gradient(135deg,var(--yellow) 0 50%,var(--surface) 50%)}.hm.ng{background:var(--pink);color:#fff;border-color:var(--pink)}.hm.na,.hm.none{color:var(--muted);border-color:var(--hair)}
+.hn{color:var(--muted)}
 .tag.new{background:var(--yellow);color:#111;border-color:var(--line)}
 .note a{color:var(--ink);font-weight:800}
 .note{font-size:.78rem;color:var(--muted);margin-top:28px;max-width:65ch}
@@ -318,6 +327,7 @@ let db=null, user=null, canWrite=true, names={};
 const storeName=sid=>(STORES.find(s=>s.id===sid)||{}).name||"";
 const applies=(it,sid)=>!(it.notFor&&it.notFor.includes(sid))&&(it.scope==="全店"||it.scope.split(",").includes(storeName(sid)));
 const key=(iid,sid)=>iid+"__"+sid;
+const fmtDT=iso=>{if(!iso)return"";const d=new Date(iso);return (d.getMonth()+1)+"/"+d.getDate()+" "+String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0");};
 const fmtD=iso=>{if(!iso)return"";const d=new Date(iso);return (d.getMonth()+1)+"/"+d.getDate();};
 const md=s=>!s?"":s.length===7?s.slice(0,4)+"/"+(+s.slice(5,7)):(+s.slice(5,7))+"/"+(+s.slice(8,10));
 const ymd=s=>!s?"":s.length===7?md(s):s.slice(0,4)+"/"+md(s);
@@ -379,7 +389,8 @@ function renderList(){
         <div><div class="txt">${esc(it.text)}</div>
           <div class="meta">${it.scope==="全店"?`<span class="tag">全店</span>`:`<span class="tag store">${esc(it.scope.replace(/,/g,"・"))}</span>`}<span class="tag">${esc(it.role)}</span>${it.rep>=2?`<span class="tag rep">×${it.rep}回</span>`:""}${it.conf==="low"?`<span class="tag low">要確認</span>`:""}${it.custom?`<span class="tag new">追加</span>`:""}<span>最終指示 ${md(it.last)}</span></div></div>
         <div class="marks">${["ok","part","ng","na"].map(m=>`<button class="mk ${m}" data-m="${m}" aria-pressed="${s===m}" aria-label="${MARK[m]}"${dis}>${MARK[m]}</button>`).join("")}</div>
-        <div class="foot"><input type="text" id="n_${it.id}" placeholder="メモ（できていない理由・対策など）" value="${esc(ck.note||"")}"${dis}>${ck.at?`<span class="stamp${stale(ck.at)?" stale":""}">${fmtD(ck.at)} 確認${by}</span>`:""}</div>
+        <div class="foot"><input type="text" id="n_${it.id}" placeholder="メモ（できていない理由・対策など）" value="${esc(ck.note||"")}"${dis}>${ck.at?`<span class="stamp${stale(ck.at)?" stale":""}">${fmtDT(ck.at)} 確認${by}</span>`:""}</div>
+        ${(ck.hist&&ck.hist.length)?`<details class="hist" data-d="h_${it.id}"${openD.has("h_"+it.id)?" open":""}><summary>これまでの記録 ${ck.hist.length}件</summary><ol>${ck.hist.map(h=>`<li><span class="ht">${fmtDT(h.t)}</span>${h.b?avHtml(staffByName(h.b)||{name:h.b},"sm")+`<span class="hb">${esc(h.b)}</span>`:""}<span class="hm ${h.s||"none"}">${h.s?MARK[h.s]:"未"}</span>${h.n?`<span class="hn">${esc(h.n)}</span>`:""}</li>`).join("")}</ol></details>`:""}
         <details data-d="${it.id}"${openD.has(it.id)?" open":""}><summary>元の指示</summary><div class="body">
           ${it.quote?`<q>${esc(it.quote)}</q>`:""}
           <div>${it.custom?"このページで追加／":""}${esc(it.who.join("・"))}／${rng(it.first,it.last)}／${esc(it.groups.join("・"))}</div>
@@ -496,7 +507,7 @@ const STORE_MATCH=[["総本店","soho"],["LABO","labo"],["飯店","hanten"],["�
 const storeFromBoard=n=>{for(const [k,id] of STORE_MATCH){if((n||"").includes(k)) return id;} return null;};
 function avHtml(p,cls){
   if(p&&p.src){const z=(p.zoom||1)*100;return `<span class="av ${cls||""}" style="background-image:url('${p.src}');background-size:${z}% auto;background-position:${p.x??50}% ${p.y??50}%"></span>`;}
-  const n=(p&&p.name)||"?"; return `<span class="av ${cls||""}" style="${p&&p.color?"background-color:"+p.color+";color:#fff":""}">${esc(n.replace(/\s+/g,"").slice(0,2))}</span>`;
+  const n=(p&&p.name)||"?"; return `<span class="av ${cls||""}" style="${p&&p.color?"background-color:"+p.color+";color:#fff":""}">${esc(n.replace(/\s+/g,"").slice(0,(cls||"").includes("sm")?1:2))}</span>`;
 }
 const staffByName=n=>staff.find(s=>s.name===n);
 async function loadStaff(){
@@ -552,6 +563,9 @@ async function save(iid,patch){
   const sid=st.store,k=key(iid,sid);
   const prev=checks[k]||{};
   const next={item:iid,store:sid,status:prev.status||"",note:prev.note||"",...patch,at:new Date().toISOString()};
+  const hist=Array.isArray(prev.hist)?prev.hist.slice():[];
+  if(prev.at&&(prev.status||prev.note)) hist.unshift({s:prev.status||"",n:(prev.note||"").slice(0,40),b:String(prev.by||"").slice(0,20),t:prev.at});
+  next.hist=hist.slice(0,10);
   next.by=myName;
   checks[k]=next; render();
   if(!db){setSync("サーバーに接続できていないため保存されません",true);return;}
