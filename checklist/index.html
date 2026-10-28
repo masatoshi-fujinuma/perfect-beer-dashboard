@@ -327,13 +327,13 @@ const MARK = {ok:"〇",part:"△",ng:"×",na:"対象外"};
 const $ = s=>document.querySelector(s);
 const esc = s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
-let st = {store:"shinyoko",mode:"store",person:"",view:"list",cat:"",q:"",rep:false};
+let st = {store:"shinyoko",mode:"store",person:"",pstore:"",pfilter:"",view:"list",cat:"",q:"",rep:false};
 let wantStore=null;
 const HASH_ALIAS={mabo:"shibuya",maabo:"shibuya"};
 const hashStore=(()=>{try{const h=decodeURIComponent((location.hash||"").slice(1));return HASH_ALIAS[h]||h;}catch(e){return "";}})();
-try{ const s=JSON.parse(localStorage.getItem("pbck")||"{}"); if(s.store){wantStore=s.store; if(BASE_STORES.some(x=>x.id===s.store)) st.store=s.store;} if(s.mode==="person") st.mode="person"; if(s.person) st.person=s.person; }catch(e){}
+try{ const s=JSON.parse(localStorage.getItem("pbck")||"{}"); if(s.store){wantStore=s.store; if(BASE_STORES.some(x=>x.id===s.store)) st.store=s.store;} if(s.mode==="person") st.mode="person"; if(s.person) st.person=s.person; if(s.pstore) st.pstore=s.pstore; if(s.pfilter) st.pfilter=s.pfilter; }catch(e){}
 if(hashStore&&BASE_STORES.some(x=>x.id===hashStore)) st.store=hashStore;
-const saveLocal=()=>{try{localStorage.setItem("pbck",JSON.stringify({store:st.store,mode:st.mode,person:st.person}))}catch(e){}};
+const saveLocal=()=>{try{localStorage.setItem("pbck",JSON.stringify({store:st.store,mode:st.mode,person:st.person,pstore:st.pstore,pfilter:st.pfilter}))}catch(e){}};
 
 let checks = {}, members = [];   // members: {name, store}
 let db=null, user=null, canWrite=true, names={};
@@ -346,7 +346,9 @@ const pid=m=>"p:"+m.store+":"+m.name;
 const memberOf=sid=>members.find(m=>pid(m)===sid);
 // 個人用：全店共通の現場スタッフ項目（所属店に当てはまらない項目は除く）
 const inScope=(it,sid)=>{ if(isP(sid)){const m=memberOf(sid); return it.sec==="A"&&it.scope==="全店"&&!(it.notFor&&m&&it.notFor.includes(m.store));} return applies(it,sid); };
-const tgt=()=>st.mode==="person"?(st.person&&members.some(m=>m.store===st.store&&m.name===st.person)?"p:"+st.store+":"+st.person:""):st.store;
+const ALL="__all";
+const pf=()=>st.pfilter||st.store;
+const tgt=()=>st.mode==="person"?(st.person&&members.some(m=>m.store===st.pstore&&m.name===st.person)?"p:"+st.pstore+":"+st.person:""):st.store;
 const tgtLabel=sid=>isP(sid)?((memberOf(sid)||{}).name||""):storeName(sid);
 const fmtDT=iso=>{if(!iso)return"";const d=new Date(iso);return (d.getMonth()+1)+"/"+d.getDate()+" "+String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0");};
 const fmtD=iso=>{if(!iso)return"";const d=new Date(iso);return (d.getMonth()+1)+"/"+d.getDate();};
@@ -362,7 +364,8 @@ function filtered(sid){
 }
 
 function renderControls(){
-  $("#store").innerHTML=STORES.map(s=>`<option value="${s.id}"${s.id===st.store?" selected":""}>${esc(s.name)}</option>`).join("");
+  const selV=st.mode==="person"?pf():st.store;
+  $("#store").innerHTML=(st.mode==="person"?`<option value="${ALL}"${selV===ALL?" selected":""}>全スタッフ（全店）</option>`:"")+STORES.map(s=>`<option value="${s.id}"${s.id===selV?" selected":""}>${esc(s.name)}</option>`).join("");
   if(st.mode==="person") st.view="list";
   $("#modeStore").setAttribute("aria-pressed",st.mode==="store");$("#modePerson").setAttribute("aria-pressed",st.mode==="person");
   $("#viewSeg").hidden=st.mode==="person"; $("#addStoreBtn").hidden=st.mode==="person"; $("#addMemberBtn").hidden=st.mode!=="person";
@@ -388,7 +391,7 @@ function counts(sid,items){
 
 function renderList(){
   const sid=tgt();
-  if(!sid){ $("#summary").innerHTML=""; $("#list").innerHTML=`<div class="empty"><img src="${IMG.roll}" alt="">${members.some(m=>m.store===st.store)?"上の一覧から、チェックするスタッフを選んでください":"この店舗のスタッフがまだいません。「＋スタッフ」から追加してください"}</div>`; return; }
+  if(!sid){ $("#summary").innerHTML=""; $("#list").innerHTML=`<div class="empty"><img src="${IMG.roll}" alt="">${(pf()===ALL?members.length:members.some(m=>m.store===pf()))?"上の一覧から、チェックするスタッフを選んでください":"この店舗のスタッフがまだいません。「＋スタッフ」から追加してください"}</div>`; return; }
   const all=ITEMS.filter(it=>inScope(it,sid));
   const c=counts(sid,all), tot=all.length-c.na, pct=tot?Math.round(c.ok/tot*100):0;
   const w=n=>tot?(n/tot*100):0;
@@ -457,10 +460,11 @@ function cardHtml(id,name,sub,c,t,current,attr){
 function renderOverview(){
   if(st.mode==="person"){
     $("#ovTitle").innerHTML=`<span class="t">スタッフ個人の達成率</span>`;
-    const ms=members.filter(m=>m.store===st.store);
-    $("#ovSub").textContent=storeName(st.store)+"のスタッフ／全店共通の項目で〇の割合／タップでその人を開く";
-    $("#ovGrid").innerHTML=ms.length?ms.map(m=>{const sid=pid(m);const its=ITEMS.filter(i=>inScope(i,sid));const c=counts(sid,its);return cardHtml(m.name,m.name,"",c,its.length-c.na,m.name===st.person,"data-p");}).join("")
-      :`<div class="ovsub">この店舗のスタッフはまだ登録されていません。「＋スタッフ」から追加してください。</div>`;
+    const all=pf()===ALL, order=id=>{const i=STORES.findIndex(s=>s.id===id);return i<0?999:i;};
+    const ms=(all?members.slice():members.filter(m=>m.store===pf())).sort((a,b)=>order(a.store)-order(b.store)||a.name.localeCompare(b.name,"ja"));
+    $("#ovSub").textContent=(all?`全スタッフ ${ms.length}人`:storeName(pf())+"のスタッフ")+"／全店共通の項目で〇の割合／タップでその人を開く";
+    $("#ovGrid").innerHTML=ms.length?ms.map(m=>{const sid=pid(m);const its=ITEMS.filter(i=>inScope(i,sid));const c=counts(sid,its);return cardHtml(m.store+":"+m.name,m.name,all?(STORES.find(s=>s.id===m.store)||{}).name||"":"",c,its.length-c.na,m.name===st.person&&m.store===st.pstore,"data-p");}).join("")
+      :`<div class="ovsub">${all?"スタッフはまだ登録されていません。":"この店舗のスタッフはまだ登録されていません。"}「＋スタッフ」から追加してください。</div>`;
     return;
   }
   $("#ovTitle").innerHTML=`<span class="t">店舗別の達成率</span>`;
@@ -474,10 +478,14 @@ function render(){
   if(keep){const el=document.getElementById(keep.id); if(el){el.value=keep.v; el.focus(); try{el.setSelectionRange(keep.s,keep.s)}catch(e){}}}
 }
 
-$("#store").addEventListener("change",e=>{st.store=e.target.value;st.cat="";if(st.mode==="person"&&!members.some(m=>m.name===st.person&&m.store===st.store)) st.person="";saveLocal();render();});
+$("#store").addEventListener("change",e=>{const v=e.target.value;st.cat="";
+  if(st.mode==="person"){st.pfilter=v; if(v!==ALL){st.store=v; if(st.pstore!==v) st.person="";}}
+  else st.store=v;
+  saveLocal();render();});
 $("#modeStore").onclick=()=>{st.mode="store";st.cat="";saveLocal();render();};
 $("#modePerson").onclick=()=>{st.mode="person";st.view="list";st.cat="";
-  if(!st.person||!members.some(m=>m.name===st.person&&m.store===st.store)){const me=members.find(m=>m.name===myName); st.person=me&&me.store===st.store?me.name:"";}
+  if(!st.pfilter) st.pfilter=st.store;
+  if(!st.person||!members.some(m=>m.name===st.person&&m.store===st.pstore)){const me=members.find(m=>m.name===myName&&(pf()===ALL||m.store===pf())); st.person=me?me.name:""; st.pstore=me?me.store:"";}
   saveLocal();render();};
 $("#vList").onclick=()=>{st.view="list";render();};
 $("#vMx").onclick=()=>{st.view="mx";render();};
@@ -485,7 +493,7 @@ $("#fRep").onclick=()=>{st.rep=!st.rep;render();};
 let qT; $("#q").addEventListener("input",e=>{clearTimeout(qT);qT=setTimeout(()=>{st.q=e.target.value;render();},200);});
 $("#cats").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;st.cat=b.dataset.cat;render();});
 $("#ovGrid").addEventListener("click",e=>{const b=e.target.closest(".oc");if(!b)return;
-  if(b.dataset.p!==undefined){st.person=b.dataset.p;st.cat="";saveLocal();render();document.getElementById("summary").scrollIntoView({block:"start"});return;}
+  if(b.dataset.p!==undefined){const i=b.dataset.p.indexOf(":");st.pstore=b.dataset.p.slice(0,i);st.person=b.dataset.p.slice(i+1);st.cat="";saveLocal();render();document.getElementById("summary").scrollIntoView({block:"start"});return;}
   st.store=b.dataset.s;st.view="list";st.cat="";saveLocal();render();document.getElementById("summary").scrollIntoView({block:"start"});});
 const openStore=th=>{st.store=th.dataset.s;st.view="list";saveLocal();render();window.scrollTo({top:0});};
 $("#mx").addEventListener("click",e=>{const th=e.target.closest("th[data-s]");if(th)openStore(th);});
@@ -602,7 +610,7 @@ function renderMemberList(){
   const ms=members.filter(m=>m.store===$("#nmStore").value);
   $("#nmList").innerHTML=ms.length?`<div style="display:flex;flex-wrap:wrap;gap:6px;font-size:.85rem">登録済み：${ms.map(m=>`<span class="tag store">${esc(m.name)} <button type="button" class="linkbtn" data-rmm="${esc(m.name)}" aria-label="${esc(m.name)}を削除">削除</button></span>`).join("")}</div>`:"";
 }
-$("#addMemberBtn").onclick=()=>{const p=$("#memberPanel"); p.hidden=!p.hidden; if(!p.hidden){$("#nmStore").innerHTML=STORES.map(s=>`<option value="${s.id}"${s.id===st.store?" selected":""}>${esc(s.name)}</option>`).join(""); renderMemberList(); $("#nmErr").hidden=true; $("#nmName").focus();}};
+$("#addMemberBtn").onclick=()=>{const p=$("#memberPanel"); p.hidden=!p.hidden; if(!p.hidden){$("#nmStore").innerHTML=STORES.map(s=>`<option value="${s.id}"${s.id===(pf()===ALL?st.store:pf())?" selected":""}>${esc(s.name)}</option>`).join(""); renderMemberList(); $("#nmErr").hidden=true; $("#nmName").focus();}};
 $("#nmStore").addEventListener("change",renderMemberList);
 $("#nmCancel").onclick=()=>{$("#memberPanel").hidden=true;};
 $("#memberPanel").addEventListener("submit",async e=>{
@@ -613,14 +621,14 @@ $("#memberPanel").addEventListener("submit",async e=>{
   if(!db){err.textContent="サーバーに接続できていません";err.hidden=false;return;}
   try{await db.doc("checks/member__"+store+"__"+name).set({kind:"member",name,store,at:new Date().toISOString(),by:myName||""});
     members=members.concat([{name,store}]);
-    $("#nmName").value=""; st.store=store; st.person=name; saveLocal(); setSync(name+"さんを追加しました"); renderMemberList(); render();}
+    $("#nmName").value=""; if(pf()!==ALL){st.pfilter=store; st.store=store;} st.pstore=store; st.person=name; saveLocal(); setSync(name+"さんを追加しました"); renderMemberList(); render();}
   catch(ex2){err.textContent="追加できませんでした";err.hidden=false;}
 });
 $("#nmList").addEventListener("click",async e=>{
   const b=e.target.closest("[data-rmm]"); if(!b) return;
   if(b.dataset.confirm!=="1"){b.dataset.confirm="1";b.textContent="本当に削除？";return;}
   const name=b.dataset.rmm, store=$("#nmStore").value;
-  try{await db.doc("checks/member__"+store+"__"+name).delete(); members=members.filter(m=>!(m.name===name&&m.store===store)); if(st.person===name) st.person=""; setSync(name+"さんを一覧から外しました（記録は残ります）"); renderMemberList(); render();}catch(ex){setSync("削除できませんでした",true);}
+  try{await db.doc("checks/member__"+store+"__"+name).delete(); members=members.filter(m=>!(m.name===name&&m.store===store)); if(st.person===name&&st.pstore===store) st.person=""; setSync(name+"さんを一覧から外しました（記録は残ります）"); renderMemberList(); render();}catch(ex){setSync("削除できませんでした",true);}
 });
 
 const writing={};
