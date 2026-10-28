@@ -342,11 +342,12 @@ const storeName=sid=>(STORES.find(s=>s.id===sid)||{}).name||"";
 const applies=(it,sid)=>!(it.notFor&&it.notFor.includes(sid))&&(it.scope==="全店"||it.scope.split(",").includes(storeName(sid)));
 const key=(iid,sid)=>iid+"__"+sid;
 const isP=sid=>typeof sid==="string"&&sid.startsWith("p:");
-const memberOf=sid=>members.find(m=>"p:"+m.name===sid);
+const pid=m=>"p:"+m.store+":"+m.name;
+const memberOf=sid=>members.find(m=>pid(m)===sid);
 // 個人用：全店共通の現場スタッフ項目（所属店に当てはまらない項目は除く）
 const inScope=(it,sid)=>{ if(isP(sid)){const m=memberOf(sid); return it.sec==="A"&&it.scope==="全店"&&!(it.notFor&&m&&it.notFor.includes(m.store));} return applies(it,sid); };
-const tgt=()=>st.mode==="person"?(st.person?"p:"+st.person:""):st.store;
-const tgtLabel=sid=>isP(sid)?sid.slice(2):storeName(sid);
+const tgt=()=>st.mode==="person"?(st.person&&members.some(m=>m.store===st.store&&m.name===st.person)?"p:"+st.store+":"+st.person:""):st.store;
+const tgtLabel=sid=>isP(sid)?((memberOf(sid)||{}).name||""):storeName(sid);
 const fmtDT=iso=>{if(!iso)return"";const d=new Date(iso);return (d.getMonth()+1)+"/"+d.getDate()+" "+String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0");};
 const fmtD=iso=>{if(!iso)return"";const d=new Date(iso);return (d.getMonth()+1)+"/"+d.getDate();};
 const md=s=>!s?"":s.length===7?s.slice(0,4)+"/"+(+s.slice(5,7)):(+s.slice(5,7))+"/"+(+s.slice(8,10));
@@ -458,7 +459,7 @@ function renderOverview(){
     $("#ovTitle").innerHTML=`<span class="t">スタッフ個人の達成率</span>`;
     const ms=members.filter(m=>m.store===st.store);
     $("#ovSub").textContent=storeName(st.store)+"のスタッフ／全店共通の項目で〇の割合／タップでその人を開く";
-    $("#ovGrid").innerHTML=ms.length?ms.map(m=>{const sid="p:"+m.name;const its=ITEMS.filter(i=>inScope(i,sid));const c=counts(sid,its);return cardHtml(m.name,m.name,"",c,its.length-c.na,m.name===st.person,"data-p");}).join("")
+    $("#ovGrid").innerHTML=ms.length?ms.map(m=>{const sid=pid(m);const its=ITEMS.filter(i=>inScope(i,sid));const c=counts(sid,its);return cardHtml(m.name,m.name,"",c,its.length-c.na,m.name===st.person,"data-p");}).join("")
       :`<div class="ovsub">この店舗のスタッフはまだ登録されていません。「＋スタッフ」から追加してください。</div>`;
     return;
   }
@@ -608,19 +609,18 @@ $("#memberPanel").addEventListener("submit",async e=>{
   e.preventDefault(); const name=$("#nmName").value.trim().slice(0,20), store=$("#nmStore").value, err=$("#nmErr");
   if(!name){err.textContent="名前を入力してください";err.hidden=false;return;}
   if(/[\/]/.test(name)){err.textContent="名前に「/」は使えません";err.hidden=false;return;}
-  const ex=members.find(m=>m.name===name);
-  if(ex&&ex.store===store){err.textContent="同じ名前のスタッフがすでにいます";err.hidden=false;return;}
+  if(members.some(m=>m.name===name&&m.store===store)){err.textContent="この店舗に同じ名前のスタッフがすでにいます";err.hidden=false;return;}
   if(!db){err.textContent="サーバーに接続できていません";err.hidden=false;return;}
-  try{await db.doc("checks/member__"+name).set({kind:"member",name,store,at:new Date().toISOString(),by:myName||""});
-    members=members.filter(m=>m.name!==name).concat([{name,store}]);
-    $("#nmName").value=""; st.store=store; st.person=name; saveLocal(); setSync(ex?name+"さんの店舗を変更しました":name+"さんを追加しました"); renderMemberList(); render();}
+  try{await db.doc("checks/member__"+store+"__"+name).set({kind:"member",name,store,at:new Date().toISOString(),by:myName||""});
+    members=members.concat([{name,store}]);
+    $("#nmName").value=""; st.store=store; st.person=name; saveLocal(); setSync(name+"さんを追加しました"); renderMemberList(); render();}
   catch(ex2){err.textContent="追加できませんでした";err.hidden=false;}
 });
 $("#nmList").addEventListener("click",async e=>{
   const b=e.target.closest("[data-rmm]"); if(!b) return;
   if(b.dataset.confirm!=="1"){b.dataset.confirm="1";b.textContent="本当に削除？";return;}
-  const name=b.dataset.rmm;
-  try{await db.doc("checks/member__"+name).delete(); members=members.filter(m=>m.name!==name); if(st.person===name) st.person=""; setSync(name+"さんを一覧から外しました（記録は残ります）"); renderMemberList(); render();}catch(ex){setSync("削除できませんでした",true);}
+  const name=b.dataset.rmm, store=$("#nmStore").value;
+  try{await db.doc("checks/member__"+store+"__"+name).delete(); members=members.filter(m=>!(m.name===name&&m.store===store)); if(st.person===name) st.person=""; setSync(name+"さんを一覧から外しました（記録は残ります）"); renderMemberList(); render();}catch(ex){setSync("削除できませんでした",true);}
 });
 
 const writing={};
