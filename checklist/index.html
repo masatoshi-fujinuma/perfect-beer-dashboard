@@ -715,8 +715,12 @@ async function resolveNames(){
 
 render();
 function makeDb(sb){
-  const subs={}, cache={}, timers={};
+  const subs={}, cache={};
+  let lastLoaded={};
+
   const snap=col=>({docs:(cache[col]||[]).map(r=>({id:r.id,exists:true,data:()=>r.data}))});
+  const notify=col=>(subs[col]||[]).forEach(s=>s.next(snap(col)));
+
   async function load(col){
     const PAGE=1000, all=[];
     for(let from=0;;from+=PAGE){
@@ -725,17 +729,81 @@ function makeDb(sb){
       all.push(...(data||[]));
       if(!data||data.length<PAGE) break;
     }
-    cache[col]=all; (subs[col]||[]).forEach(s=>s.next(snap(col)));
+    cache[col]=all;
+    lastLoaded[col]=Date.now();
+    notify(col);
   }
-  const sched=col=>{clearTimeout(timers[col]); timers[col]=setTimeout(()=>load(col).catch(e=>{(subs[col]||[]).forEach(s=>s.err&&s.err(e));}),250);};
+
+  // 差分マージ：全件再取得せず、指定レコードだけをインメモリ更新
+  function mergeRow(col, id, data){
+    if(!col || !id) return;
+    cache[col] = cache[col] || [];
+    const idx = cache[col].findIndex(r=>r.id===id);
+    if(idx>=0){
+      cache[col][idx] = {id, col, data};
+    } else {
+      cache[col].push({id, col, data});
+    }
+    notify(col);
+  }
+
+  function removeRow(col, id){
+    if(!col || !id || !cache[col]) return;
+    cache[col] = cache[col].filter(r=>r.id!==id);
+    notify(col);
+  }
+
+  // リアルタイム通知（postgres_changes）受信時は、差分のみを即座にマージ（全件再取得は行わない）
   sb.channel("pb_checklist_changes").on("postgres_changes",{event:"*",schema:"public",table:TABLE},p=>{
-    const col=(p.new&&p.new.col)||(p.old&&p.old.col); if(col&&subs[col]) sched(col); else Object.keys(subs).forEach(sched);
+    const col=(p.new&&p.new.col)||(p.old&&p.old.col);
+    if(!col || !cache[col]) return;
+
+    if(p.eventType==="INSERT" || p.eventType==="UPDATE"){
+      if(p.new && p.new.id){
+        mergeRow(col, p.new.id, p.new.data);
+      }
+    } else if(p.eventType==="DELETE"){
+      const id = p.old && p.old.id;
+      if(id){
+        removeRow(col, id);
+      } else {
+        load(col).catch(()=>{});
+      }
+    }
   }).subscribe();
-  setInterval(()=>{if(document.visibilityState==="visible") Object.keys(subs).forEach(sched);},60000);
-  document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible") Object.keys(subs).forEach(sched);});
+
+  // フェイルセーフ：万一切断された場合の緩やかな同期（10分間隔）
+  setInterval(()=>{
+    if(document.visibilityState==="visible"){
+      const now = Date.now();
+      Object.keys(subs).forEach(col=>{
+        if(now - (lastLoaded[col]||0) > 600000) load(col).catch(()=>{});
+      });
+    }
+  },60000);
+
+  // タブ復帰時も10分以上経過している場合のみ同期
+  document.addEventListener("visibilitychange",()=>{
+    if(document.visibilityState==="visible"){
+      const now = Date.now();
+      Object.keys(subs).forEach(col=>{
+        if(now - (lastLoaded[col]||0) > 600000) load(col).catch(()=>{});
+      });
+    }
+  });
+
   const doc=path=>{const [col,id]=path.split("/"); return {
-    set:async d=>{const {error}=await sb.from(TABLE).upsert({col,id,data:d,updated_at:new Date().toISOString()}); if(error) throw error; sched(col);},
-    delete:async()=>{const {error}=await sb.from(TABLE).delete().eq("col",col).eq("id",id); if(error) throw error; sched(col);}
+    set:async d=>{
+      // 楽観的更新：即座に画面へ反映し、裏で1件だけupsert
+      mergeRow(col, id, d);
+      const {error}=await sb.from(TABLE).upsert({col,id,data:d,updated_at:new Date().toISOString()});
+      if(error) throw error;
+    },
+    delete:async()=>{
+      removeRow(col, id);
+      const {error}=await sb.from(TABLE).delete().eq("col",col).eq("id",id);
+      if(error) throw error;
+    }
   };};
   return {doc, collection:col=>({
     add:async d=>{const id=Date.now().toString(36)+Math.random().toString(36).slice(2,8); await doc(col+"/"+id).set(d); return doc(col+"/"+id);},
