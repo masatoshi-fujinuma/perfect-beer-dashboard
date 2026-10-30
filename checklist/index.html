@@ -718,8 +718,14 @@ function makeDb(sb){
   const subs={}, cache={}, timers={};
   const snap=col=>({docs:(cache[col]||[]).map(r=>({id:r.id,exists:true,data:()=>r.data}))});
   async function load(col){
-    const {data,error}=await sb.from(TABLE).select("id,data").eq("col",col).limit(10000);
-    if(error) throw error; cache[col]=data||[]; (subs[col]||[]).forEach(s=>s.next(snap(col)));
+    const PAGE=1000, all=[];
+    for(let from=0;;from+=PAGE){
+      const {data,error}=await sb.from(TABLE).select("id,data").eq("col",col).order("id",{ascending:true}).range(from,from+PAGE-1);
+      if(error) throw error;
+      all.push(...(data||[]));
+      if(!data||data.length<PAGE) break;
+    }
+    cache[col]=all; (subs[col]||[]).forEach(s=>s.next(snap(col)));
   }
   const sched=col=>{clearTimeout(timers[col]); timers[col]=setTimeout(()=>load(col).catch(e=>{(subs[col]||[]).forEach(s=>s.err&&s.err(e));}),250);};
   sb.channel("pb_checklist_changes").on("postgres_changes",{event:"*",schema:"public",table:TABLE},p=>{
