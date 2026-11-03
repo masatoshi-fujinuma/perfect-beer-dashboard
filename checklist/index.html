@@ -29,7 +29,7 @@
   color-scheme:dark}
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.6;font-weight:500;
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 56px;overflow-x:hidden}
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 110px;overflow-x:hidden}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
 .wrap{max-width:980px;margin:0 auto;position:relative}
 
@@ -198,6 +198,13 @@ details.hist li{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;color
 .pstore{font-family:var(--f-body);font-size:.78rem;color:var(--muted);margin-left:8px;font-weight:700}
 .seg.sm button{font-size:.78rem;padding:4px 12px}
 .ov .ovsub{margin:0 0 10px}
+.remain{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:8;display:grid;justify-items:center;gap:1px;min-width:96px;padding:8px 14px;border:var(--bw) solid var(--line);border-radius:18px;background:var(--yellow);color:#111;font:inherit;cursor:pointer;box-shadow:4px 4px 0 var(--line)}
+.remain .rn{font-weight:800;font-size:.9rem}.remain .rn b{font-family:var(--f-en);font-weight:900;font-size:1.5rem;margin:0 2px;font-variant-numeric:tabular-nums}
+.remain .rt{font-size:.66rem;font-weight:700;font-variant-numeric:tabular-nums}
+.remain.done{background:var(--surface);color:var(--ink)}
+.item.flash{animation:flash 1.2s ease}
+@keyframes flash{0%,100%{box-shadow:none}30%{box-shadow:0 0 0 4px var(--pink)}}
+@media (prefers-reduced-motion:reduce){.item.flash{animation:none}}
 .tag.new{background:var(--yellow);color:#111;border-color:var(--line)}
 .note a{color:var(--ink);font-weight:800}
 .note{font-size:.78rem;color:var(--muted);margin-top:28px;max-width:65ch}
@@ -295,6 +302,7 @@ details.hist li{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;color
   </form>
   <div id="list"></div>
 </div>
+<button type="button" class="remain" id="remain" hidden aria-live="polite"></button>
 <div id="mxView" hidden>
   <div class="mxbox"><table class="mx" id="mx"></table></div>
 </div>
@@ -419,7 +427,7 @@ function renderControls(){
   const base=ITEMS.filter(it=>sid===""?false:(!sid||inScope(it,sid)));
   $("#cats").innerHTML=[`<button class="chip" data-cat="" aria-pressed="${!st.cat}">すべて<span class="n">${base.length}</span></button>`]
     .concat(ALLCATS().map(c=>{const n=base.filter(i=>i.cat===c).length; return n?`<button class="chip" data-cat="${esc(c)}" aria-pressed="${st.cat===c}">${esc(c)}<span class="n">${n}</span></button>`:""})).join("");
-  $("#listView").hidden=st.view!=="list"; $("#mxView").hidden=st.view!=="mx";
+  $("#listView").hidden=st.view!=="list"; $("#mxView").hidden=st.view!=="mx"; if(st.view!=="list") $("#remain").hidden=true;
 }
 
 function counts(sid,items){
@@ -430,7 +438,7 @@ function counts(sid,items){
 
 function renderList(){
   const sid=tgt();
-  if(!sid){ $("#summary").innerHTML=""; $("#list").innerHTML=`<div class="empty"><img src="${IMG.roll}" alt="">${(pf()===ALL?members.length:members.some(m=>m.store===pf()))?"上の一覧から、チェックするスタッフを選んでください":"この店舗のスタッフがまだいません。「＋スタッフ」から追加してください"}</div>`; return; }
+  if(!sid){ $("#remain").hidden=true; $("#summary").innerHTML=""; $("#list").innerHTML=`<div class="empty"><img src="${IMG.roll}" alt="">${(pf()===ALL?members.length:members.some(m=>m.store===pf()))?"上の一覧から、チェックするスタッフを選んでください":"この店舗のスタッフがまだいません。「＋スタッフ」から追加してください"}</div>`; return; }
   const all=ITEMS.filter(it=>inScope(it,sid));
   const c=counts(sid,all), tot=all.length, pct=tot?Math.round(c.ok/tot*100):0;
   const w=n=>tot?(n/tot*100):0;
@@ -444,13 +452,15 @@ function renderList(){
     <div class="meter" role="img" aria-label="〇${c.ok} ×${c.ng} 未${c.none}"><i style="width:${w(c.ok)}%;background:var(--yellow)"></i><i style="width:${w(c.ng)}%;background:var(--pink)"></i></div>
     <div class="legend"><span><span class="sw" style="background:var(--yellow)"></span>〇 <b>${c.ok}</b></span><span><span class="sw" style="background:var(--pink)"></span>× <b>${c.ng}</b></span><span><span class="sw" style="background:var(--surface)"></span>未チェック <b>${c.none}</b></span><span>全${all.length}項目</span></div>
     <div class="mascot"><img src="${img}" alt=""></div>`;
+  { const r=$("#remain"), left=c.none; r.hidden=false; r.classList.toggle("done",left===0);
+    r.innerHTML=left?`<span class="rn">あと<b>${left}</b>問</span><span class="rt">${c.ok+c.ng} / ${all.length} 済み</span>`:`<span class="rn">全部チェック済み！</span><span class="rt">〇 ${c.ok}・× ${c.ng}</span>`; }
   const items=filtered(sid);
   if(!items.length){$("#list").innerHTML=`<div class="empty"><img src="${IMG.roll}" alt="">条件に合う項目はありません</div>`;return;}
   const dis=canWrite?"":" disabled";
   $("#list").innerHTML=ALLCATS().map(cat=>{
     const its=items.filter(i=>i.cat===cat); if(!its.length) return "";
     const cc=counts(sid,its);
-    return `<section class="cat"><h2><span class="t">${esc(cat)}</span><span class="c">〇 ${cc.ok} / ${its.length}</span></h2>`+its.map(it=>{
+    return `<section class="cat"><h2><span class="t">${esc(cat)}</span><span class="c">${cc.none?`あと ${cc.none}問・`:""}〇 ${cc.ok} / ${its.length}</span></h2>`+its.map(it=>{
       const ck=checks[key(it.id,sid)]||{}, s=ck.status||"";
       const by=ck.by?" "+avHtml(staffByName(ck.by)||{name:ck.by},"sm")+esc(ck.by):"";
       return `<article class="item" data-st="${s}" data-id="${it.id}">
@@ -673,6 +683,13 @@ $("#nmList").addEventListener("click",async e=>{
   try{await db.doc("checks/member__"+store+"__"+name).delete(); members=members.filter(m=>!(m.name===name&&m.store===store)); if(st.person===name&&st.pstore===store) st.person=""; setSync(name+"さんを一覧から外しました（記録は残ります）"); renderMemberList(); render();}catch(ex){setSync("削除できませんでした",true);}
 });
 
+$("#remain").addEventListener("click",()=>{
+  if(st.view!=="list") return;
+  const next=[...document.querySelectorAll("#list .item")].find(el=>!["ok","ng"].includes(el.dataset.st));
+  if(!next){ if(st.cat||st.q||st.rep){st.cat="";st.q="";st.rep=false;$("#q").value="";render();setTimeout(()=>$("#remain").click(),50);} return; }
+  next.scrollIntoView({block:"center",behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});
+  next.classList.remove("flash"); void next.offsetWidth; next.classList.add("flash");
+});
 const writing={};
 async function save(iid,patch){
   if(!myName||!sessionOk()){askName(()=>save(iid,patch));return;}
