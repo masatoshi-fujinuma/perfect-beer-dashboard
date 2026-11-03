@@ -259,6 +259,8 @@ details.hist li{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;color
   </div>
   <div class="row">
     <input type="search" id="q" placeholder="キーワードで絞り込み">
+    <button class="chip" id="fNone" aria-pressed="false">未入力だけ</button>
+    <button class="chip" id="fNg" aria-pressed="false">×だけ</button>
     <button class="chip" id="fRep" aria-pressed="false">3回以上言われた指示</button>
   </div>
   <div class="chips" id="cats"></div>
@@ -366,7 +368,7 @@ const MARK = {ok:"〇",part:"△",ng:"×",na:"対象外"};
 const $ = s=>document.querySelector(s);
 const esc = s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
-let st = {group:"direct",store:"shinyoko",mode:"store",person:"",pstore:"",pfilter:"",view:"list",cat:"",q:"",rep:false};
+let st = {group:"direct",store:"shinyoko",mode:"store",only:"",person:"",pstore:"",pfilter:"",view:"list",cat:"",q:"",rep:false};
 let wantStore=null;
 const HASH_ALIAS={mabo:"shibuya",maabo:"shibuya"};
 const hashStore=(()=>{try{const h=decodeURIComponent((location.hash||"").slice(1));return HASH_ALIAS[h]||h;}catch(e){return "";}})();
@@ -404,7 +406,7 @@ const stale=iso=>iso&&(Date.now()-new Date(iso).getTime())>7*864e5;
 
 function filtered(sid){
   const q=st.q.trim();
-  return ITEMS.filter(it=>(!sid||inScope(it,sid)) && (!st.cat||it.cat===st.cat) && (!st.rep||it.rep>=3)
+  return ITEMS.filter(it=>(!sid||inScope(it,sid)) && (!st.only||!sid||(()=>{const s=checks[key(it.id,sid)]?.status; return st.only==="ng"?s==="ng":!(s==="ok"||s==="ng");})()) && (!st.cat||it.cat===st.cat) && (!st.rep||it.rep>=3)
     && (!q||(it.text+it.detail+it.quote+it.scope+it.who.join("")).includes(q)));
 }
 
@@ -418,7 +420,8 @@ function renderControls(){
   $("#viewSeg").hidden=st.mode==="person"; $("#addStoreBtn").hidden=st.mode==="person"; $("#addMemberBtn").hidden=st.mode!=="person";
   $(".addrow").hidden=st.mode==="person";
   $("#vList").setAttribute("aria-pressed",st.view==="list");$("#vMx").setAttribute("aria-pressed",st.view==="mx");
-  $("#fRep").setAttribute("aria-pressed",st.rep);
+  $("#fRep").setAttribute("aria-pressed",st.rep); $("#fNone").setAttribute("aria-pressed",st.only==="none"); $("#fNg").setAttribute("aria-pressed",st.only==="ng");
+  $("#fNone").hidden=$("#fNg").hidden=st.view!=="list";
   $("#store").disabled = st.view==="mx";
   const canAdd=!!db&&canWrite;
   $("#addStoreBtn").disabled=!canAdd; $("#addItemBtn").disabled=!canAdd; $("#addMemberBtn").disabled=!canAdd;
@@ -455,7 +458,7 @@ function renderList(){
   { const r=$("#remain"), left=c.none; r.hidden=false; r.classList.toggle("done",left===0);
     r.innerHTML=left?`<span class="rn">あと<b>${left}</b>問</span><span class="rt">${c.ok+c.ng} / ${all.length} 済み</span>`:`<span class="rn">全部チェック済み！</span><span class="rt">〇 ${c.ok}・× ${c.ng}</span>`; }
   const items=filtered(sid);
-  if(!items.length){$("#list").innerHTML=`<div class="empty"><img src="${IMG.roll}" alt="">条件に合う項目はありません</div>`;return;}
+  if(!items.length){$("#list").innerHTML=`<div class="empty"><img src="${IMG.roll}" alt="">${st.only==="none"?"未入力の項目はありません。全部チェック済みです！":st.only==="ng"?"×の項目はありません":"条件に合う項目はありません"}</div>`;return;}
   const dis=canWrite?"":" disabled";
   $("#list").innerHTML=ALLCATS().map(cat=>{
     const its=items.filter(i=>i.cat===cat); if(!its.length) return "";
@@ -542,6 +545,8 @@ $("#modePerson").onclick=()=>{st.mode="person";st.view="list";st.cat="";
 $("#vList").onclick=()=>{st.view="list";render();};
 $("#vMx").onclick=()=>{st.view="mx";render();};
 $("#fRep").onclick=()=>{st.rep=!st.rep;render();};
+$("#fNone").onclick=()=>{st.only=st.only==="none"?"":"none";render();};
+$("#fNg").onclick=()=>{st.only=st.only==="ng"?"":"ng";render();};
 let qT; $("#q").addEventListener("input",e=>{clearTimeout(qT);qT=setTimeout(()=>{st.q=e.target.value;render();},200);});
 $("#cats").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;st.cat=b.dataset.cat;render();});
 $("#ovGrid").addEventListener("click",e=>{const b=e.target.closest(".oc");if(!b)return;
@@ -686,7 +691,7 @@ $("#nmList").addEventListener("click",async e=>{
 $("#remain").addEventListener("click",()=>{
   if(st.view!=="list") return;
   const next=[...document.querySelectorAll("#list .item")].find(el=>!["ok","ng"].includes(el.dataset.st));
-  if(!next){ if(st.cat||st.q||st.rep){st.cat="";st.q="";st.rep=false;$("#q").value="";render();setTimeout(()=>$("#remain").click(),50);} return; }
+  if(!next){ if(st.cat||st.q||st.rep||st.only==="ng"){st.cat="";st.q="";st.rep=false;if(st.only==="ng")st.only="";$("#q").value="";render();setTimeout(()=>$("#remain").click(),50);} return; }
   next.scrollIntoView({block:"center",behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});
   next.classList.remove("flash"); void next.offsetWidth; next.classList.add("flash");
 });
