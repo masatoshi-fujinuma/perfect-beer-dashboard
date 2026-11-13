@@ -176,6 +176,16 @@ table.mx{border-collapse:separate;border-spacing:0;font-size:.8rem;min-width:100
 .ovgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
 .oc{border:var(--bw) solid var(--line);border-radius:14px;background:var(--surface);color:var(--ink);font:inherit;text-align:left;padding:8px 11px 7px;cursor:pointer;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline;gap:4px 8px;min-width:0}
 .oc .om,.oc .oq{grid-column:1/-1}
+.gb{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:3px;margin-top:2px}
+.bd{display:inline-flex;align-items:center;gap:3px;border-radius:999px;padding:1px 6px 1px 2px;font-size:.62rem;font-weight:800;border:1.5px solid var(--hair);background:var(--surface);color:var(--muted);line-height:1.4;font-variant-numeric:tabular-nums}
+.bd b{display:inline-grid;place-items:center;min-width:1.9em;height:1.5em;padding:0 4px;border-radius:999px;background:var(--hair);color:var(--ink);font-weight:900}
+.bd i{font-style:normal}
+.bd.gold{border-color:#c9a227;color:#6b5200;background:#fff6cf}.bd.gold b{background:linear-gradient(135deg,#f7d75a,#c9a227);color:#3d2e00}
+.bd.silver{border-color:#9aa3ad;color:#3f4650;background:#f1f3f5}.bd.silver b{background:linear-gradient(135deg,#e6e9ed,#9aa3ad);color:#1f252b}
+.bd.bronze{border-color:#b27240;color:#5c3416;background:#fbeee3}.bd.bronze b{background:linear-gradient(135deg,#e2a676,#a8622e);color:#2e1607}
+.gbwrap{grid-column:1/-1;display:grid;gap:4px;margin-top:8px}
+.gbwrap>small{font-size:.7rem;color:var(--muted);font-weight:700}
+.gb.big{gap:6px}.gb.big .bd{font-size:.76rem;padding:2px 8px 2px 3px}
 .oc[aria-current="true"]{background:var(--yellow);color:#111}
 .oc .on{font-weight:800;font-size:.84rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .oc .op{font-family:var(--f-en);font-weight:900;font-size:1.35rem;line-height:1;font-variant-numeric:tabular-nums}
@@ -538,6 +548,7 @@ function renderList(){
     <div class="cheer">${L.next?(L.reached?`LV${L.next}まで あと${L.left}項目`:`LV1の項目が全部〇でLV1に昇格！ あと${L.left}項目`):"全レベル到達！"}</div>
     <div class="lvsteps" role="img" aria-label="到達LV ${L.reached}">${[1,2,3,4,5].map(n=>{const sk=all.filter(x=>x.lv===n), ok=sk.filter(x=>checks[key(x.id,sid)]?.status==="ok").length;return `<span class="lvs${n<=L.reached?" on":""}"><b>LV${n}</b><i style="width:${sk.length?ok/sk.length*100:0}%"></i><small>${ok}/${sk.length}</small></span>`;}).join("")}</div>
     <div class="legend"><span>シート全体 〇<b>${L.ok}</b> / ${L.total}</span><span>毎日の行動 <b>${L.actPct}%</b>（〇${L.actOk}・×${L.actNg}）</span></div>
+    <div class="gbwrap"><small>カテゴリー別バッジ（80%銅・90%銀・100%金）</small>${gBadges(sid,all.filter(x=>x.lv>0),true)}</div>
     <div class="mascot"><img src="${L.reached>=3?IMG.heart:L.reached>=1?IMG.drink:IMG.roll}" alt=""></div>`; }
   if(isP(sid)) renderEval(sid); 
   { const r=$("#remain"), left=c.none; r.hidden=false; r.classList.toggle("done",left===0);
@@ -587,13 +598,19 @@ function renderMx(){
   $("#mx").innerHTML=head+`<tbody>${body}</tbody>`+foot;
 }
 
-function cardHtml(id,name,sub,c,t,current,attr){
+// カテゴリー別バッジ：80%以上 銅／90%以上 銀／100% 金（〇の割合）
+const GSHORT={"接客":"接客","提供・オペレーション":"提供","品質・調理":"品質","清掃・衛生":"清掃","販促・SNS":"販促","管理・事務":"管理"};
+function gBadges(sid,its,big){return `<span class="gb${big?" big":""}">`+GCATS.map(g=>{const a=its.filter(x=>x.gcat===g); if(!a.length) return "";
+  const ok=a.filter(x=>checks[key(x.id,sid)]?.status==="ok").length, p=Math.floor(ok/a.length*100), md=p>=100?"gold":p>=90?"silver":p>=80?"bronze":"";
+  const lb=md==="gold"?"金":md==="silver"?"銀":md==="bronze"?"銅":"";
+  return `<span class="bd ${md||"no"}" title="${esc(g)} ${p}%（〇${ok}/${a.length}）"><b>${big?esc(g):GSHORT[g]}</b><i>${lb?lb+" ":""}${p}%</i></span>`;}).join("")+`</span>`;}
+function cardHtml(id,name,sub,c,t,current,attr,extra){
   const done=c.ok+c.ng, pct=t?Math.round(c.ok/t*100):0, w=n=>t?(n/t*100):0;
   return `<button class="oc${done?"":" none"}" ${attr}="${esc(id)}" aria-current="${current}">
     <span class="on">${esc(name)}${sub?`<small class="osub">${esc(sub)}</small>`:""}</span>
     <span class="op">${done?pct:"−"}<small>${done?"%":""}</small></span>
     <span class="om" aria-hidden="true"><i style="width:${w(c.ok)}%;background:var(--yellow)"></i><i style="width:${w(c.ng)}%;background:var(--pink)"></i></span>
-    <span class="oq">〇${c.ok} ×${c.ng} 未${c.none}</span></button>`;
+    <span class="oq">〇${c.ok} ×${c.ng} 未${c.none}</span>${extra||""}</button>`;
 }
 function renderOverview(){
   if(st.mode==="person"){
@@ -601,7 +618,7 @@ function renderOverview(){
     const all=pf()===ALL, order=id=>{const i=STORES.findIndex(s=>s.id===id);return i<0?999:i;};
     const ms=(all?members.filter(m=>{const s=STORES.find(x=>x.id===m.store);return s&&inGroup(s);}):members.filter(m=>m.store===pf())).sort((a,b)=>order(a.store)-order(b.store)||a.name.localeCompare(b.name,"ja"));
     $("#ovSub").textContent=(all?`全スタッフ ${ms.length}人`:storeName(pf())+"のスタッフ")+"／スキルと毎日の行動の〇の割合・到達LV／タップでその人の評価シートを開く";
-    $("#ovGrid").innerHTML=ms.length?ms.map(m=>{const sid=pid(m);const its=poolItems(sid).filter(x=>x.lv>0);const c=counts(sid,its);const L=lvInfo(m);return cardHtml(m.store+":"+m.name,m.name,(L.reached?"LV"+L.reached:"研修生")+"・行動"+L.actPct+"%"+(all?"・"+((STORES.find(s=>s.id===m.store)||{}).name||""):""),c,its.length,m.name===st.person&&m.store===st.pstore,"data-p");}).join("")
+    $("#ovGrid").innerHTML=ms.length?ms.map(m=>{const sid=pid(m);const its=poolItems(sid).filter(x=>x.lv>0);const c=counts(sid,its);const L=lvInfo(m);return cardHtml(m.store+":"+m.name,m.name,(L.reached?"LV"+L.reached:"研修生")+"・行動"+L.actPct+"%"+(all?"・"+((STORES.find(s=>s.id===m.store)||{}).name||""):""),c,its.length,m.name===st.person&&m.store===st.pstore,"data-p",gBadges(sid,its));}).join("")
       :`<div class="ovsub">${all?"スタッフはまだ登録されていません。":"この店舗のスタッフはまだ登録されていません。"}「＋スタッフ」から追加してください。</div>`;
     return;
   }
