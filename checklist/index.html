@@ -206,6 +206,9 @@ details.hist li{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;color
 @keyframes flash{0%,100%{box-shadow:none}30%{box-shadow:0 0 0 4px var(--pink)}}
 @media (prefers-reduced-motion:reduce){.item.flash{animation:none}}
 .ptabs{margin-top:16px}
+#gcats{margin-top:6px}
+.gsub{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:.88rem;font-weight:800;margin:18px 0 8px;padding:4px 10px;border-left:5px solid var(--yellow);background:var(--yellow-pale);border-radius:0 8px 8px 0;color:#111}
+.gsub span{font-size:.72rem;font-weight:700;font-variant-numeric:tabular-nums}
 .sdef{font-size:.8rem;color:var(--muted);margin-top:2px}
 .lvbig{font-size:2.4rem}
 .lvsteps{grid-column:1;display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:8px}
@@ -291,6 +294,7 @@ details.hist li{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;color
     <button class="chip" id="fRep" aria-pressed="false">3回以上言われた指示</button>
   </div>
   <div class="chips" id="cats"></div>
+  <div class="chips" id="gcats" hidden></div>
 </div>
 <form class="panel" id="storePanel" hidden>
   <h3>店舗を追加</h3>
@@ -441,9 +445,17 @@ function actItems(sid){const lvOf=it=>SKILLS.actlv[it.id]||2;
   return ITEMS.filter(it=>inScope(it,sid)&&!HIDE.has(it.id)).map(it=>Object.assign({},it,{act:true,origCat:it.cat,lv:lvOf(it),cat:LVLABEL(lvOf(it))}));}
 function poolItems(sid){ if(!isP(sid)) return ITEMS.filter(it=>inScope(it,sid));
   const m=memberOf(sid), sk=m?skillItems(m):[], ac=actItems(sid), out=[];
-  skillCats().forEach(c=>{sk.filter(x=>x.cat===c).forEach(x=>out.push(x)); ac.filter(x=>x.cat===c).forEach(x=>out.push(x));});
+  sk.concat(ac).forEach(x=>{x.gcat=gcatOf(x);});
+  const go=g=>{const i=GCATS.indexOf(g);return i<0?99:i;};
+  skillCats().forEach(c=>{sk.concat(ac).filter(x=>x.cat===c).map((x,i)=>[x,i]).sort((a,b)=>go(a[0].gcat)-go(b[0].gcat)||(a[0].skill?0:1)-(b[0].skill?0:1)||a[1]-b[1]).forEach(p=>out.push(p[0]));});
   return out;}
 const poolCats=sid=>isP(sid)?skillCats():ALLCATS();
+// 個人用の共通カテゴリー（スキルと毎日の行動をそろえる）
+const GCATS=["接客","提供・オペレーション","品質・調理","清掃・衛生","販促・SNS","管理・事務"];
+const GC_SKILL={"接客の構え":"接客","S:サービス":"接客","H:ホスピタリティー":"接客","Q:クオリティー":"品質・調理","キッチンマーボー業務":"品質・調理","C:クレンリネス":"清掃・衛生","管理":"管理・事務","事務":"管理・事務"};
+const GC_NAME={"フード提案":"販促・SNS","ドリンク提案":"販促・SNS","ドリンク提供速度":"提供・オペレーション","フード提供速度":"提供・オペレーション","中間バッシング":"提供・オペレーション","卓上リセット":"提供・オペレーション","オーダー修正":"提供・オペレーション","予約把握":"提供・オペレーション","予約札設置":"提供・オペレーション","予約登録・変更":"提供・オペレーション","オープン準備60分":"提供・オペレーション","開店対応":"提供・オペレーション","ハンディ操作":"提供・オペレーション","おしぼり提供":"接客","忘れ物チェック":"接客","樽替わり案内":"接客","開店SNS更新（オープンストーリーズ）":"販促・SNS","インスタ投稿・リール":"販促・SNS","アプリメッセージ配信":"販促・SNS","Google口コミ返信":"販促・SNS","POP更新":"販促・SNS","身だしなみ":"接客"};
+const GC_ACT={"接客":"接客","開店・閉店":"提供・オペレーション","提供・オペレーション":"提供・オペレーション","品質・レシピ":"品質・調理","衛生・清掃":"清掃・衛生","店舗環境":"清掃・衛生","販促":"販促・SNS","報告・事務":"管理・事務"};
+const gcatOf=it=>it.skill?(GC_NAME[it.text]||(it.lv===0?"ビア検定":GC_SKILL[it.role]||"管理・事務")):(GC_ACT[it.origCat]||"管理・事務");
 // 統合前のチェックを引き継ぐ（元データはそのまま、画面上だけ反映）
 function carryOver(m){const src={};
   ["pb","mb"].forEach(sh=>SKILLS[sh].forEach(x=>(x.merge||[]).concat(x.alias||[]).forEach(a=>(src[a]=src[a]||[]).push(x.id))));
@@ -467,7 +479,7 @@ const stale=iso=>iso&&(Date.now()-new Date(iso).getTime())>7*864e5;
 
 function filtered(sid){
   const q=st.q.trim();
-  return (sid?poolItems(sid):ITEMS).filter(it=>(true) && (!st.only||!sid||(()=>{const s=checks[key(it.id,sid)]?.status; return st.only==="ng"?s==="ng":!(s==="ok"||s==="ng");})()) && (!st.cat||it.cat===st.cat) && (!st.rep||it.rep>=3)
+  return (sid?poolItems(sid):ITEMS).filter(it=>(true) && (!st.only||!sid||(()=>{const s=checks[key(it.id,sid)]?.status; return st.only==="ng"?s==="ng":!(s==="ok"||s==="ng");})()) && (!st.cat||it.cat===st.cat) && (!st.gcat||!sid||!isP(sid)||it.gcat===st.gcat) && (!st.rep||it.rep>=3)
     && (!q||(it.text+it.detail+it.quote+it.scope+it.who.join("")).includes(q)));
 }
 
@@ -491,6 +503,8 @@ function renderControls(){
   const base=sid===""?[]:(sid?poolItems(sid):ITEMS);
   $("#cats").innerHTML=[`<button class="chip" data-cat="" aria-pressed="${!st.cat}">すべて<span class="n">${base.length}</span></button>`]
     .concat((sid?poolCats(sid):ALLCATS()).map(c=>{const n=base.filter(i=>i.cat===c).length; return n?`<button class="chip" data-cat="${esc(c)}" aria-pressed="${st.cat===c}">${esc(c)}<span class="n">${n}</span></button>`:""})).join("");
+  {const gp=!!sid&&isP(sid); $("#gcats").hidden=!gp; if(!gp) st.gcat="";
+   else $("#gcats").innerHTML=[`<button class="chip" data-g="" aria-pressed="${!st.gcat}">全カテゴリー</button>`].concat(GCATS.map(g=>{const n=base.filter(i=>i.gcat===g&&(!st.cat||i.cat===st.cat)).length;return n?`<button class="chip" data-g="${esc(g)}" aria-pressed="${st.gcat===g}">${esc(g)}<span class="n">${n}</span></button>`:"";})).join("");}
   $("#listView").hidden=st.view!=="list"; $("#mxView").hidden=st.view!=="mx"; if(st.view!=="list") $("#remain").hidden=true;
 }
 
@@ -533,10 +547,10 @@ function renderList(){
   $("#list").innerHTML=poolCats(sid).map(cat=>{
     const its=items.filter(i=>i.cat===cat); if(!its.length) return "";
     const cc=counts(sid,its);
-    return `<section class="cat"><h2><span class="t">${esc(cat)}</span><span class="c">${cc.none?`あと ${cc.none}問・`:""}〇 ${cc.ok} / ${its.length}</span></h2>`+its.map(it=>{
+    return `<section class="cat"><h2><span class="t">${esc(cat)}</span><span class="c">${cc.none?`あと ${cc.none}問・`:""}〇 ${cc.ok} / ${its.length}</span></h2>`+its.map((it,ix)=>{ const gh=it.gcat&&(ix===0||its[ix-1].gcat!==it.gcat)?(()=>{const g=its.filter(x=>x.gcat===it.gcat),gc=counts(sid,g);return `<h3 class="gsub">${esc(it.gcat)}<span>〇 ${gc.ok} / ${g.length}</span></h3>`;})():"";
       const ck=checks[key(it.id,sid)]||{}, s=ck.status||"";
       const by=ck.by?" "+avHtml(staffByName(ck.by)||{name:ck.by},"sm")+esc(ck.by):"";
-      return `<article class="item" data-st="${s}" data-id="${it.id}">
+      return gh+`<article class="item" data-st="${s}" data-id="${it.id}">
         <div><div class="txt">${esc(it.text)}</div>
           ${it.skill?`<div class="sdef">${esc(it.detail)}</div>`:""}
           <div class="meta">${it.act?`<span class="tag">毎日の行動｜${esc(it.origCat)}</span>`:""}${it.skill?`<span class="tag">${esc(it.role)}</span>${it.sub?`<span class="tag">${esc(it.sub)}</span>`:""}`:`${it.scope==="全店"?`<span class="tag">全店</span>`:`<span class="tag store">${esc(it.scope.replace(/,/g,"・"))}</span>`}<span class="tag">${esc(it.role)}</span>${it.rep>=2?`<span class="tag rep">×${it.rep}回</span>`:""}${it.conf==="low"?`<span class="tag low">要確認</span>`:""}${it.custom?`<span class="tag new">追加</span>`:""}<span>最終指示 ${md(it.last)}</span>`}</div></div>
@@ -620,6 +634,7 @@ $("#fNone").onclick=()=>{st.only=st.only==="none"?"":"none";render();};
 $("#fNg").onclick=()=>{st.only=st.only==="ng"?"":"ng";render();};
 let qT; $("#q").addEventListener("input",e=>{clearTimeout(qT);qT=setTimeout(()=>{st.q=e.target.value;render();},200);});
 $("#cats").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;st.cat=b.dataset.cat;render();});
+$("#gcats").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;st.gcat=b.dataset.g;render();});
 $("#ovGrid").addEventListener("click",e=>{const b=e.target.closest(".oc");if(!b)return;
   if(b.dataset.p!==undefined){const i=b.dataset.p.indexOf(":");st.pstore=b.dataset.p.slice(0,i);st.person=b.dataset.p.slice(i+1);st.cat="";saveLocal();render();document.getElementById("summary").scrollIntoView({block:"start"});return;}
   st.store=b.dataset.s;st.view="list";st.cat="";saveLocal();render();document.getElementById("summary").scrollIntoView({block:"start"});});
